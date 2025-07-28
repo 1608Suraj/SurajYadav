@@ -298,7 +298,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
           <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500 shadow-sm shadow-green-500/50"></div>
         </div>
         <div className="flex-1 text-center text-gray-400 text-xs sm:text-sm terminal-text-glow">
-          <span className="hidden sm:inline">terminal@portfolio:~$ </span>
+          <span className="hidden sm:inline">SurajYadav@portfolio</span>
           <span className="sm:hidden">portfolio:~$ </span>
         </div>
         {/* Scan line effect */}
