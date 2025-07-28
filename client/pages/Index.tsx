@@ -24,13 +24,11 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-black text-lime-500 relative overflow-hidden">
       {/* Terminal Interface */}
-      <div className="relative z-10 min-h-screen p-2 sm:p-4 lg:p-6">
-        <div className="max-w-7xl mx-auto h-screen">
-          <Terminal
-            onCommand={onCommand}
-            className="h-full"
-          />
-        </div>
+      <div className="relative z-10 h-screen w-screen">
+        <Terminal
+          onCommand={onCommand}
+          className="h-full w-full"
+        />
       </div>
     </div>
   );
