@@ -315,7 +315,6 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       className={cn(
         "bg-black text-lime-500 font-mono",
         "h-full w-full overflow-hidden flex flex-col",
-        "border border-lime-500/30 rounded-lg",
         "text-sm sm:text-base",
         className
       )}
