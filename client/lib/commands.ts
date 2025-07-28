@@ -316,9 +316,10 @@ Try: "ask tell me about your Python experience"`;
     description: "Explore my featured projects",
     aliases: ["work", "portfolio"],
     handler: () => {
-      const projectList = portfolioData.projects.map(project => {
+      const projectList = portfolioData.projects.map((project, index) => {
         const techStack = project.tech.join(', ');
-        return `
+        const separator = index > 0 ? '\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' : '';
+        return `${separator}
 📦 ${project.name} ${project.status}
    ${project.description}
    🔧 Tech Stack: ${techStack}
@@ -326,6 +327,7 @@ Try: "ask tell me about your Python experience"`;
       }).join('\n');
 
       return `Featured Projects
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${projectList}
 
 Want to know more about any project?
