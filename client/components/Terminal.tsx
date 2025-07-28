@@ -298,8 +298,6 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
           <span className="hidden sm:inline">SurajYadav@portfolio</span>
           <span className="sm:hidden">portfolio:~$ </span>
         </div>
-        {/* Scan line effect */}
-        <div className="scan-line"></div>
       </div>
 
       {/* Command Header */}
