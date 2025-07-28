@@ -279,20 +279,32 @@ Type 'contact' to get in touch!`;
     description: "View my technical skills and expertise",
     aliases: ["tech", "stack"],
     handler: () => {
-      const { analytics, datascience, ai, tools } = portfolioData.skills;
+      const { languages, libraries, datatools, databases, frameworks, apis, concepts, tools } = portfolioData.skills;
 
       return `Technical Skills
 
-Data Analytics:
-  ${analytics.map(skill => `• ${skill}`).join('\n  ')}
+Languages:
+  ${languages.map(skill => `• ${skill}`).join('\n  ')}
 
-Data Science & ML:
-  ${datascience.map(skill => `• ${skill}`).join('\n  ')}
+Libraries:
+  ${libraries.map(skill => `• ${skill}`).join('\n  ')}
 
-AI & Advanced Analytics:
-  ${ai.map(skill => `• ${skill}`).join('\n  ')}
+Data Tools:
+  ${datatools.map(skill => `• ${skill}`).join('\n  ')}
 
-Tools & Platforms:
+Databases:
+  ${databases.map(skill => `• ${skill}`).join('\n  ')}
+
+Frameworks:
+  ${frameworks.map(skill => `• ${skill}`).join('\n  ')}
+
+APIs:
+  ${apis.map(skill => `• ${skill}`).join('\n  ')}
+
+Concepts:
+  ${concepts.map(skill => `• ${skill}`).join('\n  ')}
+
+Version Control:
   ${tools.map(skill => `• ${skill}`).join('\n  ')}
 
 Ask me about any of these technologies!
@@ -441,7 +453,7 @@ Try: "ask what's the best way to contact you?"`;
     description: "Toggle light/dark theme",
     handler: () => {
       return `Theme Toggle
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━━
 
 🌙 Currently in Dark Mode (Terminal Style)
 ☀️  Light mode coming soon!
@@ -474,7 +486,7 @@ Thanks for exploring my terminal portfolio!
     aliases: ["ai"],
     handler: () => {
       return `AI Chat Mode
-━━━━━━━━━━━━��━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 🤖 AI Assistant activated!
 
