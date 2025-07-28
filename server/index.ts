@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { handleAIChat } from "./routes/ai-chat";
+import { handleScrape } from "./routes/scrape";
 
 export function createServer() {
   const app = express();
