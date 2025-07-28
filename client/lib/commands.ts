@@ -181,25 +181,24 @@ Type 'contact' to get in touch!`;
     description: "View my technical skills and expertise",
     aliases: ["tech", "stack"],
     handler: () => {
-      const { frontend, backend, ai, tools } = portfolioData.skills;
-      
+      const { analytics, datascience, ai, tools } = portfolioData.skills;
+
       return `Technical Skills
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🎨 Frontend Development:
-  ${frontend.map(skill => `• ${skill}`).join('\n  ')}
+Data Analytics:
+  ${analytics.map(skill => `• ${skill}`).join('\n  ')}
 
-⚙️  Backend Development:
-  ${backend.map(skill => `• ${skill}`).join('\n  ')}
+Data Science & ML:
+  ${datascience.map(skill => `• ${skill}`).join('\n  ')}
 
-🤖 AI & Machine Learning:
+AI & Advanced Analytics:
   ${ai.map(skill => `• ${skill}`).join('\n  ')}
 
-🛠️  Tools & DevOps:
+Tools & Platforms:
   ${tools.map(skill => `• ${skill}`).join('\n  ')}
 
-💬 Ask me about any of these technologies!
-Try: "ask tell me about your React experience"`;
+Ask me about any of these technologies!
+Try: "ask tell me about your Python experience"`;
     }
   },
   {
@@ -260,7 +259,7 @@ In the meantime, check out:
 🌐 Website:   ${website}
 🐦 Twitter:   ${twitter}
 
-���� Feel free to reach out! I'm always interested in 
+💬 Feel free to reach out! I'm always interested in 
    discussing new opportunities, projects, or just 
    chatting about technology.
 
@@ -338,7 +337,7 @@ Example:
     description: "Ask me anything via AI",
     handler: () => {
       return `Ask Command Usage
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━���━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Usage: ask <your question>
 
