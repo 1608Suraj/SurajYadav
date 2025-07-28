@@ -287,9 +287,6 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         className
       )}
     >
-      {/* Command Header */}
-      <CommandHeader onCommandClick={handleHeaderCommand} />
-
       {/* Terminal Header */}
       <div className="bg-gray-900/90 px-3 sm:px-4 py-2 border-b border-green-400/30 flex items-center gap-2">
         <div className="flex gap-1.5 sm:gap-2">
