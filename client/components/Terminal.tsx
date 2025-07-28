@@ -64,7 +64,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       {
         id: 'welcome-5',
         type: 'system',
-        content: '│     █���║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║ │',
+        content: '│     ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║ │',
       },
       {
         id: 'welcome-6',
@@ -241,25 +241,25 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
     switch (line.type) {
       case 'input':
         return (
-          <div key={line.id} className={cn(baseClasses, "text-green-400 terminal-text-glow")}>
+          <div key={line.id} className={cn(baseClasses, "text-lime-400 terminal-text-glow font-semibold")}>
             {line.content}
           </div>
         );
       case 'output':
         return (
-          <div key={line.id} className={cn(baseClasses, "text-gray-300")}>
+          <div key={line.id} className={cn(baseClasses, "text-gray-200")}>
             {line.content}
           </div>
         );
       case 'system':
         return (
-          <div key={line.id} className={cn(baseClasses, "text-cyan-400 terminal-text-glow")}>
+          <div key={line.id} className={cn(baseClasses, "text-cyan-300 terminal-text-glow")}>
             {line.content}
           </div>
         );
       default:
         return (
-          <div key={line.id} className={cn(baseClasses, "text-gray-300")}>
+          <div key={line.id} className={cn(baseClasses, "text-gray-200")}>
             {line.content}
           </div>
         );
