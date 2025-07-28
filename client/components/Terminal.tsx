@@ -279,10 +279,9 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
     <div
       ref={terminalRef}
       className={cn(
-        "bg-black/95 text-green-400 font-mono",
+        "bg-black text-green-400 font-mono",
         "h-full w-full overflow-hidden flex flex-col",
         "border border-green-400/30 rounded-lg",
-        "terminal-glow crt-effect",
         "text-sm sm:text-base",
         className
       )}
