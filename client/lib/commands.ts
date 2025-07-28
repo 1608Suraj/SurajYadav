@@ -288,7 +288,7 @@ For more academic details, try: "ask about my education"`;
 
       return `Certifications
 
-${certs.map(cert => `�� ${cert}`).join('\n')}
+${certs.map(cert => `• ${cert}`).join('\n')}
 
 These certifications validate my expertise in data analytics and cloud technologies.
 Try: "ask about my certification journey"`;
@@ -386,11 +386,50 @@ Example:
     }
   },
   {
+    name: "snake",
+    description: "Play snake game",
+    aliases: ["game"],
+    handler: () => {
+      return `SNAKE_GAME_START`;
+    }
+  },
+  {
+    name: "python",
+    description: "Python code compiler",
+    aliases: ["py", "code"],
+    handler: () => {
+      return `PYTHON_COMPILER_START`;
+    }
+  },
+  {
+    name: "scrape",
+    description: "Web scraper tool",
+    aliases: ["webscrape"],
+    handler: () => {
+      return `Web Scraping Tool
+
+Usage: scrape <url>
+
+Examples:
+  scrape https://example.com
+  scrape https://api.example.com/data
+
+Features:
+• Extract data from websites
+• Parse APIs and JSON responses
+• Export to CSV format
+• AI-powered data cleaning
+• Automated data preprocessing
+
+Try: "scrape https://jsonplaceholder.typicode.com/posts"
+For AI data processing: "ask clean this scraped data"`;
+    }
+  },
+  {
     name: "ask",
     description: "Ask me anything via AI",
     handler: () => {
       return `Ask Command Usage
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Usage: ask <your question>
 
@@ -398,9 +437,9 @@ Examples:
   ask what technologies do you specialize in?
   ask tell me about your background
   ask what's your favorite project?
-  ask how did you get into AI development?
+  ask how did you get into data analysis?
 
-🤖 I'll use AI to give you personalized responses!`;
+I'll use AI to give you personalized responses!`;
     }
   }
 ];
