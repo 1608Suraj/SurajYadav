@@ -304,7 +304,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       <CommandHeader onCommandClick={handleHeaderCommand} />
 
       {/* Terminal Content */}
-      <div className="flex-1 overflow-y-auto terminal-scroll">
+      <div className="flex-1 overflow-y-auto terminal-scroll scrollbar-hide">
         {activeComponent === 'terminal' && (
           <div className="p-3 sm:p-4 space-y-1">
             {lines.map(renderLine)}
