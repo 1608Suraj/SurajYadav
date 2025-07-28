@@ -67,6 +67,39 @@ const downloadResume = (content: string): void => {
   window.URL.revokeObjectURL(url);
 };
 
+const executeScraping = async (url: string): Promise<void> => {
+  try {
+    const response = await fetch('/api/scrape', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ url }),
+    });
+
+    const result = await response.json();
+
+    if (result.success && result.csvContent) {
+      // Download CSV file
+      const blob = new Blob([result.csvContent], { type: 'text/csv' });
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = `scraped_data_${new Date().toISOString().split('T')[0]}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(downloadUrl);
+
+      console.log(`✅ Scraping completed! Downloaded ${result.totalItems} items as CSV`);
+    } else {
+      console.error(`❌ Scraping failed: ${result.error}`);
+    }
+  } catch (error) {
+    console.error(`❌ Scraping error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+};
+
 export const portfolioData = {
   about: {
     name: "Suraj Yadav",
