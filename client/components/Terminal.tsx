@@ -24,29 +24,6 @@ const executeCommand = (command: string, onCommand?: (command: string) => Promis
 };
 
 export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
-  const handleHeaderCommand = useCallback(async (command: string) => {
-    await handleCommand(command);
-  }, []);
-
-  const handleGameEnd = useCallback((score: number) => {
-    // Save high score
-    const currentHigh = parseInt(localStorage.getItem('snakeHighScore') || '0');
-    if (score > currentHigh) {
-      localStorage.setItem('snakeHighScore', score.toString());
-    }
-
-    addLine(`Game Over! Final Score: ${score}`, 'output');
-    addLine('', 'output');
-    setActiveComponent('terminal');
-    setShowInput(true);
-  }, [addLine]);
-
-  const handleCompilerClose = useCallback(() => {
-    addLine('Python compiler closed.', 'output');
-    addLine('', 'output');
-    setActiveComponent('terminal');
-    setShowInput(true);
-  }, [addLine]);
   const [lines, setLines] = useState<TerminalLine[]>([]);
   const [currentInput, setCurrentInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
