@@ -64,7 +64,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       {
         id: 'welcome-5',
         type: 'system',
-        content: '│     ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║█���║╚██╗██║██╔══██║ │',
+        content: '│     ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║ │',
       },
       {
         id: 'welcome-6',
@@ -298,7 +298,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         {lines.map(renderLine)}
         
         {/* Current Input Line */}
-        {!isTyping && (
+        {showInput && !isTyping && (
           <div className="flex items-center font-mono text-sm sm:text-base">
             <span className="text-green-400 mr-2 terminal-text-glow">$</span>
             <input
