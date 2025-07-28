@@ -37,7 +37,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       {
         id: 'welcome-2',
         type: 'system',
-        content: '│  █████���██╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗ █████╗  │',
+        content: '│  ████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗ █████╗  │',
       },
       {
         id: 'welcome-3',
@@ -52,7 +52,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       {
         id: 'welcome-5',
         type: 'system',
-        content: '│     ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║ │',
+        content: '│     ██║   ██╔══╝  ██╔══█��╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║ │',
       },
       {
         id: 'welcome-6',
@@ -62,7 +62,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       {
         id: 'welcome-7',
         type: 'system',
-        content: '│     ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚���╝╚═╝  ╚═══╝╚═╝  ╚═╝ │',
+        content: '│     ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝ │',
       },
       {
         id: 'welcome-8',
@@ -251,12 +251,14 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
   };
 
   return (
-    <div 
+    <div
       ref={terminalRef}
       className={cn(
-        "bg-black/95 text-green-400 font-mono text-sm",
+        "bg-black/95 text-green-400 font-mono",
         "h-full w-full overflow-hidden flex flex-col",
-        "border border-green-400/30 rounded-lg shadow-lg shadow-green-400/20",
+        "border border-green-400/30 rounded-lg",
+        "terminal-glow crt-effect",
+        "text-sm sm:text-base",
         className
       )}
     >
