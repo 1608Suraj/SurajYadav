@@ -305,33 +305,45 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       </div>
 
       {/* Terminal Content */}
-      <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-1 terminal-scroll">
-        {lines.map(renderLine)}
-        
-        {/* Current Input Line */}
-        {showInput && !isTyping && (
-          <div className="flex items-center font-mono text-sm sm:text-base">
-            <span className="text-lime-400 mr-2 terminal-text-glow">surajyadav@portfolio:~$</span>
-            <input
-              ref={inputRef}
-              type="text"
-              value={currentInput}
-              onChange={(e) => setCurrentInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              disabled={isProcessing}
-              className="flex-1 bg-transparent border-none outline-none text-lime-400 caret-lime-400 terminal-text-glow placeholder:text-lime-400/50 font-semibold"
-              placeholder={isProcessing ? "Processing..." : "type here"}
-              autoFocus
-            />
-            <span className={cn(
-              "w-2 h-4 sm:h-5 bg-lime-400 ml-1 terminal-text-glow",
-              cursorVisible ? "opacity-100" : "opacity-0",
-              "transition-opacity duration-100"
-            )}></span>
+      <div className="flex-1 overflow-y-auto terminal-scroll">
+        {activeComponent === 'terminal' && (
+          <div className="p-3 sm:p-4 space-y-1">
+            {lines.map(renderLine)}
+
+            {/* Current Input Line */}
+            {showInput && !isTyping && (
+              <div className="flex items-center font-mono text-sm sm:text-base">
+                <span className="text-lime-400 mr-2 terminal-text-glow">surajyadav@portfolio:~$</span>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={currentInput}
+                  onChange={(e) => setCurrentInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  disabled={isProcessing}
+                  className="flex-1 bg-transparent border-none outline-none text-lime-400 caret-lime-400 terminal-text-glow placeholder:text-lime-400/50 font-semibold"
+                  placeholder={isProcessing ? "Processing..." : "type here"}
+                  autoFocus
+                />
+                <span className={cn(
+                  "w-2 h-4 sm:h-5 bg-lime-400 ml-1 terminal-text-glow",
+                  cursorVisible ? "opacity-100" : "opacity-0",
+                  "transition-opacity duration-100"
+                )}></span>
+              </div>
+            )}
+
+            <div ref={bottomRef} />
           </div>
         )}
-        
-        <div ref={bottomRef} />
+
+        {activeComponent === 'snake' && (
+          <SnakeGame onGameEnd={handleGameEnd} className="w-full h-full flex items-center justify-center" />
+        )}
+
+        {activeComponent === 'python' && (
+          <PythonCompiler onClose={handleCompilerClose} className="w-full h-full" />
+        )}
       </div>
     </div>
   );
