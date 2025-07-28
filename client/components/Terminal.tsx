@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { cn } from '@/lib/utils';
+import { CommandHeader } from './CommandHeader';
 
 interface TerminalLine {
   id: string;
@@ -21,6 +22,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [cursorVisible, setCursorVisible] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
+  const [showInput, setShowInput] = useState(false);
   
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -32,12 +34,12 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       {
         id: 'welcome-1',
         type: 'system',
-        content: '╭────────────────────────────────────────────���────────────────╮',
+        content: '╭─────────────────────────────────────────────────────────────╮',
       },
       {
         id: 'welcome-2',
         type: 'system',
-        content: '│  ████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗ █████╗  │',
+        content: '│  ████████╗███████╗██████╗ ███╗   ███╗██╗███��   ██╗ █████╗  │',
       },
       {
         id: 'welcome-3',
@@ -103,8 +105,9 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         setLines(prev => [...prev, line]);
         if (index === welcomeLines.length - 1) {
           setIsTyping(false);
+          setShowInput(true);
         }
-      }, index * 200);
+      }, index * 100); // 2x faster speed
     });
   }, []);
 
@@ -171,6 +174,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
 
       // Simulate typing effect for response
       setIsTyping(true);
+      setShowInput(false);
       const lines = response.split('\n');
 
       for (let i = 0; i < lines.length; i++) {
@@ -178,12 +182,14 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
           addLine(lines[i], 'output');
           if (i === lines.length - 1) {
             setIsTyping(false);
+            setShowInput(true);
           }
-        }, i * 100);
+        }, i * 50); // 2x faster speed
       }
     } catch (error) {
       addLine('Error: Failed to process command', 'output');
       setIsTyping(false);
+      setShowInput(true);
     } finally {
       setIsProcessing(false);
     }
