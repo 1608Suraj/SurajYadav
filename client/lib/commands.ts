@@ -258,12 +258,15 @@ Tips:
     description: "Learn about me and my background",
     aliases: ["bio", "info"],
     handler: () => {
-      const { name, role, bio } = portfolioData.about;
+      const { name, role, location, phone, email, bio } = portfolioData.about;
       return `About Me
 
 ${name}
 ${role}
+${location}
+${phone}  ${email}
 
+Professional Summary:
 ${bio}
 
 Type 'skills' to see my technical expertise
@@ -471,7 +474,7 @@ Thanks for exploring my terminal portfolio!
     aliases: ["ai"],
     handler: () => {
       return `AI Chat Mode
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━��━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 🤖 AI Assistant activated!
 
