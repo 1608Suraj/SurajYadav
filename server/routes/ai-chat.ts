@@ -122,17 +122,17 @@ Response Guidelines:
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-      console.error('OpenAI API Error:', errorData);
-      
+      console.error('Groq API Error:', errorData);
+
       return res.json({
         response: `🤖 AI temporarily unavailable
 
-Sorry, I'm having trouble connecting to my AI brain right now. 
+Sorry, I'm having trouble connecting to my AI brain right now.
 
 While I get that sorted out, you can still explore:
 • about - Learn about my background
 • skills - View my technical expertise
-• projects - Check out my featured work  
+• projects - Check out my featured work
 • contact - Get in touch directly
 
 Please try your AI question again in a moment!`
