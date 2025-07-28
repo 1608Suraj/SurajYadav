@@ -421,20 +421,20 @@ Try: "ask about my certification journey"`;
     description: "Get my contact information",
     aliases: ["reach", "connect"],
     handler: () => {
-      const { email, github, linkedin, website, twitter, instagram } = portfolioData.contact;
+      const { email, phone, github, linkedin, instagram, location } = portfolioData.contact;
 
       return `Contact Information
 
-Email:     ${email}
-GitHub:    ${github}
-LinkedIn:  ${linkedin}
-Website:   ${website}
-Twitter:   ${twitter}
-Instagram: ${instagram}
+📧 Email:     ${email}
+📞 Phone:     ${phone}
+📍 Location:  ${location}
+🐙 GitHub:    ${github}
+💼 LinkedIn:  ${linkedin}
+📸 Instagram: ${instagram}
 
 Feel free to reach out! I'm always interested in
 discussing new opportunities, projects, or just
-chatting about data and technology.
+chatting about data analysis and technology.
 
 Social Media Quick Access:
 Type: "contact linkedin" or "contact github" or "contact insta"
