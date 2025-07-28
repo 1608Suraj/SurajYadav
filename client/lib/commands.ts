@@ -429,12 +429,12 @@ Try: "ask about my certification journey"`;
 
       return `Contact Information
 
-📧 Email:     ${email}
-📞 Phone:     ${phone}
+📧 Email:     CLICKABLE_LINK:mailto:${email}:${email}
+📞 Phone:     CLICKABLE_LINK:tel:${phone}:${phone}
 📍 Location:  ${location}
-🐙 GitHub:    ${github}
-💼 LinkedIn:  ${linkedin}
-📸 Instagram: ${instagram}
+🐙 GitHub:    CLICKABLE_LINK:${github}:${github}
+💼 LinkedIn:  CLICKABLE_LINK:${linkedin}:${linkedin}
+📸 Instagram: CLICKABLE_LINK:${instagram}:${instagram}
 
 Feel free to reach out! I'm always interested in
 discussing new opportunities, projects, or just
