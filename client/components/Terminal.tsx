@@ -339,23 +339,23 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
             {/* Current Input Line */}
             {showInput && !isTyping && (
               <div className="flex items-center font-mono text-sm sm:text-base">
-                <span className="text-lime-400 mr-2 terminal-text-glow">surajyadav@portfolio:~$</span>
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={currentInput}
-                  onChange={(e) => setCurrentInput(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  disabled={isProcessing}
-                  className="flex-1 bg-transparent border-none outline-none text-lime-400 caret-lime-400 terminal-text-glow placeholder:text-lime-400/50 font-semibold"
-                  placeholder={isProcessing ? "Processing..." : "type here"}
-                  autoFocus
-                />
-                <span className={cn(
-                  "w-2 h-4 sm:h-5 bg-lime-400 ml-1 terminal-text-glow",
-                  cursorVisible ? "opacity-100" : "opacity-0",
-                  "transition-opacity duration-100"
-                )}></span>
+                <span className="text-green-400 mr-2 terminal-text-glow">surajyadav@portfolio:~$</span>
+            <input
+              ref={inputRef}
+              type="text"
+              value={currentInput}
+              onChange={(e) => setCurrentInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              disabled={isProcessing}
+              className="flex-1 bg-transparent border-none outline-none text-green-400 caret-green-400 terminal-text-glow placeholder:text-green-400/50 font-semibold"
+              placeholder={isProcessing ? "Processing..." : "type here"}
+              autoFocus
+            />
+            <span className={cn(
+              "w-2 h-4 sm:h-5 bg-green-400 ml-1 terminal-text-glow",
+              cursorVisible ? "opacity-100" : "opacity-0",
+              "transition-opacity duration-100"
+            )}></span>
               </div>
             )}
 
