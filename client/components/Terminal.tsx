@@ -87,7 +87,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
           setIsTyping(false);
           setShowInput(true);
         }
-      }, index * 100); // 2x faster speed
+      }, index * 150); // 1.5x speed
     });
   }, []);
 
