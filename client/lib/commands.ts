@@ -216,7 +216,7 @@ Try: "ask tell me about your Python experience"`;
       }).join('\n');
 
       return `Featured Projects
-━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${projectList}
 
 Want to know more about any project?
@@ -228,19 +228,32 @@ Try: "ask tell me more about the AI Chat Platform"`;
     description: "View/download my resume",
     aliases: ["cv"],
     handler: () => {
-      return `Resume
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      // Trigger resume download
+      const resumeContent = generateResumeContent();
+      downloadResume(resumeContent);
 
-📄 My resume is available for viewing and download:
+      return `Resume Download
 
-🔗 Online Version: [Coming Soon]
-📥 PDF Download: [Coming Soon]
+📄 Your resume download has started!
 
-In the meantime, check out:
-• 'about' - for my background
-• 'skills' - for technical expertise  
-• 'projects' - for my work examples
-• 'contact' - to get in touch directly`;
+Resume Highlights:
+• Data Analyst with 4+ years experience
+• Expert in Python, SQL, and Machine Learning
+• Proven track record in business intelligence
+• Strong background in data visualization
+
+Current Status:
+✅ Download initiated
+📊 Format: PDF
+📈 Updated: December 2024
+
+The resume includes:
+• Professional experience and achievements
+• Technical skills and certifications
+• Educational background
+• Featured projects and case studies
+
+If download doesn't start automatically, try refreshing the page.`;
     }
   },
   {
@@ -330,7 +343,7 @@ Try: "ask what's the best way to contact you?"`;
     description: "Toggle light/dark theme",
     handler: () => {
       return `Theme Toggle
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━���━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 🌙 Currently in Dark Mode (Terminal Style)
 ☀️  Light mode coming soon!
