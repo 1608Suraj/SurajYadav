@@ -567,7 +567,26 @@ export const handleCommand = async (
 
   // Handle scraping command with URL
   if (commandName === 'scrape' && args) {
-    return `SCRAPE_URL:${args}`;
+    try {
+      const url = args.trim();
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        return `Invalid URL format. Please provide a complete URL starting with http:// or https://
+
+Example: scrape https://jsonplaceholder.typicode.com/posts`;
+      }
+
+      // Trigger scraping process
+      executeScraping(url);
+      return `🔄 Starting web scraping process...
+
+Target URL: ${url}
+Status: Fetching data...
+Processing: Please wait while I extract the data
+
+This may take a few moments depending on the website size.`;
+    } catch (error) {
+      return `Scraping Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+    }
   }
 
   // Handle ask command specially
