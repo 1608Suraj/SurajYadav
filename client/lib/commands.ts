@@ -321,16 +321,15 @@ Try: "ask tell me about your Python experience"`;
         return `
 📦 ${project.name} ${project.status}
    ${project.description}
-   🔧 Tech: ${techStack}
-   🔗 Link: ${project.link}`;
+   🔧 Tech Stack: ${techStack}
+   📝 Details: ${project.details || 'More details available on request'}`;
       }).join('\n');
 
       return `Featured Projects
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${projectList}
 
 Want to know more about any project?
-Try: "ask tell me more about the AI Chat Platform"`;
+Try: "ask tell me more about the US Logistics Tech Strategy Research"`;
     }
   },
   {
