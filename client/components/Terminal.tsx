@@ -147,10 +147,6 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
     setShowInput(true);
   }, [addLine]);
 
-  const handleHeaderCommand = useCallback(async (command: string) => {
-    await handleCommand(command);
-  }, []);
-
   const handleCommand = async (command: string) => {
     if (!command.trim()) return;
 
