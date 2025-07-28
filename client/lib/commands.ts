@@ -395,7 +395,7 @@ For more details, try: "ask about my work experience"`;
 ${education.map(edu =>
 `${edu.institution}
 ${edu.degree} | ${edu.year}
-GPA: ${edu.gpa}
+Status: ${edu.status || 'Completed'}
 `).join('\n')}
 
 For more academic details, try: "ask about my education"`;
@@ -539,7 +539,7 @@ Examples:
 Features:
 • Extract data from websites
 • Parse APIs and JSON responses
-• Export to CSV format
+��� Export to CSV format
 • AI-powered data cleaning
 • Automated data preprocessing
 
