@@ -165,10 +165,9 @@ Tips:
     handler: () => {
       const { name, role, bio } = portfolioData.about;
       return `About Me
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-👨‍💻 ${name}
-🚀 ${role}
+${name}
+${role}
 
 ${bio}
 
@@ -241,7 +240,7 @@ Try: "ask tell me more about the AI Chat Platform"`;
 In the meantime, check out:
 • 'about' - for my background
 • 'skills' - for technical expertise  
-��� 'projects' - for my work examples
+• 'projects' - for my work examples
 • 'contact' - to get in touch directly`;
     }
   },
@@ -261,7 +260,7 @@ In the meantime, check out:
 🌐 Website:   ${website}
 🐦 Twitter:   ${twitter}
 
-💬 Feel free to reach out! I'm always interested in 
+���� Feel free to reach out! I'm always interested in 
    discussing new opportunities, projects, or just 
    chatting about technology.
 
