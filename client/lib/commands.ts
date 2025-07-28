@@ -7,85 +7,120 @@ export interface Command {
 
 export const portfolioData = {
   about: {
-    name: "Your Name",
-    role: "Full Stack Developer & AI Enthusiast",
-    bio: `I'm a passionate developer who loves creating innovative solutions
-at the intersection of web development and artificial intelligence.
-Currently focused on building modern, user-centric applications
-using cutting-edge technologies.
+    name: "Suraj Yadav",
+    role: "Data Analyst & AI Enthusiast",
+    bio: `I'm a passionate data analyst who loves extracting insights from complex datasets
+and building intelligent solutions using modern analytics tools.
+Currently focused on leveraging AI and machine learning for data-driven decisions.
 
-🎓 Education: Computer Science
-🌍 Location: [Your Location]
-💡 Interests: AI, Web3, Open Source, Terminal UIs
-🎯 Always learning, always building.`,
+Education: Data Science & Analytics
+Location: India
+Interests: Data Science, AI, Python, Visualization, Terminal UIs
+Always learning, always analyzing.`,
   },
   skills: {
-    frontend: [
-      "React/Next.js",
-      "TypeScript", 
-      "Tailwind CSS",
-      "Three.js",
-      "Framer Motion",
-      "Vue.js"
+    analytics: [
+      "Python/Pandas",
+      "SQL/PostgreSQL",
+      "Power BI",
+      "Tableau",
+      "Excel/VBA",
+      "R Programming"
     ],
-    backend: [
-      "Node.js",
-      "Python",
-      "Express",
-      "FastAPI",
-      "PostgreSQL",
-      "MongoDB"
+    datascience: [
+      "Machine Learning",
+      "Scikit-learn",
+      "TensorFlow",
+      "Statistical Analysis",
+      "Data Visualization",
+      "Feature Engineering"
     ],
     ai: [
       "OpenAI API",
-      "LangChain",
-      "TensorFlow",
-      "PyTorch",
-      "Hugging Face",
-      "Vector Databases"
+      "Groq AI",
+      "Natural Language Processing",
+      "Computer Vision",
+      "Deep Learning",
+      "MLOps"
     ],
     tools: [
+      "Jupyter Notebooks",
       "Git/GitHub",
       "Docker",
-      "AWS/Vercel",
+      "AWS/Azure",
       "Linux/Terminal",
-      "VS Code",
-      "Figma"
+      "VS Code"
     ]
   },
   projects: [
     {
       id: 1,
       name: "AI Terminal Portfolio",
-      description: "Interactive terminal-style portfolio with AI integration",
-      tech: ["React", "Three.js", "OpenAI", "TypeScript"],
+      description: "Interactive terminal-style portfolio with AI integration and data tools",
+      tech: ["React", "Three.js", "Groq AI", "TypeScript"],
       status: "🚀 Live",
       link: "#"
     },
     {
       id: 2,
-      name: "AI Chat Platform",
-      description: "Real-time chat application with AI assistance",
-      tech: ["Next.js", "Socket.io", "OpenAI", "Prisma"],
-      status: "🔧 In Progress",
+      name: "Sales Analytics Dashboard",
+      description: "Real-time business intelligence dashboard with predictive analytics",
+      tech: ["Python", "Pandas", "Power BI", "SQL"],
+      status: "✅ Completed",
       link: "#"
     },
     {
       id: 3,
-      name: "Smart Task Manager",
-      description: "AI-powered productivity app with natural language processing",
-      tech: ["React", "Python", "FastAPI", "PostgreSQL"],
-      status: "✅ Completed",
+      name: "Web Scraping & Data Pipeline",
+      description: "Automated data collection and processing system with AI enhancement",
+      tech: ["Python", "BeautifulSoup", "Scrapy", "PostgreSQL"],
+      status: "🚀 Live",
       link: "#"
     }
   ],
   contact: {
-    email: "your.email@example.com",
-    github: "github.com/yourusername",
-    linkedin: "linkedin.com/in/yourusername",
-    website: "yourwebsite.com",
-    twitter: "@yourusername"
-  }
+    email: "suraj.yadav@example.com",
+    github: "github.com/surajyadav",
+    linkedin: "linkedin.com/in/surajyadav",
+    website: "surajyadav.dev",
+    twitter: "@surajyadav",
+    instagram: "instagram.com/surajyadav"
+  },
+  experience: [
+    {
+      company: "TechCorp Analytics",
+      position: "Senior Data Analyst",
+      duration: "2022 - Present",
+      description: "Leading data-driven insights for business strategy and optimization."
+    },
+    {
+      company: "DataSolutions Inc",
+      position: "Data Analyst",
+      duration: "2020 - 2022",
+      description: "Developed predictive models and automated reporting systems."
+    }
+  ],
+  education: [
+    {
+      institution: "University of Technology",
+      degree: "Master of Science in Data Science",
+      year: "2020",
+      gpa: "3.8/4.0"
+    },
+    {
+      institution: "Technical Institute",
+      degree: "Bachelor of Science in Computer Science",
+      year: "2018",
+      gpa: "3.6/4.0"
+    }
+  ],
+  certifications: [
+    "AWS Certified Data Analytics",
+    "Microsoft Azure Data Scientist Associate",
+    "Google Analytics Certified",
+    "Tableau Desktop Specialist",
+    "Python for Data Science (IBM)"
+  ]
 };
 
 export const createCommands = (onAIChat?: (message: string) => Promise<string>): Command[] => [
@@ -95,31 +130,32 @@ export const createCommands = (onAIChat?: (message: string) => Promise<string>):
     aliases: ["h", "?"],
     handler: () => {
       return `Available Commands:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📋 Portfolio Commands:
-  about      - Learn about me and my background
-  skills     - View my technical skills and expertise  
-  projects   - Explore my featured projects
-  resume     - View/download my resume
-  contact    - Get my contact information
+Portfolio Commands:
+  about        - Learn about me and my background
+  skills       - View my technical skills and expertise
+  projects     - Explore my featured projects
+  experience   - View my work experience
+  education    - See my educational background
+  resume       - Download my resume
+  contact      - Get my contact information
 
-🤖 AI Commands:
-  chat       - Start AI conversation
-  ask <msg>  - Ask me anything via AI
+AI & Interactive Commands:
+  chat         - Start AI conversation
+  ask <msg>    - Ask me anything via AI
+  snake        - Play snake game
+  python       - Python code compiler
+  scrape <url> - Web scraper tool
 
-🛠️  System Commands:
-  clear      - Clear the terminal screen
-  theme      - Toggle light/dark theme
-  help       - Show this help message
-  exit       - Refresh the session
+System Commands:
+  clear        - Clear the terminal screen
+  help         - Show this help message
+  exit         - Refresh the session
 
-💡 Tips:
+Tips:
   - Use ↑/↓ arrow keys to navigate command history
-  - Commands are case-insensitive
-  - Try "ask me about my experience with React"
-
-━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━━━━━━━━━━━━━━━`;
+  - Click commands in the header for quick access
+  - Try "ask me about my data analysis experience"`;
     }
   },
   {
@@ -205,7 +241,7 @@ Try: "ask tell me more about the AI Chat Platform"`;
 In the meantime, check out:
 • 'about' - for my background
 • 'skills' - for technical expertise  
-• 'projects' - for my work examples
+��� 'projects' - for my work examples
 • 'contact' - to get in touch directly`;
     }
   },
@@ -295,7 +331,7 @@ Example:
   ask tell me about your most challenging project
   ask what's your experience with React?
 
-���� The AI has context about my portfolio and experience!`;
+💡 The AI has context about my portfolio and experience!`;
     }
   },
   {
