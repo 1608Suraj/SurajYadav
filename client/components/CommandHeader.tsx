@@ -28,7 +28,7 @@ export const CommandHeader: React.FC<CommandHeaderProps> = ({ onCommandClick, cl
       className
     )}>
       <div className="flex items-center gap-1 sm:gap-2 min-w-max">
-        <span className="text-green-400 text-xs sm:text-sm font-mono mr-2 flex-shrink-0">
+        <span className="text-lime-500 text-xs sm:text-sm font-mono mr-2 flex-shrink-0">
           Commands:
         </span>
         {commands.map((cmd) => (
