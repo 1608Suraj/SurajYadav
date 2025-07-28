@@ -23,7 +23,7 @@ const commands = [
 export const CommandHeader: React.FC<CommandHeaderProps> = ({ onCommandClick, className }) => {
   return (
     <div className={cn(
-      "bg-black/90 border-b border-green-400/30 p-2 sm:p-3",
+      "bg-black/90 border-b border-green-400/30 py-2.5 px-3",
       "overflow-x-auto scrollbar-hide",
       className
     )}>
