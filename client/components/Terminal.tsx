@@ -247,29 +247,58 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
   const renderLine = (line: TerminalLine) => {
     const baseClasses = "font-mono text-sm sm:text-base leading-relaxed";
 
+    // Check if content contains clickable links
+    const hasClickableLinks = line.content.includes('CLICKABLE_LINK:');
+
+    const renderContent = (content: string) => {
+      if (!hasClickableLinks) {
+        return content;
+      }
+
+      // Parse clickable links format: CLICKABLE_LINK:url:display_text
+      const parts = content.split(/(CLICKABLE_LINK:[^:]+:[^:\n]+)/g);
+
+      return parts.map((part, index) => {
+        if (part.startsWith('CLICKABLE_LINK:')) {
+          const [, url, displayText] = part.split(':');
+          return (
+            <span
+              key={index}
+              onClick={() => window.open(url, '_blank')}
+              className="cursor-pointer text-cyan-400 hover:text-cyan-300 underline hover:no-underline transition-colors"
+              title={`Click to open: ${url}`}
+            >
+              {displayText}
+            </span>
+          );
+        }
+        return part;
+      });
+    };
+
     switch (line.type) {
       case 'input':
         return (
           <div key={line.id} className={cn(baseClasses, "text-lime-400 terminal-text-glow font-semibold mr-2")}>
-            {line.content}
+            {renderContent(line.content)}
           </div>
         );
       case 'output':
         return (
           <div key={line.id} className={cn(baseClasses, "text-gray-200 break-words")}>
-            {line.content}
+            {renderContent(line.content)}
           </div>
         );
       case 'system':
         return (
           <div key={line.id} className={cn(baseClasses, "text-lime-400 terminal-text-glow mr-2")}>
-            {line.content}
+            {renderContent(line.content)}
           </div>
         );
       default:
         return (
           <div key={line.id} className={cn(baseClasses, "text-gray-200 break-words")}>
-            {line.content}
+            {renderContent(line.content)}
           </div>
         );
     }
