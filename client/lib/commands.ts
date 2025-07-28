@@ -5,6 +5,68 @@ export interface Command {
   handler: () => string;
 }
 
+const generateResumeContent = (): string => {
+  const { about, skills, experience, education, certifications, contact, projects } = portfolioData;
+
+  return `
+SURAJ YADAV
+Data Analyst & AI Enthusiast
+${contact.email} | ${contact.linkedin} | ${contact.github}
+
+ABOUT
+${about.bio}
+
+EXPERIENCE
+${experience.map(exp => `
+${exp.company} - ${exp.position}
+${exp.duration}
+${exp.description}
+`).join('\n')}
+
+EDUCATION
+${education.map(edu => `
+${edu.institution}
+${edu.degree} | ${edu.year}
+GPA: ${edu.gpa}
+`).join('\n')}
+
+TECHNICAL SKILLS
+Data Analytics: ${skills.analytics.join(', ')}
+Data Science: ${skills.datascience.join(', ')}
+AI & ML: ${skills.ai.join(', ')}
+Tools: ${skills.tools.join(', ')}
+
+CERTIFICATIONS
+${certifications.map(cert => `• ${cert}`).join('\n')}
+
+FEATURED PROJECTS
+${projects.map(project => `
+${project.name} (${project.status})
+${project.description}
+Technologies: ${project.tech.join(', ')}
+`).join('\n')}
+
+CONTACT
+Email: ${contact.email}
+LinkedIn: ${contact.linkedin}
+GitHub: ${contact.github}
+Website: ${contact.website}
+`;
+};
+
+const downloadResume = (content: string): void => {
+  // Create a simple text version for download
+  const blob = new Blob([content], { type: 'text/plain' });
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'Suraj_Yadav_Resume.txt';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(url);
+};
+
 export const portfolioData = {
   about: {
     name: "Suraj Yadav",
@@ -343,7 +405,7 @@ Try: "ask what's the best way to contact you?"`;
     description: "Toggle light/dark theme",
     handler: () => {
       return `Theme Toggle
-━━━━━━━━━━━━━━━━━━���━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 🌙 Currently in Dark Mode (Terminal Style)
 ☀️  Light mode coming soon!
