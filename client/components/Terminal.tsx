@@ -127,6 +127,30 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
     setLines(prev => [...prev, newLine]);
   }, []);
 
+  const handleGameEnd = useCallback((score: number) => {
+    // Save high score
+    const currentHigh = parseInt(localStorage.getItem('snakeHighScore') || '0');
+    if (score > currentHigh) {
+      localStorage.setItem('snakeHighScore', score.toString());
+    }
+
+    addLine(`Game Over! Final Score: ${score}`, 'output');
+    addLine('', 'output');
+    setActiveComponent('terminal');
+    setShowInput(true);
+  }, [addLine]);
+
+  const handleCompilerClose = useCallback(() => {
+    addLine('Python compiler closed.', 'output');
+    addLine('', 'output');
+    setActiveComponent('terminal');
+    setShowInput(true);
+  }, [addLine]);
+
+  const handleHeaderCommand = useCallback(async (command: string) => {
+    await handleCommand(command);
+  }, []);
+
   const handleCommand = async (command: string) => {
     if (!command.trim()) return;
 
