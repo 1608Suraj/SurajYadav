@@ -377,6 +377,8 @@ If download doesn't start automatically, try refreshing the page.`;
 ${experience.map(exp =>
 `${exp.company}
 ${exp.position} | ${exp.duration}
+
+Key Responsibilities:
 ${exp.description}
 `).join('\n')}
 
@@ -471,7 +473,7 @@ but I'm working on a light theme option.`;
       }, 2000);
       
       return `Goodbye! 👋
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━
 
 Thanks for exploring my terminal portfolio!
 
@@ -539,7 +541,7 @@ Examples:
 Features:
 • Extract data from websites
 • Parse APIs and JSON responses
-��� Export to CSV format
+• Export to CSV format
 • AI-powered data cleaning
 • Automated data preprocessing
 
