@@ -27,9 +27,9 @@ export default function Index() {
       <Background3D className="opacity-20" />
       
       {/* Terminal Interface */}
-      <div className="relative z-10 min-h-screen p-4">
-        <div className="max-w-6xl mx-auto h-screen">
-          <Terminal 
+      <div className="relative z-10 min-h-screen p-2 sm:p-4 lg:p-6">
+        <div className="max-w-7xl mx-auto h-screen">
+          <Terminal
             onCommand={onCommand}
             className="h-full"
           />
