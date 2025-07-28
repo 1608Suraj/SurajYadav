@@ -260,17 +260,22 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
 
       return parts.map((part, index) => {
         if (part.startsWith('CLICKABLE_LINK:')) {
-          const [, url, displayText] = part.split(':');
-          return (
-            <span
-              key={index}
-              onClick={() => window.open(url, '_blank')}
-              className="cursor-pointer text-cyan-400 hover:text-cyan-300 underline hover:no-underline transition-colors"
-              title={`Click to open: ${url}`}
-            >
-              {displayText}
-            </span>
-          );
+          const linkParts = part.substring('CLICKABLE_LINK:'.length);
+          const colonIndex = linkParts.indexOf(':');
+          if (colonIndex > 0) {
+            const url = linkParts.substring(0, colonIndex);
+            const displayText = linkParts.substring(colonIndex + 1);
+            return (
+              <span
+                key={index}
+                onClick={() => window.open(url, '_blank')}
+                className="cursor-pointer text-cyan-400 hover:text-cyan-300 underline hover:no-underline transition-colors"
+                title={`Click to open: ${url}`}
+              >
+                {displayText}
+              </span>
+            );
+          }
         }
         return part;
       });
