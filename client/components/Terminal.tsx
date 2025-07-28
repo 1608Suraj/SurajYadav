@@ -37,7 +37,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       {
         id: 'welcome-2',
         type: 'system',
-        content: '│  ████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗ █████╗  │',
+        content: '│  ████████╗███████╗██████╗ ███╗   ��██╗██╗███╗   ██╗ █████╗  │',
       },
       {
         id: 'welcome-3',
@@ -278,7 +278,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       </div>
 
       {/* Terminal Content */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-1">
+      <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-1 terminal-scroll">
         {lines.map(renderLine)}
         
         {/* Current Input Line */}
