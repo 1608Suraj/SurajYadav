@@ -244,25 +244,78 @@ In the meantime, check out:
     }
   },
   {
+    name: "experience",
+    description: "View my work experience",
+    aliases: ["work", "career"],
+    handler: () => {
+      const experience = portfolioData.experience;
+
+      return `Work Experience
+
+${experience.map(exp =>
+`${exp.company}
+${exp.position} | ${exp.duration}
+${exp.description}
+`).join('\n')}
+
+For more details, try: "ask about my work experience"`;
+    }
+  },
+  {
+    name: "education",
+    description: "See my educational background",
+    aliases: ["edu", "school"],
+    handler: () => {
+      const education = portfolioData.education;
+
+      return `Education
+
+${education.map(edu =>
+`${edu.institution}
+${edu.degree} | ${edu.year}
+GPA: ${edu.gpa}
+`).join('\n')}
+
+For more academic details, try: "ask about my education"`;
+    }
+  },
+  {
+    name: "certifications",
+    description: "View my certifications",
+    aliases: ["certs", "certificates"],
+    handler: () => {
+      const certs = portfolioData.certifications;
+
+      return `Certifications
+
+${certs.map(cert => `�� ${cert}`).join('\n')}
+
+These certifications validate my expertise in data analytics and cloud technologies.
+Try: "ask about my certification journey"`;
+    }
+  },
+  {
     name: "contact",
     description: "Get my contact information",
     aliases: ["reach", "connect"],
     handler: () => {
-      const { email, github, linkedin, website, twitter } = portfolioData.contact;
-      
+      const { email, github, linkedin, website, twitter, instagram } = portfolioData.contact;
+
       return `Contact Information
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-📧 Email:     ${email}
-🐙 GitHub:    ${github}
-💼 LinkedIn:  ${linkedin}
-🌐 Website:   ${website}
-🐦 Twitter:   ${twitter}
+Email:     ${email}
+GitHub:    ${github}
+LinkedIn:  ${linkedin}
+Website:   ${website}
+Twitter:   ${twitter}
+Instagram: ${instagram}
 
-💬 Feel free to reach out! I'm always interested in 
-   discussing new opportunities, projects, or just 
-   chatting about technology.
+Feel free to reach out! I'm always interested in
+discussing new opportunities, projects, or just
+chatting about data and technology.
 
+Social Media Quick Access:
+Type: "contact linkedin" or "contact github" or "contact insta"
 Try: "ask what's the best way to contact you?"`;
     }
   },
@@ -337,7 +390,7 @@ Example:
     description: "Ask me anything via AI",
     handler: () => {
       return `Ask Command Usage
-━━━━━━━━━━━━━���━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Usage: ask <your question>
 
