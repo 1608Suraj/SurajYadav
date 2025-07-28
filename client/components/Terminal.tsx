@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { CommandHeader } from './CommandHeader';
+import { SnakeGame } from './SnakeGame';
+import { PythonCompiler } from './PythonCompiler';
 
 interface TerminalLine {
   id: string;
@@ -33,6 +35,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
   const [cursorVisible, setCursorVisible] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
   const [showInput, setShowInput] = useState(false);
+  const [activeComponent, setActiveComponent] = useState<'terminal' | 'snake' | 'python'>('terminal');
   
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -147,6 +150,21 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       // Handle clear screen command
       if (response === 'CLEAR_SCREEN') {
         setLines([]);
+        setIsTyping(false);
+        setIsProcessing(false);
+        return;
+      }
+
+      // Handle special components
+      if (response === 'SNAKE_GAME_START') {
+        setActiveComponent('snake');
+        setIsTyping(false);
+        setIsProcessing(false);
+        return;
+      }
+
+      if (response === 'PYTHON_COMPILER_START') {
+        setActiveComponent('python');
         setIsTyping(false);
         setIsProcessing(false);
         return;
