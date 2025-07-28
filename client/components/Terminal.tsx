@@ -22,6 +22,9 @@ const executeCommand = (command: string, onCommand?: (command: string) => Promis
 };
 
 export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
+  const handleHeaderCommand = useCallback(async (command: string) => {
+    await handleCommand(command);
+  }, []);
   const [lines, setLines] = useState<TerminalLine[]>([]);
   const [currentInput, setCurrentInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -61,7 +64,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       {
         id: 'welcome-5',
         type: 'system',
-        content: '│     ██║   ██╔══╝  ██╔���═██╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║ │',
+        content: '│     ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║█���║╚██╗██║██╔══██║ │',
       },
       {
         id: 'welcome-6',
