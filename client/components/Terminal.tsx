@@ -321,8 +321,8 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
           <span className="hidden sm:inline text-lime-500 mr-auto terminal-text-glow">SurajYadav@portfolio</span>
           <span className="sm:hidden">portfolio:~$ </span>
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <span className="text-green-400 text-xs">Connected</span>
+            <div className="w-2 h-2 bg-lime-500 rounded-full animate-pulse"></div>
+            <span className="text-lime-500 text-xs">Connected</span>
           </div>
         </div>
       </div>
