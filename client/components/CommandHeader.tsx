@@ -37,7 +37,7 @@ export const CommandHeader: React.FC<CommandHeaderProps> = ({ onCommandClick, cl
             onClick={() => onCommandClick(cmd.name)}
             className={cn(
               "px-2 py-1 rounded text-xs sm:text-sm font-mono",
-              "border border-transparent hover:border-current/30",
+              "border border-black hover:border-current/30",
               "transition-all duration-200 hover:bg-current/10",
               "cursor-pointer select-none whitespace-nowrap",
               cmd.color
