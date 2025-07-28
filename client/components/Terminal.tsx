@@ -44,66 +44,36 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       {
         id: 'welcome-1',
         type: 'system',
-        content: '╭─────────────────────────────────────────────────────────────╮',
+        content: 'surajyadav@portfolio:~$ welcome',
       },
       {
         id: 'welcome-2',
-        type: 'system',
-        content: '│  ████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗ █████╗  │',
+        type: 'output',
+        content: '',
       },
       {
         id: 'welcome-3',
-        type: 'system',
-        content: '│  ╚══██╔══╝██╔════╝██╔══██╗████╗ ████║██║████╗  ██║██╔══██╗ │',
+        type: 'output',
+        content: 'Hi, I\'m Suraj Yadav, a Data Analyst.',
       },
       {
         id: 'welcome-4',
-        type: 'system',
-        content: '│     ██║   █████╗  ██████╔╝██╔████╔██║██║██╔██╗ ██║███████║ │',
+        type: 'output',
+        content: 'Welcome to my interactive "AI powered" portfolio terminal!',
       },
       {
         id: 'welcome-5',
-        type: 'system',
-        content: '│     ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║ │',
+        type: 'output',
+        content: '',
       },
       {
         id: 'welcome-6',
-        type: 'system',
-        content: '│     ██║   ███████╗██║  ██║██║ ╚═╝ ██║██║██║ ╚████║██║  ██║ │',
+        type: 'output',
+        content: 'Type "help" to see available commands.',
       },
       {
         id: 'welcome-7',
-        type: 'system',
-        content: '│     ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝ │',
-      },
-      {
-        id: 'welcome-8',
-        type: 'system',
-        content: '╰─────────────────────────────────────────────────────────────╯',
-      },
-      {
-        id: 'welcome-9',
-        type: 'system',
-        content: '',
-      },
-      {
-        id: 'welcome-10',
-        type: 'system',
-        content: '🌟 Welcome to my AI-Powered Portfolio Terminal 🌟',
-      },
-      {
-        id: 'welcome-11',
-        type: 'system',
-        content: '',
-      },
-      {
-        id: 'welcome-12',
-        type: 'system',
-        content: 'Type "help" to see available commands or start exploring!',
-      },
-      {
-        id: 'welcome-13',
-        type: 'system',
+        type: 'output',
         content: '',
       }
     ];
