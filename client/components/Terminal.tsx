@@ -210,6 +210,10 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
     }
   };
 
+  const handleHeaderCommand = useCallback(async (command: string) => {
+    await handleCommand(command);
+  }, []);
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !isProcessing && !isTyping) {
       handleCommand(currentInput);
