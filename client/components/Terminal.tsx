@@ -32,7 +32,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       {
         id: 'welcome-1',
         type: 'system',
-        content: '╭─────────────────────────────────────────────────────────────╮',
+        content: '╭────────────────────────────────────────────���────────────────╮',
       },
       {
         id: 'welcome-2',
@@ -220,12 +220,12 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
   };
 
   const renderLine = (line: TerminalLine) => {
-    const baseClasses = "font-mono text-sm leading-relaxed";
-    
+    const baseClasses = "font-mono text-sm sm:text-base leading-relaxed break-words";
+
     switch (line.type) {
       case 'input':
         return (
-          <div key={line.id} className={cn(baseClasses, "text-green-400")}>
+          <div key={line.id} className={cn(baseClasses, "text-green-400 terminal-text-glow")}>
             {line.content}
           </div>
         );
@@ -237,7 +237,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         );
       case 'system':
         return (
-          <div key={line.id} className={cn(baseClasses, "text-cyan-400")}>
+          <div key={line.id} className={cn(baseClasses, "text-cyan-400 terminal-text-glow")}>
             {line.content}
           </div>
         );
