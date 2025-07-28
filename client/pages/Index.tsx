@@ -23,9 +23,6 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-black text-green-400 relative overflow-hidden">
-      {/* 3D Animated Background */}
-      <Background3D className="opacity-20" />
-      
       {/* Terminal Interface */}
       <div className="relative z-10 min-h-screen p-2 sm:p-4 lg:p-6">
         <div className="max-w-7xl mx-auto h-screen">
@@ -34,13 +31,6 @@ export default function Index() {
             className="h-full"
           />
         </div>
-      </div>
-
-      {/* Ambient glow effects */}
-      <div className="fixed inset-0 pointer-events-none -z-5">
-        <div className="absolute top-0 left-0 w-48 h-48 sm:w-96 sm:h-96 bg-green-400/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-48 h-48 sm:w-96 sm:h-96 bg-cyan-400/5 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] sm:w-[800px] sm:h-[800px] bg-green-400/3 rounded-full blur-3xl"></div>
       </div>
     </div>
   );
