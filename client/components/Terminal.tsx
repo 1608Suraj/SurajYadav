@@ -14,6 +14,13 @@ interface TerminalProps {
   onCommand?: (command: string) => Promise<string>;
 }
 
+const executeCommand = (command: string, onCommand?: (command: string) => Promise<string>) => {
+  if (onCommand) {
+    return onCommand(command);
+  }
+  return Promise.resolve(`Command not found: ${command}`);
+};
+
 export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
   const [lines, setLines] = useState<TerminalLine[]>([]);
   const [currentInput, setCurrentInput] = useState('');
@@ -39,7 +46,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       {
         id: 'welcome-2',
         type: 'system',
-        content: '│  ████████╗███████╗██████╗ ███╗   ███╗██╗███��   ██╗ █████╗  │',
+        content: '│  ████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗ █████╗  │',
       },
       {
         id: 'welcome-3',
@@ -54,7 +61,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       {
         id: 'welcome-5',
         type: 'system',
-        content: '│     ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║ │',
+        content: '│     ██║   ██╔══╝  ██╔���═██╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║ │',
       },
       {
         id: 'welcome-6',
