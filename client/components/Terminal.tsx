@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { cn } from '@/lib/utils';
-import { CommandHeader } from './CommandHeader';
-import { SnakeGame } from './SnakeGame';
-import { PythonCompiler } from './PythonCompiler';
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { cn } from "@/lib/utils";
+import { CommandHeader } from "./CommandHeader";
+import { SnakeGame } from "./SnakeGame";
+import { PythonCompiler } from "./PythonCompiler";
 
 interface TerminalLine {
   id: string;
-  type: 'input' | 'output' | 'system';
+  type: "input" | "output" | "system";
   content: string;
   timestamp?: Date;
 }
@@ -16,7 +16,10 @@ interface TerminalProps {
   onCommand?: (command: string) => Promise<string>;
 }
 
-const executeCommand = (command: string, onCommand?: (command: string) => Promise<string>) => {
+const executeCommand = (
+  command: string,
+  onCommand?: (command: string) => Promise<string>,
+) => {
   if (onCommand) {
     return onCommand(command);
   }
@@ -25,15 +28,17 @@ const executeCommand = (command: string, onCommand?: (command: string) => Promis
 
 export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
   const [lines, setLines] = useState<TerminalLine[]>([]);
-  const [currentInput, setCurrentInput] = useState('');
+  const [currentInput, setCurrentInput] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [cursorVisible, setCursorVisible] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
   const [showInput, setShowInput] = useState(false);
-  const [activeComponent, setActiveComponent] = useState<'terminal' | 'snake' | 'python'>('terminal');
-  
+  const [activeComponent, setActiveComponent] = useState<
+    "terminal" | "snake" | "python"
+  >("terminal");
+
   const terminalRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -42,47 +47,47 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
   useEffect(() => {
     const welcomeLines: TerminalLine[] = [
       {
-        id: 'welcome-1',
-        type: 'system',
-        content: 'surajyadav@portfolio:~$ welcome',
+        id: "welcome-1",
+        type: "system",
+        content: "surajyadav@portfolio:~$ welcome",
       },
       {
-        id: 'welcome-2',
-        type: 'output',
-        content: '',
+        id: "welcome-2",
+        type: "output",
+        content: "",
       },
       {
-        id: 'welcome-3',
-        type: 'output',
-        content: 'Hi, I\'m Suraj Yadav, a Data Analyst.',
+        id: "welcome-3",
+        type: "output",
+        content: "Hi, I'm Suraj Yadav, a Data Analyst.",
       },
       {
-        id: 'welcome-4',
-        type: 'output',
+        id: "welcome-4",
+        type: "output",
         content: 'Welcome to my interactive "AI powered" portfolio terminal!',
       },
       {
-        id: 'welcome-5',
-        type: 'output',
-        content: '',
+        id: "welcome-5",
+        type: "output",
+        content: "",
       },
       {
-        id: 'welcome-6',
-        type: 'output',
+        id: "welcome-6",
+        type: "output",
         content: 'Type "help" to see available commands.',
       },
       {
-        id: 'welcome-7',
-        type: 'output',
-        content: '',
-      }
+        id: "welcome-7",
+        type: "output",
+        content: "",
+      },
     ];
 
     // Simulate typing effect for welcome message
     setIsTyping(true);
     welcomeLines.forEach((line, index) => {
       setTimeout(() => {
-        setLines(prev => [...prev, line]);
+        setLines((prev) => [...prev, line]);
         if (index === welcomeLines.length - 1) {
           setIsTyping(false);
           setShowInput(true);
@@ -94,14 +99,14 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
   // Cursor blinking effect
   useEffect(() => {
     const interval = setInterval(() => {
-      setCursorVisible(prev => !prev);
+      setCursorVisible((prev) => !prev);
     }, 530);
     return () => clearInterval(interval);
   }, []);
 
   // Auto-scroll to bottom
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [lines]);
 
   // Focus input when terminal is clicked
@@ -112,38 +117,46 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
 
     const terminal = terminalRef.current;
     if (terminal) {
-      terminal.addEventListener('click', handleTerminalClick);
-      return () => terminal.removeEventListener('click', handleTerminalClick);
+      terminal.addEventListener("click", handleTerminalClick);
+      return () => terminal.removeEventListener("click", handleTerminalClick);
     }
   }, []);
 
-  const addLine = useCallback((content: string, type: TerminalLine['type'] = 'output') => {
-    const newLine: TerminalLine = {
-      id: `${type}-${Date.now()}-${Math.random()}`,
-      type,
-      content,
-      timestamp: new Date()
-    };
-    setLines(prev => [...prev, newLine]);
-  }, []);
+  const addLine = useCallback(
+    (content: string, type: TerminalLine["type"] = "output") => {
+      const newLine: TerminalLine = {
+        id: `${type}-${Date.now()}-${Math.random()}`,
+        type,
+        content,
+        timestamp: new Date(),
+      };
+      setLines((prev) => [...prev, newLine]);
+    },
+    [],
+  );
 
-  const handleGameEnd = useCallback((score: number) => {
-    // Save high score
-    const currentHigh = parseInt(localStorage.getItem('snakeHighScore') || '0');
-    if (score > currentHigh) {
-      localStorage.setItem('snakeHighScore', score.toString());
-    }
+  const handleGameEnd = useCallback(
+    (score: number) => {
+      // Save high score
+      const currentHigh = parseInt(
+        localStorage.getItem("snakeHighScore") || "0",
+      );
+      if (score > currentHigh) {
+        localStorage.setItem("snakeHighScore", score.toString());
+      }
 
-    addLine(`Game Over! Final Score: ${score}`, 'output');
-    addLine('', 'output');
-    setActiveComponent('terminal');
-    setShowInput(true);
-  }, [addLine]);
+      addLine(`Game Over! Final Score: ${score}`, "output");
+      addLine("", "output");
+      setActiveComponent("terminal");
+      setShowInput(true);
+    },
+    [addLine],
+  );
 
   const handleCompilerClose = useCallback(() => {
-    addLine('Python compiler closed.', 'output');
-    addLine('', 'output');
-    setActiveComponent('terminal');
+    addLine("Python compiler closed.", "output");
+    addLine("", "output");
+    setActiveComponent("terminal");
     setShowInput(true);
   }, [addLine]);
 
@@ -151,21 +164,23 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
     if (!command.trim()) return;
 
     // Add command to history
-    setCommandHistory(prev => [...prev, command]);
+    setCommandHistory((prev) => [...prev, command]);
     setHistoryIndex(-1);
 
     // Add command line to terminal
-    addLine(`$ ${command}`, 'input');
+    addLine(`$ ${command}`, "input");
 
     // Clear input
-    setCurrentInput('');
+    setCurrentInput("");
     setIsProcessing(true);
 
     try {
-      const response = onCommand ? await onCommand(command.trim()) : `Command not found: ${command}`;
+      const response = onCommand
+        ? await onCommand(command.trim())
+        : `Command not found: ${command}`;
 
       // Handle clear screen command
-      if (response === 'CLEAR_SCREEN') {
+      if (response === "CLEAR_SCREEN") {
         setLines([]);
         setIsTyping(false);
         setIsProcessing(false);
@@ -173,15 +188,15 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       }
 
       // Handle special components
-      if (response === 'SNAKE_GAME_START') {
-        setActiveComponent('snake');
+      if (response === "SNAKE_GAME_START") {
+        setActiveComponent("snake");
         setIsTyping(false);
         setIsProcessing(false);
         return;
       }
 
-      if (response === 'PYTHON_COMPILER_START') {
-        setActiveComponent('python');
+      if (response === "PYTHON_COMPILER_START") {
+        setActiveComponent("python");
         setIsTyping(false);
         setIsProcessing(false);
         return;
@@ -190,11 +205,11 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       // Simulate typing effect for response
       setIsTyping(true);
       setShowInput(false);
-      const lines = response.split('\n');
+      const lines = response.split("\n");
 
       for (let i = 0; i < lines.length; i++) {
         setTimeout(() => {
-          addLine(lines[i], 'output');
+          addLine(lines[i], "output");
           if (i === lines.length - 1) {
             setIsTyping(false);
             setShowInput(true);
@@ -202,7 +217,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         }, i * 75); // 1.5x speed
       }
     } catch (error) {
-      addLine('Error: Failed to process command', 'output');
+      addLine("Error: Failed to process command", "output");
       setIsTyping(false);
       setShowInput(true);
     } finally {
@@ -215,30 +230,31 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
   }, []);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && !isProcessing && !isTyping) {
+    if (e.key === "Enter" && !isProcessing && !isTyping) {
       handleCommand(currentInput);
-    } else if (e.key === 'ArrowUp') {
+    } else if (e.key === "ArrowUp") {
       e.preventDefault();
       if (commandHistory.length > 0) {
-        const newIndex = historyIndex === -1 
-          ? commandHistory.length - 1 
-          : Math.max(0, historyIndex - 1);
+        const newIndex =
+          historyIndex === -1
+            ? commandHistory.length - 1
+            : Math.max(0, historyIndex - 1);
         setHistoryIndex(newIndex);
         setCurrentInput(commandHistory[newIndex]);
       }
-    } else if (e.key === 'ArrowDown') {
+    } else if (e.key === "ArrowDown") {
       e.preventDefault();
       if (historyIndex >= 0) {
         const newIndex = historyIndex + 1;
         if (newIndex >= commandHistory.length) {
           setHistoryIndex(-1);
-          setCurrentInput('');
+          setCurrentInput("");
         } else {
           setHistoryIndex(newIndex);
           setCurrentInput(commandHistory[newIndex]);
         }
       }
-    } else if (e.key === 'Tab') {
+    } else if (e.key === "Tab") {
       e.preventDefault();
       // TODO: Implement command completion
     }
@@ -248,7 +264,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
     const baseClasses = "font-mono text-sm sm:text-base leading-relaxed";
 
     // Check if content contains clickable links
-    const hasClickableLinks = line.content.includes('CLICKABLE_LINK:');
+    const hasClickableLinks = line.content.includes("CLICKABLE_LINK:");
 
     const renderContent = (content: string) => {
       if (!hasClickableLinks) {
@@ -259,16 +275,16 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       const parts = content.split(/(CLICKABLE_LINK:[^:]+:[^:\n]+)/g);
 
       return parts.map((part, index) => {
-        if (part.startsWith('CLICKABLE_LINK:')) {
-          const linkParts = part.substring('CLICKABLE_LINK:'.length);
-          const colonIndex = linkParts.indexOf(':');
+        if (part.startsWith("CLICKABLE_LINK:")) {
+          const linkParts = part.substring("CLICKABLE_LINK:".length);
+          const colonIndex = linkParts.indexOf(":");
           if (colonIndex > 0) {
             const url = linkParts.substring(0, colonIndex);
             const displayText = linkParts.substring(colonIndex + 1);
             return (
               <span
                 key={index}
-                onClick={() => window.open(url, '_blank')}
+                onClick={() => window.open(url, "_blank")}
                 className="cursor-pointer text-cyan-400 hover:text-cyan-300 underline hover:no-underline transition-colors"
                 title={`Click to open: ${url}`}
               >
@@ -282,27 +298,42 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
     };
 
     switch (line.type) {
-      case 'input':
+      case "input":
         return (
-          <div key={line.id} className={cn(baseClasses, "text-lime-500 terminal-text-glow font-semibold mr-2")}>
+          <div
+            key={line.id}
+            className={cn(
+              baseClasses,
+              "text-lime-500 terminal-text-glow font-semibold mr-2",
+            )}
+          >
             {renderContent(line.content)}
           </div>
         );
-      case 'output':
+      case "output":
         return (
-          <div key={line.id} className={cn(baseClasses, "text-gray-200 break-words")}>
+          <div
+            key={line.id}
+            className={cn(baseClasses, "text-gray-200 break-words")}
+          >
             {renderContent(line.content)}
           </div>
         );
-      case 'system':
+      case "system":
         return (
-          <div key={line.id} className={cn(baseClasses, "text-lime-500 terminal-text-glow mr-2")}>
+          <div
+            key={line.id}
+            className={cn(baseClasses, "text-lime-500 terminal-text-glow mr-2")}
+          >
             {renderContent(line.content)}
           </div>
         );
       default:
         return (
-          <div key={line.id} className={cn(baseClasses, "text-gray-200 break-words")}>
+          <div
+            key={line.id}
+            className={cn(baseClasses, "text-gray-200 break-words")}
+          >
             {renderContent(line.content)}
           </div>
         );
@@ -316,13 +347,15 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         "bg-black text-lime-500 font-mono",
         "h-full w-full overflow-hidden flex flex-col",
         "text-sm sm:text-base",
-        className
+        className,
       )}
     >
       {/* Terminal Header */}
       <div className="bg-gray-900/90 px-3 sm:px-4 py-2 border-b border-lime-500/30 flex items-center gap-2">
         <div className="flex-1 text-center text-gray-400 text-xs sm:text-sm terminal-text-glow flex flex-row items-center">
-          <span className="hidden sm:inline text-lime-500 mr-auto terminal-text-glow">SurajYadav@portfolio</span>
+          <span className="hidden sm:inline text-lime-500 mr-auto terminal-text-glow">
+            SurajYadav@portfolio
+          </span>
           <span className="sm:hidden">portfolio:~$ </span>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-lime-500 rounded-full animate-pulse"></div>
@@ -336,30 +369,34 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
 
       {/* Terminal Content */}
       <div className="flex-1 overflow-y-auto terminal-scroll scrollbar-hide">
-        {activeComponent === 'terminal' && (
+        {activeComponent === "terminal" && (
           <div className="p-3 sm:p-4 space-y-1">
             {lines.map(renderLine)}
 
             {/* Current Input Line */}
             {showInput && !isTyping && (
               <div className="flex items-center font-mono text-sm sm:text-base">
-                <span className="text-lime-500 mr-2 terminal-text-glow">surajyadav@portfolio:~$</span>
-            <input
-              ref={inputRef}
-              type="text"
-              value={currentInput}
-              onChange={(e) => setCurrentInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              disabled={isProcessing}
-              className="flex-1 bg-transparent border-none outline-none text-lime-500 caret-lime-500 terminal-text-glow placeholder:text-lime-500/50 font-semibold"
-              placeholder={isProcessing ? "Processing..." : "type here"}
-              autoFocus
-            />
-            <span className={cn(
-              "w-2 h-4 sm:h-5 bg-lime-500 ml-1 terminal-text-glow",
-              cursorVisible ? "opacity-100" : "opacity-0",
-              "transition-opacity duration-100"
-            )}></span>
+                <span className="text-lime-500 mr-2 terminal-text-glow">
+                  surajyadav@portfolio:~$
+                </span>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={currentInput}
+                  onChange={(e) => setCurrentInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  disabled={isProcessing}
+                  className="flex-1 bg-transparent border-none outline-none text-lime-500 caret-lime-500 terminal-text-glow placeholder:text-lime-500/50 font-semibold"
+                  placeholder={isProcessing ? "Processing..." : "type here"}
+                  autoFocus
+                />
+                <span
+                  className={cn(
+                    "w-2 h-4 sm:h-5 bg-lime-500 ml-1 terminal-text-glow",
+                    cursorVisible ? "opacity-100" : "opacity-0",
+                    "transition-opacity duration-100",
+                  )}
+                ></span>
               </div>
             )}
 
@@ -367,12 +404,18 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
           </div>
         )}
 
-        {activeComponent === 'snake' && (
-          <SnakeGame onGameEnd={handleGameEnd} className="w-full h-full flex items-center justify-center" />
+        {activeComponent === "snake" && (
+          <SnakeGame
+            onGameEnd={handleGameEnd}
+            className="w-full h-full flex items-center justify-center"
+          />
         )}
 
-        {activeComponent === 'python' && (
-          <PythonCompiler onClose={handleCompilerClose} className="w-full h-full" />
+        {activeComponent === "python" && (
+          <PythonCompiler
+            onClose={handleCompilerClose}
+            className="w-full h-full"
+          />
         )}
       </div>
     </div>

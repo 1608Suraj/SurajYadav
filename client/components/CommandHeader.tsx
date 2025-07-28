@@ -1,5 +1,5 @@
-import React from 'react';
-import { cn } from '@/lib/utils';
+import React from "react";
+import { cn } from "@/lib/utils";
 
 interface CommandHeaderProps {
   onCommandClick: (command: string) => void;
@@ -7,26 +7,35 @@ interface CommandHeaderProps {
 }
 
 const commands = [
-  { name: 'help', color: 'text-lime-500', description: 'Show commands' },
-  { name: 'about', color: 'text-lime-500', description: 'About me' },
-  { name: 'projects', color: 'text-lime-500', description: 'My projects' },
-  { name: 'skills', color: 'text-lime-500', description: 'Tech skills' },
-  { name: 'experience', color: 'text-lime-500', description: 'Work experience' },
-  { name: 'education', color: 'text-lime-500', description: 'Education' },
-  { name: 'resume', color: 'text-lime-500', description: 'Download resume' },
-  { name: 'contact', color: 'text-lime-500', description: 'Contact info' },
-  { name: 'chat', color: 'text-lime-500', description: 'AI chat' },
-  { name: 'snake', color: 'text-lime-500', description: 'Snake game' },
-  { name: 'python', color: 'text-lime-500', description: 'Python compiler' }
+  { name: "help", color: "text-lime-500", description: "Show commands" },
+  { name: "about", color: "text-lime-500", description: "About me" },
+  { name: "projects", color: "text-lime-500", description: "My projects" },
+  { name: "skills", color: "text-lime-500", description: "Tech skills" },
+  {
+    name: "experience",
+    color: "text-lime-500",
+    description: "Work experience",
+  },
+  { name: "education", color: "text-lime-500", description: "Education" },
+  { name: "resume", color: "text-lime-500", description: "Download resume" },
+  { name: "contact", color: "text-lime-500", description: "Contact info" },
+  { name: "chat", color: "text-lime-500", description: "AI chat" },
+  { name: "snake", color: "text-lime-500", description: "Snake game" },
+  { name: "python", color: "text-lime-500", description: "Python compiler" },
 ];
 
-export const CommandHeader: React.FC<CommandHeaderProps> = ({ onCommandClick, className }) => {
+export const CommandHeader: React.FC<CommandHeaderProps> = ({
+  onCommandClick,
+  className,
+}) => {
   return (
-    <div className={cn(
-      "bg-black/90 border-b border-lime-500/30 py-2.5 px-3",
-      "overflow-x-auto scrollbar-hide",
-      className
-    )}>
+    <div
+      className={cn(
+        "bg-black/90 border-b border-lime-500/30 py-2.5 px-3",
+        "overflow-x-auto scrollbar-hide",
+        className,
+      )}
+    >
       <div className="flex items-center gap-1 sm:gap-2 min-w-max">
         <span className="text-lime-500 text-xs sm:text-sm font-mono mr-2 flex-shrink-0">
           Commands:
@@ -40,7 +49,7 @@ export const CommandHeader: React.FC<CommandHeaderProps> = ({ onCommandClick, cl
               "border border-black hover:border-current/30",
               "transition-all duration-200 hover:bg-current/10",
               "cursor-pointer select-none whitespace-nowrap",
-              cmd.color
+              cmd.color,
             )}
             title={cmd.description}
           >
