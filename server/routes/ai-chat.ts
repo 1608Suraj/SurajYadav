@@ -96,22 +96,22 @@ Response Guidelines:
 - Keep responses concise but informative (aim for 2-6 lines typically)
 `;
 
-    // Make request to OpenAI
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    // Make request to Groq
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
+        model: 'llama3-8b-8192',
         messages: [
           {
             role: 'system',
             content: portfolioContext
           },
           {
-            role: 'user', 
+            role: 'user',
             content: message
           }
         ],
