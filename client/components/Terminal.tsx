@@ -199,7 +199,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
             setIsTyping(false);
             setShowInput(true);
           }
-        }, i * 50); // 2x faster speed
+        }, i * 75); // 1.5x speed
       }
     } catch (error) {
       addLine('Error: Failed to process command', 'output');
