@@ -216,7 +216,7 @@ Try: "ask tell me about your Python experience"`;
       }).join('\n');
 
       return `Featured Projects
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━━━━━━━━━━━━━
 ${projectList}
 
 Want to know more about any project?
@@ -445,12 +445,12 @@ I'll use AI to give you personalized responses!`;
 ];
 
 export const handleCommand = async (
-  input: string, 
+  input: string,
   commands: Command[],
   onAIChat?: (message: string) => Promise<string>
 ): Promise<string> => {
   const trimmedInput = input.trim();
-  
+
   if (!trimmedInput) {
     return "Please enter a command. Type 'help' for available commands.";
   }
@@ -459,6 +459,41 @@ export const handleCommand = async (
   const parts = trimmedInput.split(' ');
   const commandName = parts[0].toLowerCase();
   const args = parts.slice(1).join(' ');
+
+  // Handle special contact redirects
+  if (commandName === 'contact' && args) {
+    const social = args.toLowerCase();
+    const { github, linkedin, instagram, twitter, website } = portfolioData.contact;
+
+    switch(social) {
+      case 'linkedin':
+      case 'li':
+        window.open(`https://${linkedin}`, '_blank');
+        return `Opening LinkedIn profile: ${linkedin}`;
+      case 'github':
+      case 'git':
+        window.open(`https://${github}`, '_blank');
+        return `Opening GitHub profile: ${github}`;
+      case 'instagram':
+      case 'insta':
+        window.open(`https://${instagram}`, '_blank');
+        return `Opening Instagram profile: ${instagram}`;
+      case 'twitter':
+        window.open(`https://${twitter}`, '_blank');
+        return `Opening Twitter profile: ${twitter}`;
+      case 'website':
+      case 'web':
+        window.open(`https://${website}`, '_blank');
+        return `Opening website: ${website}`;
+      default:
+        return `Social platform "${social}" not found. Available: linkedin, github, insta, twitter, website`;
+    }
+  }
+
+  // Handle scraping command with URL
+  if (commandName === 'scrape' && args) {
+    return `SCRAPE_URL:${args}`;
+  }
 
   // Handle ask command specially
   if (commandName === 'ask' && args) {
@@ -470,33 +505,43 @@ export const handleCommand = async (
       }
     } else {
       return `AI Chat not available. The AI integration is currently being set up.
-      
+
 In the meantime, try these commands:
 • about - Learn about my background
-• skills - View my technical skills  
+• skills - View my technical skills
 • projects - Explore my work
 • contact - Get in touch directly`;
     }
   }
 
   // Find matching command
-  const command = commands.find(cmd => 
-    cmd.name === commandName || 
+  const command = commands.find(cmd =>
+    cmd.name === commandName ||
     (cmd.aliases && cmd.aliases.includes(commandName))
   );
 
   if (command) {
-    return command.handler();
+    const result = command.handler();
+
+    // Handle special command results
+    if (result === 'SNAKE_GAME_START') {
+      return 'SNAKE_GAME_START';
+    }
+    if (result === 'PYTHON_COMPILER_START') {
+      return 'PYTHON_COMPILER_START';
+    }
+
+    return result;
   }
 
   // Command not found - suggest AI or help
   return `Command not found: "${commandName}"
 
-💡 Did you mean to ask me something? Try:
+Did you mean to ask me something? Try:
    ask ${trimmedInput}
 
-📋 Or type 'help' to see all available commands.
+Or type 'help' to see all available commands.
 
-🤖 The AI can answer questions about my experience, 
-   skills, projects, and much more!`;
+The AI can answer questions about my experience,
+skills, projects, and much more!`;
 };
