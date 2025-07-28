@@ -473,7 +473,7 @@ but I'm working on a light theme option.`;
       }, 2000);
       
       return `Goodbye! 👋
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Thanks for exploring my terminal portfolio!
 
@@ -587,30 +587,23 @@ export const handleCommand = async (
   // Handle special contact redirects
   if (commandName === 'contact' && args) {
     const social = args.toLowerCase();
-    const { github, linkedin, instagram, twitter, website } = portfolioData.contact;
+    const { github, linkedin, instagram } = portfolioData.contact;
 
     switch(social) {
       case 'linkedin':
       case 'li':
-        window.open(`https://${linkedin}`, '_blank');
+        window.open(linkedin, '_blank');
         return `Opening LinkedIn profile: ${linkedin}`;
       case 'github':
       case 'git':
-        window.open(`https://${github}`, '_blank');
+        window.open(github, '_blank');
         return `Opening GitHub profile: ${github}`;
       case 'instagram':
       case 'insta':
-        window.open(`https://${instagram}`, '_blank');
+        window.open(instagram, '_blank');
         return `Opening Instagram profile: ${instagram}`;
-      case 'twitter':
-        window.open(`https://${twitter}`, '_blank');
-        return `Opening Twitter profile: ${twitter}`;
-      case 'website':
-      case 'web':
-        window.open(`https://${website}`, '_blank');
-        return `Opening website: ${website}`;
       default:
-        return `Social platform "${social}" not found. Available: linkedin, github, insta, twitter, website`;
+        return `Social platform "${social}" not found. Available: linkedin, github, insta`;
     }
   }
 
