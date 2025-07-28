@@ -37,7 +37,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       {
         id: 'welcome-2',
         type: 'system',
-        content: '│  ████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗ █████╗  │',
+        content: '│  █████���██╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗ █████╗  │',
       },
       {
         id: 'welcome-3',
@@ -62,7 +62,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       {
         id: 'welcome-7',
         type: 'system',
-        content: '│     ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝ │',
+        content: '│     ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚���╝╚═╝  ╚═══╝╚═╝  ╚═╝ │',
       },
       {
         id: 'welcome-8',
@@ -160,11 +160,19 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
 
     try {
       const response = onCommand ? await onCommand(command.trim()) : `Command not found: ${command}`;
-      
+
+      // Handle clear screen command
+      if (response === 'CLEAR_SCREEN') {
+        setLines([]);
+        setIsTyping(false);
+        setIsProcessing(false);
+        return;
+      }
+
       // Simulate typing effect for response
       setIsTyping(true);
       const lines = response.split('\n');
-      
+
       for (let i = 0; i < lines.length; i++) {
         setTimeout(() => {
           addLine(lines[i], 'output');
