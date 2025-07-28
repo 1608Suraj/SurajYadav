@@ -102,5 +102,87 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  }
+
+  /* Terminal-specific styling */
+  .terminal-glow {
+    box-shadow:
+      0 0 20px rgba(0, 255, 65, 0.1),
+      0 0 40px rgba(0, 255, 65, 0.05),
+      inset 0 0 20px rgba(0, 255, 65, 0.02);
+  }
+
+  .terminal-text-glow {
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+  }
+
+  .crt-effect {
+    position: relative;
+  }
+
+  .crt-effect::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      transparent 50%,
+      rgba(0, 255, 65, 0.03) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Scrollbar styling for terminal */
+  .terminal-scroll::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .terminal-scroll::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .terminal-scroll::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 65, 0.3);
+    border-radius: 4px;
+  }
+
+  .terminal-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 255, 65, 0.5);
+  }
+
+  /* Selection styling */
+  ::selection {
+    background: rgba(0, 255, 65, 0.3);
+    color: #ffffff;
+  }
+
+  /* Custom animations */
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+
+  .terminal-flicker {
+    animation: flicker 0.15s infinite linear;
+  }
+
+  @keyframes scan-line {
+    0% { transform: translateY(-100vh); }
+    100% { transform: translateY(100vh); }
+  }
+
+  .scan-line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00ff41, transparent);
+    animation: scan-line 3s linear infinite;
+    pointer-events: none;
+    z-index: 2;
   }
 }
