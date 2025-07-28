@@ -319,8 +319,9 @@ Try: "ask tell me about your Python experience"`;
       const projectList = portfolioData.projects.map((project, index) => {
         const techStack = project.tech.join(', ');
         const separator = index > 0 ? '\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' : '';
+        const projectNumber = index + 1;
         return `${separator}
-📦 ${project.name} ${project.status}
+${projectNumber}. 📦 ${project.name} ${project.status}
    ${project.description}
    🔧 Tech Stack: ${techStack}
    📝 Details: ${project.details || 'More details available on request'}`;
