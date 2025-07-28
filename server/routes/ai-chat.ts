@@ -25,29 +25,29 @@ export const handleAIChat: RequestHandler = async (req, res) => {
 
     const { message } = validation.data;
     
-    // Check if OpenAI API key is configured
-    const apiKey = process.env.OPENAI_API_KEY;
+    // Check if Groq API key is configured
+    const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
       return res.json({
         response: `🤖 AI Assistant (Demo Mode)
 
-I'm currently running in demo mode since the OpenAI API key isn't configured yet.
+I'm currently running in demo mode since the Groq API key isn't configured yet.
 
 Based on your question: "${message}"
 
 Here's what I can tell you:
 
-• I'm a passionate full-stack developer with expertise in React, Node.js, and AI integration
-• I love building interactive experiences like this terminal portfolio
-• I have experience with modern web technologies and AI APIs
-• I'm always excited to discuss technology and new projects
+• I'm a passionate data analyst with expertise in Python, SQL, and machine learning
+• I love building interactive data experiences like this terminal portfolio
+• I have experience with modern analytics tools and AI APIs
+• I'm always excited to discuss data science and analytical projects
 
 To enable full AI functionality:
-1. Set up an OpenAI API key in environment variables
+1. Set up a Groq API key in environment variables
 2. The AI will then provide personalized, context-aware responses
 
 For now, try these commands to learn more:
-• about - My background and experience  
+• about - My background and experience
 • skills - Technical expertise
 • projects - Featured work
 • contact - Get in touch directly`
