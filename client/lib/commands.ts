@@ -103,118 +103,118 @@ const executeScraping = async (url: string): Promise<void> => {
 export const portfolioData = {
   about: {
     name: "Suraj Yadav",
-    role: "Data Analyst & AI Enthusiast",
-    bio: `I'm a passionate data analyst who loves extracting insights from complex datasets
-and building intelligent solutions using modern analytics tools.
-Currently focused on leveraging AI and machine learning for data-driven decisions.
+    role: "Data Analyst",
+    location: "📍 Indore, India",
+    phone: "📞 +91 8085546767",
+    email: "✉️ 0816surajyadav@gmail.com",
+    bio: `Currently working as a Data Analyst Trainee at Debugshala, where I handle end-to-end data workflows including scraping, preprocessing, database management, and cross-team collaboration for dashboard development.
 
-Education: Data Science & Analytics
-Location: India
-Interests: Data Science, AI, Python, Visualization, Terminal UIs
-Always learning, always analyzing.`,
+Highly motivated Data Analyst with hands-on experience in data scraping, preprocessing, and enrichment using Python and APIs like Groq/OpenAI.
+
+Skilled in designing data pipelines, cleaning large datasets using Pandas and NumPy, and integrating data into MongoDB for scalable analysis.
+
+Proficient in visual analytics using Power BI and Excel, and capable of supporting dashboard creation for KPIs like ARR growth, revenue analysis, and tech insights.
+
+Quick learner with a keen interest in backend development, API integrations, and AI/ML-driven insights for business transformation.`,
   },
   skills: {
-    analytics: [
-      "Python/Pandas",
-      "SQL/PostgreSQL",
+    languages: [
+      "Python",
+      "SQL"
+    ],
+    libraries: [
+      "Pandas",
+      "NumPy",
+      "Matplotlib",
+      "Seaborn",
+      "Scrapy"
+    ],
+    datatools: [
       "Power BI",
-      "Tableau",
-      "Excel/VBA",
-      "R Programming"
+      "Excel (Advanced)",
+      "Google Colab"
     ],
-    datascience: [
-      "Machine Learning",
-      "Scikit-learn",
-      "TensorFlow",
-      "Statistical Analysis",
-      "Data Visualization",
-      "Feature Engineering"
+    databases: [
+      "MySQL",
+      "MongoDB"
     ],
-    ai: [
+    frameworks: [
+      "Streamlit",
+      "Flask (Basic)",
+      "Django (Learning Phase)"
+    ],
+    apis: [
+      "Groq API",
       "OpenAI API",
-      "Groq AI",
-      "Natural Language Processing",
-      "Computer Vision",
-      "Deep Learning",
-      "MLOps"
+      "RESTful APIs"
+    ],
+    concepts: [
+      "EDA",
+      "OOP",
+      "Data Structures",
+      "API Integration",
+      "Error Handling"
     ],
     tools: [
-      "Jupyter Notebooks",
-      "Git/GitHub",
-      "Docker",
-      "AWS/Azure",
-      "Linux/Terminal",
-      "VS Code"
+      "Git & GitHub"
     ]
   },
   projects: [
     {
       id: 1,
-      name: "AI Terminal Portfolio",
-      description: "Interactive terminal-style portfolio with AI integration and data tools",
-      tech: ["React", "Three.js", "Groq AI", "TypeScript"],
-      status: "🚀 Live",
-      link: "#"
+      name: "US Logistics Tech Strategy Research",
+      description: "Scraped data on top US logistics companies from multiple sources using Scrapy. Preprocessed data using Pandas and NumPy to clean and structure key company attributes.",
+      tech: ["Python", "WebScraper", "Pandas", "MongoDB", "Groq API"],
+      status: "✅ Completed",
+      details: "Integrated Groq API to enrich company profiles with ARR growth insights and tech stack data. Uploaded structured datasets to MongoDB for scalable access and analysis."
     },
     {
       id: 2,
-      name: "Sales Analytics Dashboard",
-      description: "Real-time business intelligence dashboard with predictive analytics",
-      tech: ["Python", "Pandas", "Power BI", "SQL"],
-      status: "✅ Completed",
-      link: "#"
+      name: "AI Chatbot using Groq & OpenAI",
+      description: "Built a conversational chatbot using OpenAI for generating human-like responses. Integrated Groq API for low-latency language processing.",
+      tech: ["Python", "Groq API", "OpenAI API", "Streamlit"],
+      status: "🚀 Live",
+      details: "Deployed via Streamlit to offer a user-friendly web interface. Designed modular intent handling for extensibility and domain-specific customization."
     },
     {
       id: 3,
-      name: "Web Scraping & Data Pipeline",
-      description: "Automated data collection and processing system with AI enhancement",
-      tech: ["Python", "BeautifulSoup", "Scrapy", "PostgreSQL"],
-      status: "🚀 Live",
-      link: "#"
+      name: "Email Automation System",
+      description: "Automated email sending using Python's SMTP libraries for bulk communication. Integrated Pandas to manage recipient data from Excel sheets.",
+      tech: ["Python", "SMTP", "Pandas"],
+      status: "✅ Completed",
+      details: "Implemented error handling and logging for failed deliveries and retries. Scheduled scripts to run periodically using task schedulers."
     }
   ],
   contact: {
-    email: "suraj.yadav@example.com",
-    github: "github.com/surajyadav",
-    linkedin: "linkedin.com/in/surajyadav",
-    website: "surajyadav.dev",
-    twitter: "@surajyadav",
-    instagram: "instagram.com/surajyadav"
+    email: "0816surajyadav@gmail.com",
+    phone: "+91 8085546767",
+    github: "https://github.com/1608Suraj",
+    linkedin: "https://www.linkedin.com/in/suraj-yadav-5620902b2/",
+    instagram: "https://www.instagram.com/_suraj.py?igsh=MWd3bzFvangyZHNkeQ==",
+    location: "Indore, India"
   },
   experience: [
     {
-      company: "TechCorp Analytics",
-      position: "Senior Data Analyst",
-      duration: "2022 - Present",
-      description: "Leading data-driven insights for business strategy and optimization."
-    },
-    {
-      company: "DataSolutions Inc",
-      position: "Data Analyst",
-      duration: "2020 - 2022",
-      description: "Developed predictive models and automated reporting systems."
+      company: "Debugshala",
+      position: "Data Analyst Trainee",
+      duration: "Feb 2025 – Present",
+      description: "Cleaned and structured datasets using Pandas and NumPy for internal analytics projects. Built dashboards using Power BI and Excel to track project KPIs. Developed modular and readable Python code for reuse in future data pipeline projects."
     }
   ],
   education: [
     {
-      institution: "University of Technology",
-      degree: "Master of Science in Data Science",
-      year: "2020",
-      gpa: "3.8/4.0"
-    },
-    {
-      institution: "Technical Institute",
-      degree: "Bachelor of Science in Computer Science",
-      year: "2018",
-      gpa: "3.6/4.0"
+      institution: "Holkar Science College, Devi Ahilya Vishwavidyalaya (DAVV), Indore",
+      degree: "Bachelor of Science (B.Sc.) in Computer Science",
+      year: "Present",
+      status: "Currently Pursuing"
     }
   ],
   certifications: [
-    "AWS Certified Data Analytics",
-    "Microsoft Azure Data Scientist Associate",
-    "Google Analytics Certified",
-    "Tableau Desktop Specialist",
-    "Python for Data Science (IBM)"
+    "Data Analysis with Python",
+    "Machine Learning Fundamentals",
+    "SQL for Data Science",
+    "Power BI Certification",
+    "MongoDB Basics"
   ]
 };
 
