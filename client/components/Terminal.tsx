@@ -52,7 +52,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       {
         id: 'welcome-5',
         type: 'system',
-        content: '│     ██║   ██╔══╝  ██╔══█��╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║ │',
+        content: '│     ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║ │',
       },
       {
         id: 'welcome-6',
@@ -263,15 +263,18 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       )}
     >
       {/* Terminal Header */}
-      <div className="bg-gray-800 px-4 py-2 border-b border-green-400/30 flex items-center gap-2">
-        <div className="flex gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+      <div className="bg-gray-900/90 px-3 sm:px-4 py-2 border-b border-green-400/30 flex items-center gap-2">
+        <div className="flex gap-1.5 sm:gap-2">
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500 shadow-sm shadow-red-500/50"></div>
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500 shadow-sm shadow-yellow-500/50"></div>
+          <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500 shadow-sm shadow-green-500/50"></div>
         </div>
-        <div className="flex-1 text-center text-gray-400 text-xs">
-          terminal@portfolio:~$
+        <div className="flex-1 text-center text-gray-400 text-xs sm:text-sm terminal-text-glow">
+          <span className="hidden sm:inline">terminal@portfolio:~$ </span>
+          <span className="sm:hidden">portfolio:~$ </span>
         </div>
+        {/* Scan line effect */}
+        <div className="scan-line"></div>
       </div>
 
       {/* Terminal Content */}
