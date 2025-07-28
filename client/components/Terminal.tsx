@@ -318,7 +318,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       {/* Terminal Header */}
       <div className="bg-gray-900/90 px-3 sm:px-4 py-2 border-b border-green-400/30 flex items-center gap-2">
         <div className="flex-1 text-center text-gray-400 text-xs sm:text-sm terminal-text-glow flex flex-row items-center">
-          <span className="hidden sm:inline text-green-400 mr-auto terminal-text-glow">SurajYadav@portfolio</span>
+          <span className="hidden sm:inline text-lime-500 mr-auto terminal-text-glow">SurajYadav@portfolio</span>
           <span className="sm:hidden">portfolio:~$ </span>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
