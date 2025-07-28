@@ -7,18 +7,17 @@ interface CommandHeaderProps {
 }
 
 const commands = [
-  { name: 'help', color: 'text-green-400', description: 'Show commands' },
-  { name: 'about', color: 'text-blue-400', description: 'About me' },
-  { name: 'projects', color: 'text-purple-400', description: 'My projects' },
-  { name: 'skills', color: 'text-yellow-400', description: 'Tech skills' },
-  { name: 'experience', color: 'text-orange-400', description: 'Work experience' },
-  { name: 'education', color: 'text-pink-400', description: 'Education' },
-  { name: 'resume', color: 'text-red-400', description: 'Download resume' },
-  { name: 'contact', color: 'text-cyan-400', description: 'Contact info' },
-  { name: 'chat', color: 'text-emerald-400', description: 'AI chat' },
+  { name: 'help', color: 'text-lime-400', description: 'Show commands' },
+  { name: 'about', color: 'text-lime-400', description: 'About me' },
+  { name: 'projects', color: 'text-lime-400', description: 'My projects' },
+  { name: 'skills', color: 'text-lime-400', description: 'Tech skills' },
+  { name: 'experience', color: 'text-lime-400', description: 'Work experience' },
+  { name: 'education', color: 'text-lime-400', description: 'Education' },
+  { name: 'resume', color: 'text-lime-400', description: 'Download resume' },
+  { name: 'contact', color: 'text-lime-400', description: 'Contact info' },
+  { name: 'chat', color: 'text-lime-400', description: 'AI chat' },
   { name: 'snake', color: 'text-lime-400', description: 'Snake game' },
-  { name: 'python', color: 'text-indigo-400', description: 'Python compiler' },
-  { name: 'scrape', color: 'text-teal-400', description: 'Web scraper' }
+  { name: 'python', color: 'text-lime-400', description: 'Python compiler' }
 ];
 
 export const CommandHeader: React.FC<CommandHeaderProps> = ({ onCommandClick, className }) => {
