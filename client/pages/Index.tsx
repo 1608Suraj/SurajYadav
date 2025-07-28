@@ -22,7 +22,7 @@ export default function Index() {
   }, [commands, sendMessage]);
 
   return (
-    <div className="min-h-screen bg-black text-green-400 relative overflow-hidden">
+    <div className="min-h-screen bg-black text-lime-500 relative overflow-hidden">
       {/* Terminal Interface */}
       <div className="relative z-10 min-h-screen p-2 sm:p-4 lg:p-6">
         <div className="max-w-7xl mx-auto h-screen">
