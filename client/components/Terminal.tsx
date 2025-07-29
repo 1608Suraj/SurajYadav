@@ -323,13 +323,62 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       )}
     >
       {/* Terminal Header */}
-      <div className="bg-gray-900/90 px-3 sm:px-4 py-2 border-b border-lime-500/30 flex items-center gap-2">
-        <div className="flex-1 text-center text-gray-400 text-xs sm:text-sm terminal-text-glow flex flex-row items-center">
-          <span className="hidden sm:inline text-lime-500 mr-auto terminal-text-glow">SurajYadav@portfolio</span>
-          <span className="sm:hidden">portfolio:~$ </span>
+      <div className={cn(
+        "px-3 sm:px-4 py-2 border-b flex items-center gap-2",
+        theme === 'light'
+          ? "bg-white border-gray-300"
+          : "bg-gray-900/90 border-lime-500/30"
+      )}>
+        <div className="flex items-center gap-3">
+          {/* SY Logo */}
+          <div className={cn(
+            "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold",
+            theme === 'light'
+              ? "bg-blue-700 text-white"
+              : "bg-lime-500 text-black"
+          )}>
+            SY
+          </div>
+          <span className={cn(
+            "font-semibold",
+            theme === 'light' ? "text-blue-700" : "text-lime-500"
+          )}>
+            Suraj Yadav
+          </span>
+        </div>
+
+        <div className="flex-1 text-center flex flex-row items-center justify-center">
+          <span className={cn(
+            "text-xs sm:text-sm",
+            theme === 'light' ? "text-gray-600" : "text-gray-400"
+          )}>
+            surajyadav@portfolio:~$
+          </span>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={toggleTheme}
+            className={cn(
+              "text-xs px-2 py-1 rounded border transition-colors",
+              theme === 'light'
+                ? "border-gray-300 text-gray-600 hover:bg-gray-50"
+                : "border-lime-500/30 text-lime-500 hover:bg-lime-500/10"
+            )}
+          >
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-lime-500 rounded-full animate-pulse"></div>
-            <span className="text-lime-500 text-xs">Connected</span>
+            <div className={cn(
+              "w-2 h-2 rounded-full animate-pulse",
+              theme === 'light' ? "bg-green-600" : "bg-lime-500"
+            )}></div>
+            <span className={cn(
+              "text-xs",
+              theme === 'light' ? "text-green-600" : "text-lime-500"
+            )}>
+              Connected
+            </span>
           </div>
         </div>
       </div>
