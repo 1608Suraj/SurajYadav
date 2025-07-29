@@ -34,84 +34,130 @@ export const PythonCompiler: React.FC<PythonCompilerProps> = ({ onClose, classNa
     const lines = code.split('\n');
     let output = '';
     let variables: { [key: string]: any } = {};
+    let indentLevel = 0;
+    let inLoop = false;
+    let loopVar = '';
+    let loopRange = 0;
 
-    for (const line of lines) {
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
       const trimmedLine = line.trim();
+      const currentIndent = line.length - line.trimStart().length;
 
       // Skip comments and empty lines
       if (trimmedLine.startsWith('#') || !trimmedLine) continue;
 
-      // Handle print statements with variables
-      const printMatch = trimmedLine.match(/print\s*\(\s*["'](.*?)["']\s*\)/);
-      if (printMatch) {
-        output += printMatch[1] + '\n';
-        continue;
+      // Check if we're exiting a loop
+      if (inLoop && currentIndent <= indentLevel) {
+        inLoop = false;
+        loopVar = '';
+        loopRange = 0;
       }
 
-      // Handle print with variables
-      const printVarMatch = trimmedLine.match(/print\s*\(\s*([^"']+)\s*\)/);
-      if (printVarMatch) {
-        try {
-          const expression = printVarMatch[1].trim();
-          // Basic arithmetic evaluation
-          if (/^[\d\s+\-*/().]+$/.test(expression)) {
-            const result = eval(expression);
-            output += result + '\n';
-          } else if (variables[expression]) {
-            output += variables[expression] + '\n';
-          } else {
-            output += expression + '\n';
-          }
-        } catch {
-          output += 'Error: Invalid expression\n';
-        }
-        continue;
-      }
-
-      // Handle variable assignments
-      const assignMatch = trimmedLine.match(/^(\w+)\s*=\s*(.+)$/);
-      if (assignMatch && !trimmedLine.includes('==')) {
-        const varName = assignMatch[1];
-        const value = assignMatch[2];
-
-        // Handle string assignments
-        if (value.match(/^["'].*["']$/)) {
-          variables[varName] = value.slice(1, -1);
-        } else if (!isNaN(Number(value))) {
-          variables[varName] = Number(value);
-        } else {
-          variables[varName] = value;
-        }
-        output += `Variable ${varName} assigned\n`;
-        continue;
-      }
-
-      // Handle for loops (basic simulation)
+      // Handle for loops
       if (trimmedLine.startsWith('for ')) {
-        const rangeMatch = trimmedLine.match(/for\s+\w+\s+in\s+range\s*\(\s*(\d+)\s*\)/);
-        if (rangeMatch) {
-          const count = parseInt(rangeMatch[1]);
-          output += `Loop will execute ${count} times\n`;
-        } else {
-          output += `Loop detected: ${trimmedLine}\n`;
+        const forMatch = trimmedLine.match(/for\s+(\w+)\s+in\s+range\s*\(\s*(\d+)\s*\):/);
+        if (forMatch) {
+          loopVar = forMatch[1];
+          loopRange = parseInt(forMatch[2]);
+          inLoop = true;
+          indentLevel = currentIndent;
+          continue; // Don't output anything for the for line itself
+        }
+      }
+
+      // Handle print statements inside loops
+      if (inLoop && currentIndent > indentLevel) {
+        // Execute the print statement for each iteration
+        for (let j = 0; j < loopRange; j++) {
+          variables[loopVar] = j;
+
+          // Handle f-string prints
+          const fStringMatch = trimmedLine.match(/print\s*\(\s*f["'](.*?)["']\s*\)/);
+          if (fStringMatch) {
+            let fString = fStringMatch[1];
+            // Replace {variable} with actual values
+            fString = fString.replace(/\{(\w+)\}/g, (match, varName) => {
+              return variables[varName] !== undefined ? variables[varName] : match;
+            });
+            output += fString + '\n';
+            continue;
+          }
+
+          // Handle regular print statements
+          const printMatch = trimmedLine.match(/print\s*\(\s*["'](.*?)["']\s*\)/);
+          if (printMatch) {
+            output += printMatch[1] + '\n';
+          }
         }
         continue;
       }
 
-      // Handle data structures
-      if (trimmedLine.includes('[') && trimmedLine.includes(']')) {
-        output += `List/Array created: ${trimmedLine}\n`;
-        continue;
-      }
+      // Handle regular print statements (outside loops)
+      if (!inLoop) {
+        // Handle f-string prints
+        const fStringMatch = trimmedLine.match(/print\s*\(\s*f["'](.*?)["']\s*\)/);
+        if (fStringMatch) {
+          let fString = fStringMatch[1];
+          fString = fString.replace(/\{(\w+)\}/g, (match, varName) => {
+            return variables[varName] !== undefined ? variables[varName] : match;
+          });
+          output += fString + '\n';
+          continue;
+        }
 
-      if (trimmedLine.includes('{') && trimmedLine.includes('}')) {
-        output += `Dictionary created: ${trimmedLine}\n`;
-        continue;
-      }
+        // Handle regular print statements
+        const printMatch = trimmedLine.match(/print\s*\(\s*["'](.*?)["']\s*\)/);
+        if (printMatch) {
+          output += printMatch[1] + '\n';
+          continue;
+        }
 
-      // Default case
-      if (trimmedLine) {
-        output += `Executed: ${trimmedLine}\n`;
+        // Handle print with variables
+        const printVarMatch = trimmedLine.match(/print\s*\(\s*([^"']+)\s*\)/);
+        if (printVarMatch) {
+          try {
+            const expression = printVarMatch[1].trim();
+            if (/^[\d\s+\-*/().]+$/.test(expression)) {
+              const result = eval(expression);
+              output += result + '\n';
+            } else if (variables[expression]) {
+              output += variables[expression] + '\n';
+            } else {
+              output += expression + '\n';
+            }
+          } catch {
+            output += 'Error: Invalid expression\n';
+          }
+          continue;
+        }
+
+        // Handle variable assignments
+        const assignMatch = trimmedLine.match(/^(\w+)\s*=\s*(.+)$/);
+        if (assignMatch && !trimmedLine.includes('==')) {
+          const varName = assignMatch[1];
+          const value = assignMatch[2];
+
+          if (value.match(/^["'].*["']$/)) {
+            variables[varName] = value.slice(1, -1);
+          } else if (!isNaN(Number(value))) {
+            variables[varName] = Number(value);
+          } else {
+            variables[varName] = value;
+          }
+          continue; // Don't output anything for assignments
+        }
+
+        // Handle data structures
+        if (trimmedLine.includes('[') && trimmedLine.includes(']')) {
+          output += `List created: ${trimmedLine}\n`;
+          continue;
+        }
+
+        if (trimmedLine.includes('{') && trimmedLine.includes('}') && !trimmedLine.includes('f"')) {
+          output += `Dictionary created: ${trimmedLine}\n`;
+          continue;
+        }
       }
     }
 
