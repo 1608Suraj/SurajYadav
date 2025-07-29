@@ -6,6 +6,7 @@ import { useThemeState } from '@/hooks/use-theme';
 
 export default function Index() {
   const { sendMessage } = useAIChat();
+  const { theme } = useThemeState();
 
   // Create commands with AI integration
   const commands = createCommands(sendMessage);
@@ -22,7 +23,9 @@ export default function Index() {
   }, [commands, sendMessage]);
 
   return (
-    <div className="min-h-screen bg-black text-lime-500 relative overflow-hidden">
+    <div className={`min-h-screen relative overflow-hidden ${
+      theme === 'light' ? 'bg-gray-100' : 'bg-black'
+    }`}>
       {/* Terminal Interface */}
       <div className="relative z-10 h-screen w-screen">
         <Terminal
