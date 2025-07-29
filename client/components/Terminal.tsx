@@ -300,7 +300,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
           <div key={line.id} className={cn(
             baseClasses,
             "font-semibold mr-2",
-            theme === 'light' ? "text-blue-700" : "text-lime-500 terminal-text-glow"
+            theme === 'light' ? "text-black" : "text-lime-500 terminal-text-glow"
           )}>
             {renderContent(line.content)}
           </div>
