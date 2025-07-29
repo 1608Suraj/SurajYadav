@@ -124,7 +124,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
 
   const addLine = useCallback((content: string, type: TerminalLine['type'] = 'output') => {
     const newLine: TerminalLine = {
-      id: `${type}-${Date.now()}-${Math.random()}`,
+      id: `${type}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       type,
       content,
       timestamp: new Date()
