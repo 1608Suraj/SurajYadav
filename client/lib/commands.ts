@@ -451,12 +451,12 @@ Try: "ask about my certification journey"`;
 
       return `Contact Information
 
-📧 Email:     CLICKABLE_LINK:mailto:${email}:${email}
-📞 Phone:     CLICKABLE_LINK:tel:${phone}:${phone}
+📧 Email:     ${email}
+📞 Phone:     ${phone}
 📍 Location:  ${location}
-🐙 GitHub:    CLICKABLE_LINK:${github}:View GitHub Profile
-💼 LinkedIn:  CLICKABLE_LINK:${linkedin}:View LinkedIn Profile
-📸 Instagram: CLICKABLE_LINK:${instagram}:View Instagram Profile
+🐙 GitHub:    ${github}
+💼 LinkedIn:  ${linkedin}
+📸 Instagram: ${instagram}
 
 Feel free to reach out! I'm always interested in
 discussing new opportunities, projects, or just
@@ -636,8 +636,7 @@ export const handleCommand = async (
         return `Opening GitHub profile: ${github}`;
       case 'instagram':
       case 'insta':
-        window.open(instagram, '_blank');
-        return `Opening Instagram profile: ${instagram}`;
+        return `Instagram: ${instagram}`;
       default:
         return `Social platform "${social}" not found. Available: linkedin, github, insta`;
     }
