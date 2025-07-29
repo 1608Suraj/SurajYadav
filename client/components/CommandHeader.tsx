@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { useThemeState } from '@/hooks/use-theme';
 
 interface CommandHeaderProps {
   onCommandClick: (command: string) => void;
