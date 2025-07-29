@@ -25,6 +25,7 @@ const executeCommand = (command: string, onCommand?: (command: string) => Promis
 };
 
 export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
+  const { theme, toggleTheme } = useThemeState();
   const [lines, setLines] = useState<TerminalLine[]>([]);
   const [currentInput, setCurrentInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
