@@ -373,7 +373,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         <div className="flex-1 text-center flex flex-row items-center justify-center">
           <span className={cn(
             "text-xs sm:text-sm",
-            theme === 'light' ? "text-gray-600" : "text-gray-400"
+            theme === 'light' ? "text-black" : "text-gray-400"
           )}>
             surajyadav@portfolio:~$
           </span>
