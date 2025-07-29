@@ -4,7 +4,7 @@ import { z } from "zod";
 // Request schema validation
 const ChatRequestSchema = z.object({
   message: z.string().min(1).max(1000),
-  context: z.string().optional()
+  context: z.string().optional(),
 });
 
 interface ChatResponse {
@@ -16,15 +16,16 @@ export const handleAIChat: RequestHandler = async (req, res) => {
   try {
     // Validate request body
     const validation = ChatRequestSchema.safeParse(req.body);
-    
+
     if (!validation.success) {
       return res.status(400).json({
-        error: "Invalid request. Message is required and must be between 1-1000 characters."
+        error:
+          "Invalid request. Message is required and must be between 1-1000 characters.",
       } as ChatResponse);
     }
 
     const { message } = validation.data;
-    
+
     // Check if Groq API key is configured
     const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
@@ -50,7 +51,7 @@ For now, try these commands to learn more:
 • about - My background and experience
 • skills - Technical expertise
 • projects - Featured work
-• contact - Get in touch directly`
+• contact - Get in touch directly`,
       } as ChatResponse);
     }
 
@@ -59,33 +60,40 @@ For now, try these commands to learn more:
 You are an AI assistant representing Suraj Yadav's portfolio terminal. Here's context about Suraj:
 
 Profile:
-- Data Analyst & AI Enthusiast
-- Passionate about extracting insights from complex datasets and building intelligent solutions
-- Currently focused on leveraging AI and machine learning for data-driven decisions
-- Education: Data Science & Analytics
-- Interests: Data Science, AI, Python, Visualization, Terminal UIs
+- Data Analyst at Debugshala (Feb 2025 – Present)
+- Location: Indore, India
+- Phone: +91 8085546767
+- Email: 0816surajyadav@gmail.com
+- Currently working as a Data Analyst Trainee handling end-to-end data workflows including scraping, preprocessing, database management, and cross-team collaboration for dashboard development
 
 Technical Skills:
-Analytics: Python/Pandas, SQL/PostgreSQL, Power BI, Tableau, Excel/VBA, R Programming
-Data Science: Machine Learning, Scikit-learn, TensorFlow, Statistical Analysis, Data Visualization, Feature Engineering
-AI: Groq AI, OpenAI API, Natural Language Processing, Computer Vision, Deep Learning, MLOps
-Tools: Jupyter Notebooks, Git/GitHub, Docker, AWS/Azure, Linux/Terminal, VS Code
+Languages: Python, SQL
+Libraries: Pandas, NumPy, Matplotlib, Seaborn, Scrapy
+Data Tools: Power BI, Excel (Advanced), Google Colab
+Databases: MySQL, MongoDB
+Frameworks: Streamlit, Flask (Basic), Django (Learning Phase)
+APIs: Groq API, OpenAI API, RESTful APIs
+Concepts: EDA, OOP, Data Structures, API Integration, Error Handling
+Version Control: Git & GitHub
 
 Featured Projects:
-1. AI Terminal Portfolio - Interactive terminal-style portfolio with AI integration and data tools (React, Three.js, Groq AI, TypeScript)
-2. Sales Analytics Dashboard - Real-time business intelligence dashboard with predictive analytics (Python, Pandas, Power BI, SQL)
-3. Web Scraping & Data Pipeline - Automated data collection and processing system with AI enhancement (Python, BeautifulSoup, Scrapy, PostgreSQL)
+1. US Logistics Tech Strategy Research - Scraped data on top US logistics companies using Scrapy, preprocessed with Pandas/NumPy, integrated Groq API for enrichment, uploaded to MongoDB (Python, WebScraper, Pandas, MongoDB, Groq API)
+2. AI Chatbot using Groq & OpenAI - Built conversational chatbot with OpenAI and Groq API for low-latency processing, deployed via Streamlit (Python, Groq API, OpenAI API, Streamlit)
+3. Email Automation System - Automated email sending using Python SMTP, integrated Pandas for recipient management, implemented error handling and logging (Python, SMTP, Pandas)
 
 Experience:
-- TechCorp Analytics - Senior Data Analyst (2022-Present)
-- DataSolutions Inc - Data Analyst (2020-2022)
+- Debugshala - Data Analyst Trainee (Feb 2025 – Present): Cleaned and structured datasets using Pandas and NumPy for internal analytics projects. Built dashboards using Power BI and Excel to track project KPIs. Developed modular and readable Python code for reuse in future data pipeline projects.
+
+Education:
+- Holkar Science College, Devi Ahilya Vishwavidyalaya (DAVV), Indore - Bachelor of Science (B.Sc.) in Computer Science (Currently Pursuing)
 
 Contact:
-- Email: suraj.yadav@example.com
-- GitHub: github.com/surajyadav
-- LinkedIn: linkedin.com/in/surajyadav
-- Website: surajyadav.dev
-- Twitter: @surajyadav
+- Email: 0816surajyadav@gmail.com
+- Phone: +91 8085546767
+- GitHub: https://github.com/1608Suraj
+- LinkedIn: https://www.linkedin.com/in/suraj-yadav-5620902b2/
+- Instagram: https://www.instagram.com/_suraj.py
+- Location: Indore, India
 
 Response Guidelines:
 - Keep responses conversational but professional
@@ -97,32 +105,37 @@ Response Guidelines:
 `;
 
     // Make request to Groq
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: "llama3-8b-8192",
+          messages: [
+            {
+              role: "system",
+              content: portfolioContext,
+            },
+            {
+              role: "user",
+              content: message,
+            },
+          ],
+          max_tokens: 300,
+          temperature: 0.7,
+        }),
       },
-      body: JSON.stringify({
-        model: 'llama3-8b-8192',
-        messages: [
-          {
-            role: 'system',
-            content: portfolioContext
-          },
-          {
-            role: 'user',
-            content: message
-          }
-        ],
-        max_tokens: 300,
-        temperature: 0.7,
-      }),
-    });
+    );
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-      console.error('Groq API Error:', errorData);
+      const errorData = await response
+        .json()
+        .catch(() => ({ error: "Unknown error" }));
+      console.error("Groq API Error:", errorData);
 
       return res.json({
         response: `🤖 AI temporarily unavailable
@@ -135,7 +148,7 @@ While I get that sorted out, you can still explore:
 • projects - Check out my featured work
 • contact - Get in touch directly
 
-Please try your AI question again in a moment!`
+Please try your AI question again in a moment!`,
       } as ChatResponse);
     }
 
@@ -143,16 +156,15 @@ Please try your AI question again in a moment!`
     const aiResponse = data.choices?.[0]?.message?.content;
 
     if (!aiResponse) {
-      throw new Error('No response from AI');
+      throw new Error("No response from AI");
     }
 
     res.json({
-      response: `🤖 ${aiResponse}`
+      response: `🤖 ${aiResponse}`,
     } as ChatResponse);
-
   } catch (error) {
-    console.error('AI Chat Error:', error);
-    
+    console.error("AI Chat Error:", error);
+
     res.json({
       response: `🤖 Oops! Something went wrong
 
@@ -164,7 +176,7 @@ In the meantime, you can explore my portfolio using:
 • projects - Featured projects and work
 • contact - Ways to get in touch
 
-Please try asking again, or feel free to use the other commands!`
+Please try asking again, or feel free to use the other commands!`,
     } as ChatResponse);
   }
 };

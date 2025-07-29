@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { CommandHeader } from "./CommandHeader";
 import { SnakeGame } from "./SnakeGame";
 import { PythonCompiler } from "./PythonCompiler";
+import { useThemeState } from "@/hooks/use-theme";
 
 interface TerminalLine {
   id: string;
@@ -27,6 +28,7 @@ const executeCommand = (
 };
 
 export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
+  const { theme, toggleTheme } = useThemeState();
   const [lines, setLines] = useState<TerminalLine[]>([]);
   const [currentInput, setCurrentInput] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -45,56 +47,70 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
 
   // Welcome message
   useEffect(() => {
-    const welcomeLines: TerminalLine[] = [
-      {
-        id: "welcome-1",
-        type: "system",
-        content: "surajyadav@portfolio:~$ welcome",
-      },
-      {
-        id: "welcome-2",
-        type: "output",
-        content: "",
-      },
-      {
-        id: "welcome-3",
-        type: "output",
-        content: "Hi, I'm Suraj Yadav, a Data Analyst.",
-      },
-      {
-        id: "welcome-4",
-        type: "output",
-        content: 'Welcome to my interactive "AI powered" portfolio terminal!',
-      },
-      {
-        id: "welcome-5",
-        type: "output",
-        content: "",
-      },
-      {
-        id: "welcome-6",
-        type: "output",
-        content: 'Type "help" to see available commands.',
-      },
-      {
-        id: "welcome-7",
-        type: "output",
-        content: "",
-      },
-    ];
+    // Only initialize welcome message if no lines exist
+    if (lines.length === 0) {
+      const welcomeLines: TerminalLine[] = [
+        {
+          id: `welcome-1-${Date.now()}`,
+          type: "system",
+          content: "surajyadav@portfolio:~$ welcome",
+        },
+        {
+          id: `welcome-2-${Date.now()}`,
+          type: "output",
+          content: "",
+        },
+        {
+          id: `welcome-3-${Date.now()}`,
+          type: "output",
+          content: "Hi, I'm Suraj Yadav, a Data Analyst.",
+        },
+        {
+          id: `welcome-4-${Date.now()}`,
+          type: "output",
+          content: 'Welcome to my interactive "AI powered" portfolio terminal!',
+        },
+        {
+          id: `welcome-5-${Date.now()}`,
+          type: "output",
+          content: "",
+        },
+        {
+          id: `welcome-6-${Date.now()}`,
+          type: "output",
+          content: 'Type "help" to see available commands.',
+        },
+        {
+          id: `welcome-7-${Date.now()}`,
+          type: "output",
+          content: "",
+        },
+      ];
 
-    // Simulate typing effect for welcome message
-    setIsTyping(true);
-    welcomeLines.forEach((line, index) => {
-      setTimeout(() => {
-        setLines((prev) => [...prev, line]);
-        if (index === welcomeLines.length - 1) {
+      // Enhanced typewriter effect for welcome message
+      setIsTyping(true);
+      let currentLineIndex = 0;
+
+      const typeWelcomeLines = () => {
+        if (currentLineIndex >= welcomeLines.length) {
           setIsTyping(false);
           setShowInput(true);
+          return;
         }
-      }, index * 150); // 1.5x speed
-    });
-  }, []);
+
+        const currentLine = welcomeLines[currentLineIndex];
+        setLines((prev) => [...prev, currentLine]);
+        currentLineIndex++;
+
+        setTimeout(
+          typeWelcomeLines,
+          currentLine.content.length > 30 ? 200 : 300,
+        );
+      };
+
+      typeWelcomeLines();
+    }
+  }, [lines.length]);
 
   // Cursor blinking effect
   useEffect(() => {
@@ -125,7 +141,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
   const addLine = useCallback(
     (content: string, type: TerminalLine["type"] = "output") => {
       const newLine: TerminalLine = {
-        id: `${type}-${Date.now()}-${Math.random()}`,
+        id: `${type}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         type,
         content,
         timestamp: new Date(),
@@ -202,20 +218,63 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         return;
       }
 
-      // Simulate typing effect for response
+      if (response === "TOGGLE_THEME") {
+        toggleTheme();
+        setIsTyping(false);
+        setIsProcessing(false);
+        addLine(
+          `Theme switched to ${theme === "light" ? "dark" : "light"} mode`,
+          "output",
+        );
+        return;
+      }
+
+      // Enhanced typewriter effect - character by character
       setIsTyping(true);
       setShowInput(false);
       const lines = response.split("\n");
+      let currentLineIndex = 0;
+      let currentCharIndex = 0;
 
-      for (let i = 0; i < lines.length; i++) {
-        setTimeout(() => {
-          addLine(lines[i], "output");
-          if (i === lines.length - 1) {
-            setIsTyping(false);
-            setShowInput(true);
-          }
-        }, i * 75); // 1.5x speed
-      }
+      const typewriterEffect = () => {
+        if (currentLineIndex >= lines.length) {
+          setIsTyping(false);
+          setShowInput(true);
+          return;
+        }
+
+        const currentLine = lines[currentLineIndex];
+
+        if (currentCharIndex === 0) {
+          // Add empty line first
+          addLine("", "output");
+        }
+
+        if (currentCharIndex <= currentLine.length) {
+          const partialText = currentLine.substring(0, currentCharIndex);
+          // Update the last line with partial text
+          setLines((prev) => {
+            const newLines = [...prev];
+            if (newLines.length > 0) {
+              newLines[newLines.length - 1] = {
+                ...newLines[newLines.length - 1],
+                content: partialText,
+              };
+            }
+            return newLines;
+          });
+
+          currentCharIndex++;
+          setTimeout(typewriterEffect, currentLine.length > 50 ? 15 : 25); // Faster for longer lines
+        } else {
+          // Move to next line
+          currentLineIndex++;
+          currentCharIndex = 0;
+          setTimeout(typewriterEffect, 100); // Pause between lines
+        }
+      };
+
+      typewriterEffect();
     } catch (error) {
       addLine("Error: Failed to process command", "output");
       setIsTyping(false);
@@ -304,7 +363,10 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
             key={line.id}
             className={cn(
               baseClasses,
-              "text-lime-500 terminal-text-glow font-semibold mr-2",
+              "font-semibold mr-2",
+              theme === "light"
+                ? "text-black"
+                : "text-lime-500 terminal-text-glow",
             )}
           >
             {renderContent(line.content)}
@@ -314,7 +376,11 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         return (
           <div
             key={line.id}
-            className={cn(baseClasses, "text-gray-200 break-words")}
+            className={cn(
+              baseClasses,
+              "break-words",
+              theme === "light" ? "text-gray-700" : "text-white",
+            )}
           >
             {renderContent(line.content)}
           </div>
@@ -323,7 +389,13 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         return (
           <div
             key={line.id}
-            className={cn(baseClasses, "text-lime-500 terminal-text-glow mr-2")}
+            className={cn(
+              baseClasses,
+              "mr-2",
+              theme === "light"
+                ? "text-black"
+                : "text-blue-500 terminal-text-glow",
+            )}
           >
             {renderContent(line.content)}
           </div>
@@ -344,22 +416,78 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
     <div
       ref={terminalRef}
       className={cn(
-        "bg-black text-lime-500 font-mono",
-        "h-full w-full overflow-hidden flex flex-col",
-        "text-sm sm:text-base",
+        theme === "light" ? "bg-white text-blue-700" : "bg-black text-lime-500",
+        "font-mono h-full w-full overflow-hidden flex flex-col text-sm sm:text-base",
         className,
       )}
     >
       {/* Terminal Header */}
-      <div className="bg-gray-900/90 px-3 sm:px-4 py-2 border-b border-lime-500/30 flex items-center gap-2">
-        <div className="flex-1 text-center text-gray-400 text-xs sm:text-sm terminal-text-glow flex flex-row items-center">
-          <span className="hidden sm:inline text-lime-500 mr-auto terminal-text-glow">
-            SurajYadav@portfolio
+      <div
+        className={cn(
+          "px-3 sm:px-4 py-2 flex items-center gap-2",
+          theme === "light" ? "bg-white" : "bg-black",
+        )}
+      >
+        <div className="flex items-center gap-3">
+          {/* SY Logo */}
+          <div
+            className={cn(
+              "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold",
+              theme === "light" ? "bg-black text-white" : "bg-black text-white",
+            )}
+          >
+            SY
+          </div>
+          <span
+            className={cn(
+              "font-semibold",
+              theme === "light" ? "text-black" : "text-white",
+            )}
+          >
+            Suraj Yadav
           </span>
-          <span className="sm:hidden">portfolio:~$ </span>
+        </div>
+
+        <div className="flex-1 text-center flex flex-row items-center justify-center">
+          <span
+            className={cn(
+              "text-xs sm:text-sm",
+              theme === "light"
+                ? "text-black"
+                : "text-white terminal-text-glow",
+            )}
+          >
+            surajyadav@portfolio:~$
+          </span>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={toggleTheme}
+            className={cn(
+              "text-xs px-2 py-1 rounded border transition-colors",
+              theme === "light"
+                ? "border-gray-300 text-gray-600 hover:bg-gray-50"
+                : "border-lime-500/30 text-lime-500 hover:bg-lime-500/10",
+            )}
+          >
+            {theme === "light" ? "🌙" : "☀️"}
+          </button>
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-lime-500 rounded-full animate-pulse"></div>
-            <span className="text-lime-500 text-xs">Connected</span>
+            <div
+              className={cn(
+                "w-2 h-2 rounded-full animate-pulse",
+                theme === "light" ? "bg-green-600" : "bg-lime-500",
+              )}
+            ></div>
+            <span
+              className={cn(
+                "text-xs",
+                theme === "light" ? "text-green-600" : "text-lime-500",
+              )}
+            >
+              Connected
+            </span>
           </div>
         </div>
       </div>
@@ -376,7 +504,14 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
             {/* Current Input Line */}
             {showInput && !isTyping && (
               <div className="flex items-center font-mono text-sm sm:text-base">
-                <span className="text-lime-500 mr-2 terminal-text-glow">
+                <span
+                  className={cn(
+                    "mr-2",
+                    theme === "light"
+                      ? "text-black"
+                      : "text-blue-500 terminal-text-glow",
+                  )}
+                >
                   surajyadav@portfolio:~$
                 </span>
                 <input
@@ -386,13 +521,21 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
                   onChange={(e) => setCurrentInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   disabled={isProcessing}
-                  className="flex-1 bg-transparent border-none outline-none text-lime-500 caret-lime-500 terminal-text-glow placeholder:text-lime-500/50 font-semibold"
+                  className={cn(
+                    "flex-1 bg-transparent border-none outline-none font-semibold",
+                    theme === "light"
+                      ? "text-red-600 caret-red-600 placeholder:text-red-600/50"
+                      : "text-lime-500 caret-lime-500 terminal-text-glow placeholder:text-lime-500/50",
+                  )}
                   placeholder={isProcessing ? "Processing..." : "type here"}
                   autoFocus
                 />
                 <span
                   className={cn(
-                    "w-2 h-4 sm:h-5 bg-lime-500 ml-1 terminal-text-glow",
+                    "w-2 h-4 sm:h-5 ml-1",
+                    theme === "light"
+                      ? "bg-blue-700"
+                      : "bg-lime-500 terminal-text-glow",
                     cursorVisible ? "opacity-100" : "opacity-0",
                     "transition-opacity duration-100",
                   )}

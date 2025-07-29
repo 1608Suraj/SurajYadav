@@ -18,10 +18,12 @@ const generateResumeContent = (): string => {
 
   return `
 SURAJ YADAV
-Data Analyst & AI Enthusiast
-${contact.email} | ${contact.linkedin} | ${contact.github}
+${about.role}
+${about.location}
+${contact.phone} | ${contact.email}
+${contact.linkedin} | ${contact.github}
 
-ABOUT
+PROFESSIONAL SUMMARY
 ${about.bio}
 
 EXPERIENCE
@@ -41,16 +43,20 @@ ${education
     (edu) => `
 ${edu.institution}
 ${edu.degree} | ${edu.year}
-GPA: ${edu.gpa}
+Status: ${edu.status || "Completed"}
 `,
   )
   .join("\n")}
 
 TECHNICAL SKILLS
-Data Analytics: ${skills.analytics.join(", ")}
-Data Science: ${skills.datascience.join(", ")}
-AI & ML: ${skills.ai.join(", ")}
-Tools: ${skills.tools.join(", ")}
+Languages: ${skills.languages.join(", ")}
+Libraries: ${skills.libraries.join(", ")}
+Data Tools: ${skills.datatools.join(", ")}
+Databases: ${skills.databases.join(", ")}
+Frameworks: ${skills.frameworks.join(", ")}
+APIs: ${skills.apis.join(", ")}
+Concepts: ${skills.concepts.join(", ")}
+Version Control: ${skills.tools.join(", ")}
 
 CERTIFICATIONS
 ${certifications.map((cert) => `• ${cert}`).join("\n")}
@@ -62,15 +68,18 @@ ${projects
 ${project.name} (${project.status})
 ${project.description}
 Technologies: ${project.tech.join(", ")}
+Details: ${project.details}
 `,
   )
   .join("\n")}
 
-CONTACT
+CONTACT INFORMATION
 Email: ${contact.email}
+Phone: ${contact.phone}
 LinkedIn: ${contact.linkedin}
 GitHub: ${contact.github}
-Website: ${contact.website}
+Instagram: ${contact.instagram}
+Location: ${contact.location}
 `;
 };
 
@@ -89,6 +98,8 @@ const downloadResume = (content: string): void => {
 
 const executeScraping = async (url: string): Promise<void> => {
   try {
+    console.log(`🔄 Initiating scrape for: ${url}`);
+
     const response = await fetch("/api/scrape", {
       method: "POST",
       headers: {
@@ -101,26 +112,37 @@ const executeScraping = async (url: string): Promise<void> => {
 
     if (result.success && result.csvContent) {
       // Download CSV file
-      const blob = new Blob([result.csvContent], { type: "text/csv" });
+      const blob = new Blob([result.csvContent], {
+        type: "text/csv;charset=utf-8;",
+      });
       const downloadUrl = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = downloadUrl;
       link.download = `scraped_data_${new Date().toISOString().split("T")[0]}.csv`;
+      link.style.display = "none";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(downloadUrl);
 
+      // Show success message in console
+      console.log(`✅ Scraping completed successfully!`);
+      console.log(`📊 Total items scraped: ${result.totalItems}`);
       console.log(
-        `✅ Scraping completed! Downloaded ${result.totalItems} items as CSV`,
+        `📥 CSV file downloaded: scraped_data_${new Date().toISOString().split("T")[0]}.csv`,
       );
+      console.log(`📝 Preview of first few items:`, result.data?.slice(0, 3));
     } else {
-      console.error(`❌ Scraping failed: ${result.error}`);
+      console.error(`❌ Scraping failed: ${result.error || "Unknown error"}`);
+      console.log(
+        `💡 Try a different URL or check if the website allows scraping`,
+      );
     }
   } catch (error) {
     console.error(
-      `❌ Scraping error: ${error instanceof Error ? error.message : "Unknown error"}`,
+      `❌ Network error during scraping: ${error instanceof Error ? error.message : "Unknown error"}`,
     );
+    console.log(`💡 Please check your internet connection and try again`);
   }
 };
 
@@ -130,7 +152,7 @@ export const portfolioData = {
     role: "Data Analyst",
     location: "📍 Indore, India",
     phone: "📞 +91 8085546767",
-    email: "✉️ 0816surajyadav@gmail.com",
+    email: "✉�� 0816surajyadav@gmail.com",
     bio: `Currently working as a Data Analyst Trainee at Debugshala, where I handle end-to-end data workflows including scraping, preprocessing, database management, and cross-team collaboration for dashboard development.
 
 Highly motivated Data Analyst with hands-on experience in data scraping, preprocessing, and enrichment using Python and APIs like Groq/OpenAI.
@@ -234,31 +256,34 @@ export const createCommands = (
     handler: () => {
       return `Available Commands:
 
-Portfolio Commands:
+📋 Portfolio Commands:
   about        - Learn about me and my background
   skills       - View my technical skills and expertise
   projects     - Explore my featured projects
   experience   - View my work experience
   education    - See my educational background
+  certifications - View my certifications
   resume       - Download my resume
-  contact      - Get my contact information
+  contact      - Get my contact information (with clickable links)
 
-AI & Interactive Commands:
-  chat         - Start AI conversation
+🤖 AI & Interactive Commands:
+  chat         - Start AI conversation (Groq AI powered)
   ask <msg>    - Ask me anything via AI
   snake        - Play snake game
   python       - Python code compiler
   scrape <url> - Web scraper tool
 
-System Commands:
+🛠️ System Commands:
   clear        - Clear the terminal screen
   help         - Show this help message
   exit         - Refresh the session
 
-Tips:
+💡 Tips:
   - Use ↑/↓ arrow keys to navigate command history
   - Click commands in the header for quick access
-  - Try "ask me about my data analysis experience"`;
+  - All contact links are clickable!
+  - Try "ask me about my data analysis experience"
+  - Use "contact linkedin" for direct social media access`;
     },
   },
   {
@@ -310,7 +335,7 @@ Data Tools:
   ${datatools.map((skill) => `• ${skill}`).join("\n  ")}
 
 Databases:
-  ${databases.map((skill) => `• ${skill}`).join("\n  ")}
+  ${databases.map((skill) => `�� ${skill}`).join("\n  ")}
 
 Frameworks:
   ${frameworks.map((skill) => `• ${skill}`).join("\n  ")}
@@ -371,10 +396,10 @@ Try: "ask tell me more about the US Logistics Tech Strategy Research"`;
 📄 Your resume download has started!
 
 Resume Highlights:
-• Data Analyst with 4+ years experience
-• Expert in Python, SQL, and Machine Learning
-• Proven track record in business intelligence
-• Strong background in data visualization
+• Data Analyst Trainee at Debugshala (Feb 2025 - Present)
+• Expert in Python, SQL, and Data Analytics
+• Experience with data scraping and preprocessing
+• Strong background in data visualization with Power BI
 
 Current Status:
 ✅ Download initiated
@@ -461,12 +486,12 @@ Try: "ask about my certification journey"`;
 
       return `Contact Information
 
-📧 Email:     CLICKABLE_LINK:mailto:${email}:${email}
-📞 Phone:     CLICKABLE_LINK:tel:${phone}:${phone}
+📧 Email:     ${email}
+📞 Phone:     ${phone}
 📍 Location:  ${location}
-🐙 GitHub:    CLICKABLE_LINK:${github}:${github}
-💼 LinkedIn:  CLICKABLE_LINK:${linkedin}:${linkedin}
-📸 Instagram: CLICKABLE_LINK:${instagram}:${instagram}
+🐙 GitHub:    ${github}
+💼 LinkedIn:  ${linkedin}
+📸 Instagram: ${instagram}
 
 Feel free to reach out! I'm always interested in
 discussing new opportunities, projects, or just
@@ -488,7 +513,7 @@ Try: "ask what's the best way to contact you?"`;
     description: "Toggle light/dark theme",
     handler: () => {
       return `Theme Toggle
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━��
 
 🌙 Currently in Dark Mode (Terminal Style)
 ☀️  Light mode coming soon!
@@ -507,7 +532,7 @@ but I'm working on a light theme option.`;
       }, 2000);
 
       return `Goodbye! 👋
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━��━━━━━━━━━━━━
 
 Thanks for exploring my terminal portfolio!
 
@@ -569,18 +594,30 @@ Example:
 Usage: scrape <url>
 
 Examples:
-  scrape https://example.com
-  scrape https://api.example.com/data
+  scrape https://jsonplaceholder.typicode.com/posts
+  scrape https://api.github.com/users/octocat
 
 Features:
-• Extract data from websites
-• Parse APIs and JSON responses
-• Export to CSV format
-• AI-powered data cleaning
-• Automated data preprocessing
+• Extract data from websites and APIs
+• Parse JSON responses automatically
+• Export to CSV format with instant download
+• AI-powered data cleaning and preprocessing
+• Handle both HTML and JSON data sources
+
+Download Options:
+• Automatically downloads CSV file after scraping
+• File named with current date: scraped_data_YYYY-MM-DD.csv
+• Up to 100 records per scrape (performance optimized)
 
 Try: "scrape https://jsonplaceholder.typicode.com/posts"
 For AI data processing: "ask clean this scraped data"`;
+    },
+  },
+  {
+    name: "theme",
+    description: "Toggle light/dark theme",
+    handler: () => {
+      return `TOGGLE_THEME`;
     },
   },
   {
@@ -634,8 +671,7 @@ export const handleCommand = async (
         return `Opening GitHub profile: ${github}`;
       case "instagram":
       case "insta":
-        window.open(instagram, "_blank");
-        return `Opening Instagram profile: ${instagram}`;
+        return `Instagram: ${instagram}`;
       default:
         return `Social platform "${social}" not found. Available: linkedin, github, insta`;
     }
@@ -657,9 +693,11 @@ Example: scrape https://jsonplaceholder.typicode.com/posts`;
 
 Target URL: ${url}
 Status: Fetching data...
-Processing: Please wait while I extract the data
+Processing: Extracting and converting to CSV format
 
-This may take a few moments depending on the website size.`;
+📥 Download will start automatically when complete
+⏱️ This may take a few moments depending on the data size
+📊 Results will be limited to first 100 records for performance`;
     } catch (error) {
       return `Scraping Error: ${error instanceof Error ? error.message : "Unknown error"}`;
     }
