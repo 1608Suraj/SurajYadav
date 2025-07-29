@@ -46,11 +46,11 @@ export const CommandHeader: React.FC<CommandHeaderProps> = ({ onCommandClick, cl
             onClick={() => onCommandClick(cmd.name)}
             className={cn(
               "px-2 py-1 rounded text-xs sm:text-sm font-mono",
-              "transition-all duration-200",
+              "border transition-all duration-200",
               "cursor-pointer select-none whitespace-nowrap",
               theme === 'light'
-                ? "text-black border border-white hover:border-gray-200 hover:bg-gray-50"
-                : "text-white hover:bg-lime-500/10"
+                ? "text-black border-white hover:border-gray-200 hover:bg-gray-50"
+                : "text-white border-transparent hover:bg-lime-500/10"
             )}
             title={cmd.description}
           >
