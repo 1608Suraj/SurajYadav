@@ -357,14 +357,14 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
           <div className={cn(
             "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold",
             theme === 'light'
-              ? "bg-blue-700 text-white"
+              ? "bg-black text-white"
               : "bg-lime-500 text-black"
           )}>
             SY
           </div>
           <span className={cn(
             "font-semibold",
-            theme === 'light' ? "text-blue-700" : "text-lime-500"
+            theme === 'light' ? "text-black" : "text-lime-500"
           )}>
             Suraj Yadav
           </span>
