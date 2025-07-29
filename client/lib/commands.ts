@@ -314,7 +314,7 @@ Data Tools:
   ${datatools.map(skill => `• ${skill}`).join('\n  ')}
 
 Databases:
-  ${databases.map(skill => `• ${skill}`).join('\n  ')}
+  ${databases.map(skill => `�� ${skill}`).join('\n  ')}
 
 Frameworks:
   ${frameworks.map(skill => `• ${skill}`).join('\n  ')}
@@ -454,9 +454,9 @@ Try: "ask about my certification journey"`;
 📧 Email:     CLICKABLE_LINK:mailto:${email}:${email}
 📞 Phone:     CLICKABLE_LINK:tel:${phone}:${phone}
 📍 Location:  ${location}
-🐙 GitHub:    CLICKABLE_LINK:${github}:${github}
-💼 LinkedIn:  CLICKABLE_LINK:${linkedin}:${linkedin}
-📸 Instagram: CLICKABLE_LINK:${instagram}:${instagram}
+🐙 GitHub:    CLICKABLE_LINK:${github}:View GitHub Profile
+💼 LinkedIn:  CLICKABLE_LINK:${linkedin}:View LinkedIn Profile
+📸 Instagram: CLICKABLE_LINK:${instagram}:View Instagram Profile
 
 Feel free to reach out! I'm always interested in
 discussing new opportunities, projects, or just
@@ -497,7 +497,7 @@ but I'm working on a light theme option.`;
       }, 2000);
       
       return `Goodbye! 👋
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━��━━━━━━━━━━━━
 
 Thanks for exploring my terminal portfolio!
 
@@ -564,7 +564,7 @@ Examples:
 
 Features:
 • Extract data from websites and APIs
-�� Parse JSON responses automatically
+• Parse JSON responses automatically
 • Export to CSV format with instant download
 • AI-powered data cleaning and preprocessing
 • Handle both HTML and JSON data sources
