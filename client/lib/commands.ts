@@ -579,6 +579,13 @@ For AI data processing: "ask clean this scraped data"`;
     }
   },
   {
+    name: "theme",
+    description: "Toggle light/dark theme",
+    handler: () => {
+      return `TOGGLE_THEME`;
+    }
+  },
+  {
     name: "ask",
     description: "Ask me anything via AI",
     handler: () => {
