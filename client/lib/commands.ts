@@ -550,15 +550,20 @@ Example:
 Usage: scrape <url>
 
 Examples:
-  scrape https://example.com
-  scrape https://api.example.com/data
+  scrape https://jsonplaceholder.typicode.com/posts
+  scrape https://api.github.com/users/octocat
 
 Features:
-• Extract data from websites
-• Parse APIs and JSON responses
-• Export to CSV format
-• AI-powered data cleaning
-• Automated data preprocessing
+• Extract data from websites and APIs
+• Parse JSON responses automatically
+• Export to CSV format with instant download
+• AI-powered data cleaning and preprocessing
+• Handle both HTML and JSON data sources
+
+Download Options:
+• Automatically downloads CSV file after scraping
+• File named with current date: scraped_data_YYYY-MM-DD.csv
+• Up to 100 records per scrape (performance optimized)
 
 Try: "scrape https://jsonplaceholder.typicode.com/posts"
 For AI data processing: "ask clean this scraped data"`;
