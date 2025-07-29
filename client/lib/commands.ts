@@ -226,31 +226,34 @@ export const createCommands = (onAIChat?: (message: string) => Promise<string>):
     handler: () => {
       return `Available Commands:
 
-Portfolio Commands:
+📋 Portfolio Commands:
   about        - Learn about me and my background
   skills       - View my technical skills and expertise
   projects     - Explore my featured projects
   experience   - View my work experience
   education    - See my educational background
+  certifications - View my certifications
   resume       - Download my resume
-  contact      - Get my contact information
+  contact      - Get my contact information (with clickable links)
 
-AI & Interactive Commands:
-  chat         - Start AI conversation
+🤖 AI & Interactive Commands:
+  chat         - Start AI conversation (Groq AI powered)
   ask <msg>    - Ask me anything via AI
   snake        - Play snake game
   python       - Python code compiler
   scrape <url> - Web scraper tool
 
-System Commands:
+🛠️ System Commands:
   clear        - Clear the terminal screen
   help         - Show this help message
   exit         - Refresh the session
 
-Tips:
+💡 Tips:
   - Use ↑/↓ arrow keys to navigate command history
   - Click commands in the header for quick access
-  - Try "ask me about my data analysis experience"`;
+  - All contact links are clickable!
+  - Try "ask me about my data analysis experience"
+  - Use "contact linkedin" for direct social media access`;
     }
   },
   {
@@ -351,7 +354,7 @@ Try: "ask tell me more about the US Logistics Tech Strategy Research"`;
 Resume Highlights:
 • Data Analyst with 4+ years experience
 • Expert in Python, SQL, and Machine Learning
-• Proven track record in business intelligence
+��� Proven track record in business intelligence
 • Strong background in data visualization
 
 Current Status:
@@ -499,7 +502,7 @@ You can now ask me anything about:
 • Technical questions
 • Project details
 • Career advice
-• Or just have a casual chat!
+�� Or just have a casual chat!
 
 Usage:
   ask <your question>
@@ -646,7 +649,7 @@ This may take a few moments depending on the website size.`;
       return `AI Chat not available. The AI integration is currently being set up.
 
 In the meantime, try these commands:
-• about - Learn about my background
+�� about - Learn about my background
 • skills - View my technical skills
 • projects - Explore my work
 • contact - Get in touch directly`;
