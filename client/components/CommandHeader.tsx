@@ -25,18 +25,18 @@ const commands = [
 export const CommandHeader: React.FC<CommandHeaderProps> = ({ onCommandClick, className }) => {
   const { theme } = useThemeState();
 
+  const isLightTheme = theme === 'light';
+
   return (
     <div className={cn(
       "py-2.5 px-3 overflow-x-auto scrollbar-hide",
-      theme === 'light'
-        ? "bg-white"
-        : "bg-black",
+      isLightTheme ? "bg-white" : "bg-black",
       className
     )}>
       <div className="flex items-center gap-1 sm:gap-2 min-w-max">
         <span className={cn(
           "text-xs sm:text-sm font-mono mr-2 flex-shrink-0",
-          theme === 'light' ? "text-black" : "text-white"
+          isLightTheme ? "text-black" : "text-white"
         )}>
           Commands:
         </span>
@@ -48,7 +48,7 @@ export const CommandHeader: React.FC<CommandHeaderProps> = ({ onCommandClick, cl
               "px-2 py-1 rounded text-xs sm:text-sm font-mono",
               "border transition-all duration-200",
               "cursor-pointer select-none whitespace-nowrap",
-              theme === 'light'
+              isLightTheme
                 ? "text-black border-white hover:border-gray-200 hover:bg-gray-50"
                 : "text-white border-transparent hover:bg-lime-500/10"
             )}
