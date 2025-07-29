@@ -27,10 +27,10 @@ export const CommandHeader: React.FC<CommandHeaderProps> = ({ onCommandClick, cl
 
   return (
     <div className={cn(
-      "border-b py-2.5 px-3 overflow-x-auto scrollbar-hide",
+      "py-2.5 px-3 overflow-x-auto scrollbar-hide",
       theme === 'light'
-        ? "bg-gray-50 border-gray-300"
-        : "bg-black border-lime-500/30",
+        ? "bg-white"
+        : "bg-black",
       className
     )}>
       <div className="flex items-center gap-1 sm:gap-2 min-w-max">

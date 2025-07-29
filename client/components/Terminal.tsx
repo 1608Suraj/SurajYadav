@@ -339,7 +339,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       ref={terminalRef}
       className={cn(
         theme === 'light'
-          ? "bg-gray-100 text-blue-700 border border-gray-300"
+          ? "bg-gray-100 text-blue-700"
           : "bg-black text-lime-500",
         "font-mono h-full w-full overflow-hidden flex flex-col text-sm sm:text-base",
         className
@@ -347,10 +347,10 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
     >
       {/* Terminal Header */}
       <div className={cn(
-        "px-3 sm:px-4 py-2 border-b flex items-center gap-2",
+        "px-3 sm:px-4 py-2 flex items-center gap-2",
         theme === 'light'
-          ? "bg-white border-gray-300"
-          : "bg-black border-lime-500/30"
+          ? "bg-white"
+          : "bg-black"
       )}>
         <div className="flex items-center gap-3">
           {/* SY Logo */}
