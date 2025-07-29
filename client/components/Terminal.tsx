@@ -339,7 +339,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       ref={terminalRef}
       className={cn(
         theme === 'light'
-          ? "bg-gray-100 text-blue-700"
+          ? "bg-white text-blue-700"
           : "bg-black text-lime-500",
         "font-mono h-full w-full overflow-hidden flex flex-col text-sm sm:text-base",
         className
@@ -373,7 +373,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         <div className="flex-1 text-center flex flex-row items-center justify-center">
           <span className={cn(
             "text-xs sm:text-sm",
-            theme === 'light' ? "text-black" : "text-blue-500 terminal-text-glow"
+            theme === 'light' ? "text-black" : "text-white terminal-text-glow"
           )}>
             surajyadav@portfolio:~$
           </span>
