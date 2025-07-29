@@ -189,6 +189,14 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         return;
       }
 
+      if (response === 'TOGGLE_THEME') {
+        toggleTheme();
+        setIsTyping(false);
+        setIsProcessing(false);
+        addLine(`Theme switched to ${theme === 'light' ? 'dark' : 'light'} mode`, 'output');
+        return;
+      }
+
       // Simulate typing effect for response
       setIsTyping(true);
       setShowInput(false);
