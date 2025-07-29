@@ -36,7 +36,7 @@ export const CommandHeader: React.FC<CommandHeaderProps> = ({ onCommandClick, cl
       <div className="flex items-center gap-1 sm:gap-2 min-w-max">
         <span className={cn(
           "text-xs sm:text-sm font-mono mr-2 flex-shrink-0",
-          theme === 'light' ? "text-blue-700" : "text-lime-500"
+          theme === 'light' ? "text-black" : "text-lime-500"
         )}>
           Commands:
         </span>
