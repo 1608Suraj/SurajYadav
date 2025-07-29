@@ -87,21 +87,82 @@ export const handleScrape: RequestHandler = async (req, res) => {
 
         const html = await response.text();
         
-        // Basic HTML parsing (in production, you'd use a proper HTML parser)
+        // Enhanced HTML parsing to extract actual content
         const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
         const title = titleMatch ? titleMatch[1].trim() : 'No title found';
-        
+
         // Extract meta description
         const descMatch = html.match(/<meta[^>]*name="description"[^>]*content="([^"]*)"[^>]*>/i);
         const description = descMatch ? descMatch[1].trim() : 'No description found';
-        
-        // Extract some basic data
+
+        // Extract headings
+        const headings = [];
+        const h1Matches = html.match(/<h1[^>]*>([^<]+)<\/h1>/gi);
+        const h2Matches = html.match(/<h2[^>]*>([^<]+)<\/h2>/gi);
+        const h3Matches = html.match(/<h3[^>]*>([^<]+)<\/h3>/gi);
+
+        if (h1Matches) headings.push(...h1Matches.map(h => h.replace(/<[^>]*>/g, '').trim()));
+        if (h2Matches) headings.push(...h2Matches.map(h => h.replace(/<[^>]*>/g, '').trim()));
+        if (h3Matches) headings.push(...h3Matches.map(h => h.replace(/<[^>]*>/g, '').trim()));
+
+        // Extract paragraph content
+        const paragraphs = [];
+        const pMatches = html.match(/<p[^>]*>([^<]+)<\/p>/gi);
+        if (pMatches) {
+          paragraphs.push(...pMatches
+            .map(p => p.replace(/<[^>]*>/g, '').trim())
+            .filter(p => p.length > 20)
+            .slice(0, 10)
+          );
+        }
+
+        // Extract links
+        const links = [];
+        const linkMatches = html.match(/<a[^>]*href="([^"]*)"[^>]*>([^<]+)<\/a>/gi);
+        if (linkMatches) {
+          linkMatches.slice(0, 20).forEach(link => {
+            const hrefMatch = link.match(/href="([^"]*)"/);
+            const textMatch = link.match(/>([^<]+)</);
+            if (hrefMatch && textMatch) {
+              links.push({
+                url: hrefMatch[1],
+                text: textMatch[1].trim()
+              });
+            }
+          });
+        }
+
+        // Extract images
+        const images = [];
+        const imgMatches = html.match(/<img[^>]*src="([^"]*)"[^>]*>/gi);
+        if (imgMatches) {
+          imgMatches.slice(0, 10).forEach(img => {
+            const srcMatch = img.match(/src="([^"]*)"/);
+            const altMatch = img.match(/alt="([^"]*)"/);
+            if (srcMatch) {
+              images.push({
+                src: srcMatch[1],
+                alt: altMatch ? altMatch[1] : 'No alt text'
+              });
+            }
+          });
+        }
+
+        // Create detailed scraped data
         scrapedData = [{
           url: url,
           title: title,
           description: description,
+          headings: headings.slice(0, 10),
+          paragraphs: paragraphs.slice(0, 5),
+          links: links.slice(0, 15),
+          images: images.slice(0, 8),
           scrapedAt: new Date().toISOString(),
-          contentLength: html.length
+          contentLength: html.length,
+          totalHeadings: headings.length,
+          totalParagraphs: paragraphs.length,
+          totalLinks: links.length,
+          totalImages: images.length
         }];
       } catch (error) {
         return res.json({
