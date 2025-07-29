@@ -78,6 +78,8 @@ const downloadResume = (content: string): void => {
 
 const executeScraping = async (url: string): Promise<void> => {
   try {
+    console.log(`🔄 Initiating scrape for: ${url}`);
+
     const response = await fetch('/api/scrape', {
       method: 'POST',
       headers: {
@@ -90,22 +92,29 @@ const executeScraping = async (url: string): Promise<void> => {
 
     if (result.success && result.csvContent) {
       // Download CSV file
-      const blob = new Blob([result.csvContent], { type: 'text/csv' });
+      const blob = new Blob([result.csvContent], { type: 'text/csv;charset=utf-8;' });
       const downloadUrl = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = downloadUrl;
       link.download = `scraped_data_${new Date().toISOString().split('T')[0]}.csv`;
+      link.style.display = 'none';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(downloadUrl);
 
-      console.log(`✅ Scraping completed! Downloaded ${result.totalItems} items as CSV`);
+      // Show success message in console
+      console.log(`✅ Scraping completed successfully!`);
+      console.log(`📊 Total items scraped: ${result.totalItems}`);
+      console.log(`📥 CSV file downloaded: scraped_data_${new Date().toISOString().split('T')[0]}.csv`);
+      console.log(`📝 Preview of first few items:`, result.data?.slice(0, 3));
     } else {
-      console.error(`❌ Scraping failed: ${result.error}`);
+      console.error(`❌ Scraping failed: ${result.error || 'Unknown error'}`);
+      console.log(`💡 Try a different URL or check if the website allows scraping`);
     }
   } catch (error) {
-    console.error(`❌ Scraping error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    console.error(`❌ Network error during scraping: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    console.log(`💡 Please check your internet connection and try again`);
   }
 };
 
@@ -469,7 +478,7 @@ Try: "ask what's the best way to contact you?"`;
     description: "Toggle light/dark theme",
     handler: () => {
       return `Theme Toggle
-━━━━━���━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━��
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━��
 
 🌙 Currently in Dark Mode (Terminal Style)
 ☀️  Light mode coming soon!
@@ -555,7 +564,7 @@ Examples:
 
 Features:
 • Extract data from websites and APIs
-• Parse JSON responses automatically
+�� Parse JSON responses automatically
 • Export to CSV format with instant download
 • AI-powered data cleaning and preprocessing
 • Handle both HTML and JSON data sources
