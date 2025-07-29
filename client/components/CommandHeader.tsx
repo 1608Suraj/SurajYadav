@@ -30,13 +30,13 @@ export const CommandHeader: React.FC<CommandHeaderProps> = ({ onCommandClick, cl
       "border-b py-2.5 px-3 overflow-x-auto scrollbar-hide",
       theme === 'light'
         ? "bg-gray-50 border-gray-300"
-        : "bg-black/90 border-lime-500/30",
+        : "bg-black border-lime-500/30",
       className
     )}>
       <div className="flex items-center gap-1 sm:gap-2 min-w-max">
         <span className={cn(
           "text-xs sm:text-sm font-mono mr-2 flex-shrink-0",
-          theme === 'light' ? "text-black" : "text-lime-500"
+          theme === 'light' ? "text-black" : "text-white"
         )}>
           Commands:
         </span>
@@ -50,7 +50,7 @@ export const CommandHeader: React.FC<CommandHeaderProps> = ({ onCommandClick, cl
               "cursor-pointer select-none whitespace-nowrap",
               theme === 'light'
                 ? "text-black border-white hover:border-gray-200 hover:bg-gray-50"
-                : "text-lime-500 border-black hover:border-lime-500/30 hover:bg-lime-500/10"
+                : "text-white border-black hover:border-lime-500/30 hover:bg-lime-500/10"
             )}
             title={cmd.description}
           >

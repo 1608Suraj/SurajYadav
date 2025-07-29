@@ -310,7 +310,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
           <div key={line.id} className={cn(
             baseClasses,
             "break-words",
-            theme === 'light' ? "text-gray-700" : "text-gray-200"
+            theme === 'light' ? "text-gray-700" : "text-white"
           )}>
             {renderContent(line.content)}
           </div>
@@ -350,7 +350,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         "px-3 sm:px-4 py-2 border-b flex items-center gap-2",
         theme === 'light'
           ? "bg-white border-gray-300"
-          : "bg-gray-900/90 border-lime-500/30"
+          : "bg-black border-lime-500/30"
       )}>
         <div className="flex items-center gap-3">
           {/* SY Logo */}
@@ -373,7 +373,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         <div className="flex-1 text-center flex flex-row items-center justify-center">
           <span className={cn(
             "text-xs sm:text-sm",
-            theme === 'light' ? "text-black" : "text-gray-400"
+            theme === 'light' ? "text-black" : "text-blue-400 terminal-text-glow"
           )}>
             surajyadav@portfolio:~$
           </span>
@@ -420,7 +420,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
               <div className="flex items-center font-mono text-sm sm:text-base">
                 <span className={cn(
               "mr-2",
-              theme === 'light' ? "text-black" : "text-lime-500 terminal-text-glow"
+              theme === 'light' ? "text-black" : "text-blue-400 terminal-text-glow"
             )}>
               surajyadav@portfolio:~$
             </span>
