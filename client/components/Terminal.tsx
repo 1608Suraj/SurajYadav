@@ -42,56 +42,59 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
 
   // Welcome message
   useEffect(() => {
-    const welcomeLines: TerminalLine[] = [
-      {
-        id: 'welcome-1',
-        type: 'system',
-        content: 'surajyadav@portfolio:~$ welcome',
-      },
-      {
-        id: 'welcome-2',
-        type: 'output',
-        content: '',
-      },
-      {
-        id: 'welcome-3',
-        type: 'output',
-        content: 'Hi, I\'m Suraj Yadav, a Data Analyst.',
-      },
-      {
-        id: 'welcome-4',
-        type: 'output',
-        content: 'Welcome to my interactive "AI powered" portfolio terminal!',
-      },
-      {
-        id: 'welcome-5',
-        type: 'output',
-        content: '',
-      },
-      {
-        id: 'welcome-6',
-        type: 'output',
-        content: 'Type "help" to see available commands.',
-      },
-      {
-        id: 'welcome-7',
-        type: 'output',
-        content: '',
-      }
-    ];
-
-    // Simulate typing effect for welcome message
-    setIsTyping(true);
-    welcomeLines.forEach((line, index) => {
-      setTimeout(() => {
-        setLines(prev => [...prev, line]);
-        if (index === welcomeLines.length - 1) {
-          setIsTyping(false);
-          setShowInput(true);
+    // Only initialize welcome message if no lines exist
+    if (lines.length === 0) {
+      const welcomeLines: TerminalLine[] = [
+        {
+          id: `welcome-1-${Date.now()}`,
+          type: 'system',
+          content: 'surajyadav@portfolio:~$ welcome',
+        },
+        {
+          id: `welcome-2-${Date.now()}`,
+          type: 'output',
+          content: '',
+        },
+        {
+          id: `welcome-3-${Date.now()}`,
+          type: 'output',
+          content: 'Hi, I\'m Suraj Yadav, a Data Analyst.',
+        },
+        {
+          id: `welcome-4-${Date.now()}`,
+          type: 'output',
+          content: 'Welcome to my interactive "AI powered" portfolio terminal!',
+        },
+        {
+          id: `welcome-5-${Date.now()}`,
+          type: 'output',
+          content: '',
+        },
+        {
+          id: `welcome-6-${Date.now()}`,
+          type: 'output',
+          content: 'Type "help" to see available commands.',
+        },
+        {
+          id: `welcome-7-${Date.now()}`,
+          type: 'output',
+          content: '',
         }
-      }, index * 150); // 1.5x speed
-    });
-  }, []);
+      ];
+
+      // Simulate typing effect for welcome message
+      setIsTyping(true);
+      welcomeLines.forEach((line, index) => {
+        setTimeout(() => {
+          setLines(prev => [...prev, line]);
+          if (index === welcomeLines.length - 1) {
+            setIsTyping(false);
+            setShowInput(true);
+          }
+        }, index * 150); // 1.5x speed
+      });
+    }
+  }, [lines.length]);
 
   // Cursor blinking effect
   useEffect(() => {
