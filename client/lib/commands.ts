@@ -469,7 +469,7 @@ Try: "ask what's the best way to contact you?"`;
     description: "Toggle light/dark theme",
     handler: () => {
       return `Theme Toggle
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━��
+━━━━━���━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━��
 
 🌙 Currently in Dark Mode (Terminal Style)
 ☀️  Light mode coming soon!
@@ -643,9 +643,11 @@ Example: scrape https://jsonplaceholder.typicode.com/posts`;
 
 Target URL: ${url}
 Status: Fetching data...
-Processing: Please wait while I extract the data
+Processing: Extracting and converting to CSV format
 
-This may take a few moments depending on the website size.`;
+📥 Download will start automatically when complete
+⏱️ This may take a few moments depending on the data size
+📊 Results will be limited to first 100 records for performance`;
     } catch (error) {
       return `Scraping Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
     }
