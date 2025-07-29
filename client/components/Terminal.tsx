@@ -82,17 +82,25 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         }
       ];
 
-      // Simulate typing effect for welcome message
+      // Enhanced typewriter effect for welcome message
       setIsTyping(true);
-      welcomeLines.forEach((line, index) => {
-        setTimeout(() => {
-          setLines(prev => [...prev, line]);
-          if (index === welcomeLines.length - 1) {
-            setIsTyping(false);
-            setShowInput(true);
-          }
-        }, index * 150); // 1.5x speed
-      });
+      let currentLineIndex = 0;
+
+      const typeWelcomeLines = () => {
+        if (currentLineIndex >= welcomeLines.length) {
+          setIsTyping(false);
+          setShowInput(true);
+          return;
+        }
+
+        const currentLine = welcomeLines[currentLineIndex];
+        setLines(prev => [...prev, currentLine]);
+        currentLineIndex++;
+
+        setTimeout(typeWelcomeLines, currentLine.content.length > 30 ? 200 : 300);
+      };
+
+      typeWelcomeLines();
     }
   }, [lines.length]);
 
