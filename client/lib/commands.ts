@@ -330,7 +330,7 @@ Try: "ask tell me about your Python experience"`;
     handler: () => {
       const projectList = portfolioData.projects.map((project, index) => {
         const techStack = project.tech.join(', ');
-        const separator = index > 0 ? '\n��━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' : '';
+        const separator = index > 0 ? '\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' : '';
         const projectNumber = index + 1;
         return `${separator}
 ${projectNumber}. 📦 ${project.name} ${project.status}
@@ -361,10 +361,10 @@ Try: "ask tell me more about the US Logistics Tech Strategy Research"`;
 📄 Your resume download has started!
 
 Resume Highlights:
-• Data Analyst with 4+ years experience
-• Expert in Python, SQL, and Machine Learning
-• Proven track record in business intelligence
-• Strong background in data visualization
+• Data Analyst Trainee at Debugshala (Feb 2025 - Present)
+• Expert in Python, SQL, and Data Analytics
+• Experience with data scraping and preprocessing
+• Strong background in data visualization with Power BI
 
 Current Status:
 ✅ Download initiated
@@ -469,7 +469,7 @@ Try: "ask what's the best way to contact you?"`;
     description: "Toggle light/dark theme",
     handler: () => {
       return `Theme Toggle
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━�����
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━��
 
 🌙 Currently in Dark Mode (Terminal Style)
 ☀️  Light mode coming soon!
