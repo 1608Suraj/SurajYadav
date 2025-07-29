@@ -330,7 +330,7 @@ Try: "ask tell me about your Python experience"`;
     handler: () => {
       const projectList = portfolioData.projects.map((project, index) => {
         const techStack = project.tech.join(', ');
-        const separator = index > 0 ? '\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' : '';
+        const separator = index > 0 ? '\n��━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' : '';
         const projectNumber = index + 1;
         return `${separator}
 ${projectNumber}. 📦 ${project.name} ${project.status}
@@ -445,9 +445,9 @@ Try: "ask about my certification journey"`;
 📧 Email:     CLICKABLE_LINK:mailto:${email}:${email}
 📞 Phone:     CLICKABLE_LINK:tel:${phone}:${phone}
 📍 Location:  ${location}
-🐙 GitHub:    CLICKABLE_LINK:${github}:GitHub Profile
-💼 LinkedIn:  CLICKABLE_LINK:${linkedin}:LinkedIn Profile
-📸 Instagram: CLICKABLE_LINK:${instagram}:Instagram Profile
+🐙 GitHub:    CLICKABLE_LINK:${github}:${github}
+💼 LinkedIn:  CLICKABLE_LINK:${linkedin}:${linkedin}
+📸 Instagram: CLICKABLE_LINK:${instagram}:${instagram}
 
 Feel free to reach out! I'm always interested in
 discussing new opportunities, projects, or just
@@ -469,7 +469,7 @@ Try: "ask what's the best way to contact you?"`;
     description: "Toggle light/dark theme",
     handler: () => {
       return `Theme Toggle
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━�����
 
 🌙 Currently in Dark Mode (Terminal Style)
 ☀️  Light mode coming soon!
