@@ -23,14 +23,21 @@ const commands = [
 ];
 
 export const CommandHeader: React.FC<CommandHeaderProps> = ({ onCommandClick, className }) => {
+  const { theme } = useThemeState();
+
   return (
     <div className={cn(
-      "bg-black/90 border-b border-lime-500/30 py-2.5 px-3",
-      "overflow-x-auto scrollbar-hide",
+      "border-b py-2.5 px-3 overflow-x-auto scrollbar-hide",
+      theme === 'light'
+        ? "bg-gray-50 border-gray-300"
+        : "bg-black/90 border-lime-500/30",
       className
     )}>
       <div className="flex items-center gap-1 sm:gap-2 min-w-max">
-        <span className="text-lime-500 text-xs sm:text-sm font-mono mr-2 flex-shrink-0">
+        <span className={cn(
+          "text-xs sm:text-sm font-mono mr-2 flex-shrink-0",
+          theme === 'light' ? "text-blue-700" : "text-lime-500"
+        )}>
           Commands:
         </span>
         {commands.map((cmd) => (
