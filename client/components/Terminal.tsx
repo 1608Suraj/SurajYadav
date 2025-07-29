@@ -407,7 +407,12 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
             {/* Current Input Line */}
             {showInput && !isTyping && (
               <div className="flex items-center font-mono text-sm sm:text-base">
-                <span className="text-lime-500 mr-2 terminal-text-glow">surajyadav@portfolio:~$</span>
+                <span className={cn(
+              "mr-2",
+              theme === 'light' ? "text-blue-700" : "text-lime-500 terminal-text-glow"
+            )}>
+              surajyadav@portfolio:~$
+            </span>
             <input
               ref={inputRef}
               type="text"
@@ -415,12 +420,18 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
               onChange={(e) => setCurrentInput(e.target.value)}
               onKeyDown={handleKeyDown}
               disabled={isProcessing}
-              className="flex-1 bg-transparent border-none outline-none text-lime-500 caret-lime-500 terminal-text-glow placeholder:text-lime-500/50 font-semibold"
+              className={cn(
+                "flex-1 bg-transparent border-none outline-none font-semibold",
+                theme === 'light'
+                  ? "text-blue-700 caret-blue-700 placeholder:text-blue-700/50"
+                  : "text-lime-500 caret-lime-500 terminal-text-glow placeholder:text-lime-500/50"
+              )}
               placeholder={isProcessing ? "Processing..." : "type here"}
               autoFocus
             />
             <span className={cn(
-              "w-2 h-4 sm:h-5 bg-lime-500 ml-1 terminal-text-glow",
+              "w-2 h-4 sm:h-5 ml-1",
+              theme === 'light' ? "bg-blue-700" : "bg-lime-500 terminal-text-glow",
               cursorVisible ? "opacity-100" : "opacity-0",
               "transition-opacity duration-100"
             )}></span>
