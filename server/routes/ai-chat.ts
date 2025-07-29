@@ -4,7 +4,7 @@ import { z } from "zod";
 // Request schema validation
 const ChatRequestSchema = z.object({
   message: z.string().min(1).max(1000),
-  context: z.string().optional()
+  context: z.string().optional(),
 });
 
 interface ChatResponse {
@@ -16,15 +16,16 @@ export const handleAIChat: RequestHandler = async (req, res) => {
   try {
     // Validate request body
     const validation = ChatRequestSchema.safeParse(req.body);
-    
+
     if (!validation.success) {
       return res.status(400).json({
-        error: "Invalid request. Message is required and must be between 1-1000 characters."
+        error:
+          "Invalid request. Message is required and must be between 1-1000 characters.",
       } as ChatResponse);
     }
 
     const { message } = validation.data;
-    
+
     // Check if Groq API key is configured
     const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
@@ -50,7 +51,7 @@ For now, try these commands to learn more:
 • about - My background and experience
 • skills - Technical expertise
 • projects - Featured work
-• contact - Get in touch directly`
+• contact - Get in touch directly`,
       } as ChatResponse);
     }
 
@@ -104,32 +105,37 @@ Response Guidelines:
 `;
 
     // Make request to Groq
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: "llama3-8b-8192",
+          messages: [
+            {
+              role: "system",
+              content: portfolioContext,
+            },
+            {
+              role: "user",
+              content: message,
+            },
+          ],
+          max_tokens: 300,
+          temperature: 0.7,
+        }),
       },
-      body: JSON.stringify({
-        model: 'llama3-8b-8192',
-        messages: [
-          {
-            role: 'system',
-            content: portfolioContext
-          },
-          {
-            role: 'user',
-            content: message
-          }
-        ],
-        max_tokens: 300,
-        temperature: 0.7,
-      }),
-    });
+    );
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-      console.error('Groq API Error:', errorData);
+      const errorData = await response
+        .json()
+        .catch(() => ({ error: "Unknown error" }));
+      console.error("Groq API Error:", errorData);
 
       return res.json({
         response: `🤖 AI temporarily unavailable
@@ -142,7 +148,7 @@ While I get that sorted out, you can still explore:
 • projects - Check out my featured work
 • contact - Get in touch directly
 
-Please try your AI question again in a moment!`
+Please try your AI question again in a moment!`,
       } as ChatResponse);
     }
 
@@ -150,16 +156,15 @@ Please try your AI question again in a moment!`
     const aiResponse = data.choices?.[0]?.message?.content;
 
     if (!aiResponse) {
-      throw new Error('No response from AI');
+      throw new Error("No response from AI");
     }
 
     res.json({
-      response: `🤖 ${aiResponse}`
+      response: `🤖 ${aiResponse}`,
     } as ChatResponse);
-
   } catch (error) {
-    console.error('AI Chat Error:', error);
-    
+    console.error("AI Chat Error:", error);
+
     res.json({
       response: `🤖 Oops! Something went wrong
 
@@ -171,7 +176,7 @@ In the meantime, you can explore my portfolio using:
 • projects - Featured projects and work
 • contact - Ways to get in touch
 
-Please try asking again, or feel free to use the other commands!`
+Please try asking again, or feel free to use the other commands!`,
     } as ChatResponse);
   }
 };

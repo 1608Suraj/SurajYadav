@@ -1,6 +1,6 @@
-import React from 'react';
-import { cn } from '@/lib/utils';
-import { useThemeState } from '@/hooks/use-theme';
+import React from "react";
+import { cn } from "@/lib/utils";
+import { useThemeState } from "@/hooks/use-theme";
 
 interface CommandHeaderProps {
   onCommandClick: (command: string) => void;
@@ -8,36 +8,43 @@ interface CommandHeaderProps {
 }
 
 const commands = [
-  { name: 'help', description: 'Show commands' },
-  { name: 'about', description: 'About me' },
-  { name: 'projects', description: 'My projects' },
-  { name: 'skills', description: 'Tech skills' },
-  { name: 'experience', description: 'Work experience' },
-  { name: 'education', description: 'Education' },
-  { name: 'resume', description: 'Download resume' },
-  { name: 'contact', description: 'Contact info' },
-  { name: 'chat', description: 'AI chat' },
-  { name: 'snake', description: 'Snake game' },
-  { name: 'python', description: 'Python compiler' },
-  { name: 'scrape', description: 'Web scraper' }
+  { name: "help", description: "Show commands" },
+  { name: "about", description: "About me" },
+  { name: "projects", description: "My projects" },
+  { name: "skills", description: "Tech skills" },
+  { name: "experience", description: "Work experience" },
+  { name: "education", description: "Education" },
+  { name: "resume", description: "Download resume" },
+  { name: "contact", description: "Contact info" },
+  { name: "chat", description: "AI chat" },
+  { name: "snake", description: "Snake game" },
+  { name: "python", description: "Python compiler" },
+  { name: "scrape", description: "Web scraper" },
 ];
 
-export const CommandHeader: React.FC<CommandHeaderProps> = ({ onCommandClick, className }) => {
+export const CommandHeader: React.FC<CommandHeaderProps> = ({
+  onCommandClick,
+  className,
+}) => {
   const { theme } = useThemeState();
 
-  const isLightTheme = theme === 'light';
+  const isLightTheme = theme === "light";
 
   return (
-    <div className={cn(
-      "py-2.5 px-3 overflow-x-auto scrollbar-hide",
-      isLightTheme ? "bg-white" : "bg-black",
-      className
-    )}>
+    <div
+      className={cn(
+        "py-2.5 px-3 overflow-x-auto scrollbar-hide",
+        isLightTheme ? "bg-white" : "bg-black",
+        className,
+      )}
+    >
       <div className="flex items-center gap-1 sm:gap-2 min-w-max">
-        <span className={cn(
-          "text-xs sm:text-sm font-mono mr-2 flex-shrink-0",
-          isLightTheme ? "text-black" : "text-white"
-        )}>
+        <span
+          className={cn(
+            "text-xs sm:text-sm font-mono mr-2 flex-shrink-0",
+            isLightTheme ? "text-black" : "text-white",
+          )}
+        >
           Commands:
         </span>
         {commands.map((cmd) => (
@@ -50,7 +57,7 @@ export const CommandHeader: React.FC<CommandHeaderProps> = ({ onCommandClick, cl
               "cursor-pointer select-none whitespace-nowrap",
               isLightTheme
                 ? "text-black border-white hover:border-gray-200 hover:bg-gray-50"
-                : "text-white border-transparent hover:bg-lime-500/10"
+                : "text-white border-transparent hover:bg-lime-500/10",
             )}
             title={cmd.description}
           >
