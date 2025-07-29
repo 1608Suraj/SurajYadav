@@ -6,15 +6,7 @@ export interface Command {
 }
 
 const generateResumeContent = (): string => {
-  const {
-    about,
-    skills,
-    experience,
-    education,
-    certifications,
-    contact,
-    projects,
-  } = portfolioData;
+  const { about, skills, experience, education, certifications, contact, projects } = portfolioData;
 
   return `
 SURAJ YADAV
@@ -25,46 +17,34 @@ ABOUT
 ${about.bio}
 
 EXPERIENCE
-${experience
-  .map(
-    (exp) => `
+${experience.map(exp => `
 ${exp.company} - ${exp.position}
 ${exp.duration}
 ${exp.description}
-`,
-  )
-  .join("\n")}
+`).join('\n')}
 
 EDUCATION
-${education
-  .map(
-    (edu) => `
+${education.map(edu => `
 ${edu.institution}
 ${edu.degree} | ${edu.year}
 GPA: ${edu.gpa}
-`,
-  )
-  .join("\n")}
+`).join('\n')}
 
 TECHNICAL SKILLS
-Data Analytics: ${skills.analytics.join(", ")}
-Data Science: ${skills.datascience.join(", ")}
-AI & ML: ${skills.ai.join(", ")}
-Tools: ${skills.tools.join(", ")}
+Data Analytics: ${skills.analytics.join(', ')}
+Data Science: ${skills.datascience.join(', ')}
+AI & ML: ${skills.ai.join(', ')}
+Tools: ${skills.tools.join(', ')}
 
 CERTIFICATIONS
-${certifications.map((cert) => `• ${cert}`).join("\n")}
+${certifications.map(cert => `• ${cert}`).join('\n')}
 
 FEATURED PROJECTS
-${projects
-  .map(
-    (project) => `
+${projects.map(project => `
 ${project.name} (${project.status})
 ${project.description}
-Technologies: ${project.tech.join(", ")}
-`,
-  )
-  .join("\n")}
+Technologies: ${project.tech.join(', ')}
+`).join('\n')}
 
 CONTACT
 Email: ${contact.email}
@@ -76,11 +56,11 @@ Website: ${contact.website}
 
 const downloadResume = (content: string): void => {
   // Create a simple text version for download
-  const blob = new Blob([content], { type: "text/plain" });
+  const blob = new Blob([content], { type: 'text/plain' });
   const url = window.URL.createObjectURL(blob);
-  const link = document.createElement("a");
+  const link = document.createElement('a');
   link.href = url;
-  link.download = "Suraj_Yadav_Resume.txt";
+  link.download = 'Suraj_Yadav_Resume.txt';
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -89,10 +69,10 @@ const downloadResume = (content: string): void => {
 
 const executeScraping = async (url: string): Promise<void> => {
   try {
-    const response = await fetch("/api/scrape", {
-      method: "POST",
+    const response = await fetch('/api/scrape', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ url }),
     });
@@ -101,26 +81,22 @@ const executeScraping = async (url: string): Promise<void> => {
 
     if (result.success && result.csvContent) {
       // Download CSV file
-      const blob = new Blob([result.csvContent], { type: "text/csv" });
+      const blob = new Blob([result.csvContent], { type: 'text/csv' });
       const downloadUrl = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = downloadUrl;
-      link.download = `scraped_data_${new Date().toISOString().split("T")[0]}.csv`;
+      link.download = `scraped_data_${new Date().toISOString().split('T')[0]}.csv`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(downloadUrl);
 
-      console.log(
-        `✅ Scraping completed! Downloaded ${result.totalItems} items as CSV`,
-      );
+      console.log(`✅ Scraping completed! Downloaded ${result.totalItems} items as CSV`);
     } else {
       console.error(`❌ Scraping failed: ${result.error}`);
     }
   } catch (error) {
-    console.error(
-      `❌ Scraping error: ${error instanceof Error ? error.message : "Unknown error"}`,
-    );
+    console.error(`❌ Scraping error: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 };
 
@@ -130,7 +106,7 @@ export const portfolioData = {
     role: "Data Analyst",
     location: "📍 Indore, India",
     phone: "📞 +91 8085546767",
-    email: "✉️ 0816surajyadav@gmail.com",
+    email: "✉�� 0816surajyadav@gmail.com",
     bio: `Currently working as a Data Analyst Trainee at Debugshala, where I handle end-to-end data workflows including scraping, preprocessing, database management, and cross-team collaboration for dashboard development.
 
 Highly motivated Data Analyst with hands-on experience in data scraping, preprocessing, and enrichment using Python and APIs like Groq/OpenAI.
@@ -142,52 +118,72 @@ Proficient in visual analytics using Power BI and Excel, and capable of supporti
 Quick learner with a keen interest in backend development, API integrations, and AI/ML-driven insights for business transformation.`,
   },
   skills: {
-    languages: ["Python", "SQL"],
-    libraries: ["Pandas", "NumPy", "Matplotlib", "Seaborn", "Scrapy"],
-    datatools: ["Power BI", "Excel (Advanced)", "Google Colab"],
-    databases: ["MySQL", "MongoDB"],
-    frameworks: ["Streamlit", "Flask (Basic)", "Django (Learning Phase)"],
-    apis: ["Groq API", "OpenAI API", "RESTful APIs"],
+    languages: [
+      "Python",
+      "SQL"
+    ],
+    libraries: [
+      "Pandas",
+      "NumPy",
+      "Matplotlib",
+      "Seaborn",
+      "Scrapy"
+    ],
+    datatools: [
+      "Power BI",
+      "Excel (Advanced)",
+      "Google Colab"
+    ],
+    databases: [
+      "MySQL",
+      "MongoDB"
+    ],
+    frameworks: [
+      "Streamlit",
+      "Flask (Basic)",
+      "Django (Learning Phase)"
+    ],
+    apis: [
+      "Groq API",
+      "OpenAI API",
+      "RESTful APIs"
+    ],
     concepts: [
       "EDA",
       "OOP",
       "Data Structures",
       "API Integration",
-      "Error Handling",
+      "Error Handling"
     ],
-    tools: ["Git & GitHub"],
+    tools: [
+      "Git & GitHub"
+    ]
   },
   projects: [
     {
       id: 1,
       name: "US Logistics Tech Strategy Research",
-      description:
-        "Scraped data on top US logistics companies from multiple sources using Scrapy. Preprocessed data using Pandas and NumPy to clean and structure key company attributes.",
+      description: "Scraped data on top US logistics companies from multiple sources using Scrapy. Preprocessed data using Pandas and NumPy to clean and structure key company attributes.",
       tech: ["Python", "WebScraper", "Pandas", "MongoDB", "Groq API"],
       status: "✅ Completed",
-      details:
-        "Integrated Groq API to enrich company profiles with ARR growth insights and tech stack data. Uploaded structured datasets to MongoDB for scalable access and analysis.",
+      details: "Integrated Groq API to enrich company profiles with ARR growth insights and tech stack data. Uploaded structured datasets to MongoDB for scalable access and analysis."
     },
     {
       id: 2,
       name: "AI Chatbot using Groq & OpenAI",
-      description:
-        "Built a conversational chatbot using OpenAI for generating human-like responses. Integrated Groq API for low-latency language processing.",
+      description: "Built a conversational chatbot using OpenAI for generating human-like responses. Integrated Groq API for low-latency language processing.",
       tech: ["Python", "Groq API", "OpenAI API", "Streamlit"],
       status: "🚀 Live",
-      details:
-        "Deployed via Streamlit to offer a user-friendly web interface. Designed modular intent handling for extensibility and domain-specific customization.",
+      details: "Deployed via Streamlit to offer a user-friendly web interface. Designed modular intent handling for extensibility and domain-specific customization."
     },
     {
       id: 3,
       name: "Email Automation System",
-      description:
-        "Automated email sending using Python's SMTP libraries for bulk communication. Integrated Pandas to manage recipient data from Excel sheets.",
+      description: "Automated email sending using Python's SMTP libraries for bulk communication. Integrated Pandas to manage recipient data from Excel sheets.",
       tech: ["Python", "SMTP", "Pandas"],
       status: "✅ Completed",
-      details:
-        "Implemented error handling and logging for failed deliveries and retries. Scheduled scripts to run periodically using task schedulers.",
-    },
+      details: "Implemented error handling and logging for failed deliveries and retries. Scheduled scripts to run periodically using task schedulers."
+    }
   ],
   contact: {
     email: "0816surajyadav@gmail.com",
@@ -195,38 +191,34 @@ Quick learner with a keen interest in backend development, API integrations, and
     github: "https://github.com/1608Suraj",
     linkedin: "https://www.linkedin.com/in/suraj-yadav-5620902b2/",
     instagram: "https://www.instagram.com/_suraj.py?igsh=MWd3bzFvangyZHNkeQ==",
-    location: "Indore, India",
+    location: "Indore, India"
   },
   experience: [
     {
       company: "Debugshala",
       position: "Data Analyst Trainee",
       duration: "Feb 2025 – Present",
-      description:
-        "Cleaned and structured datasets using Pandas and NumPy for internal analytics projects. Built dashboards using Power BI and Excel to track project KPIs. Developed modular and readable Python code for reuse in future data pipeline projects.",
-    },
+      description: "Cleaned and structured datasets using Pandas and NumPy for internal analytics projects. Built dashboards using Power BI and Excel to track project KPIs. Developed modular and readable Python code for reuse in future data pipeline projects."
+    }
   ],
   education: [
     {
-      institution:
-        "Holkar Science College, Devi Ahilya Vishwavidyalaya (DAVV), Indore",
+      institution: "Holkar Science College, Devi Ahilya Vishwavidyalaya (DAVV), Indore",
       degree: "Bachelor of Science (B.Sc.) in Computer Science",
       year: "Present",
-      status: "Currently Pursuing",
-    },
+      status: "Currently Pursuing"
+    }
   ],
   certifications: [
     "Data Analysis with Python",
     "Machine Learning Fundamentals",
     "SQL for Data Science",
     "Power BI Certification",
-    "MongoDB Basics",
-  ],
+    "MongoDB Basics"
+  ]
 };
 
-export const createCommands = (
-  onAIChat?: (message: string) => Promise<string>,
-): Command[] => [
+export const createCommands = (onAIChat?: (message: string) => Promise<string>): Command[] => [
   {
     name: "help",
     description: "Show available commands",
@@ -259,7 +251,7 @@ Tips:
   - Use ↑/↓ arrow keys to navigate command history
   - Click commands in the header for quick access
   - Try "ask me about my data analysis experience"`;
-    },
+    }
   },
   {
     name: "about",
@@ -280,74 +272,60 @@ ${bio}
 Type 'skills' to see my technical expertise
 Type 'projects' to explore my work
 Type 'contact' to get in touch!`;
-    },
+    }
   },
   {
     name: "skills",
     description: "View my technical skills and expertise",
     aliases: ["tech", "stack"],
     handler: () => {
-      const {
-        languages,
-        libraries,
-        datatools,
-        databases,
-        frameworks,
-        apis,
-        concepts,
-        tools,
-      } = portfolioData.skills;
+      const { languages, libraries, datatools, databases, frameworks, apis, concepts, tools } = portfolioData.skills;
 
       return `Technical Skills
 
 Languages:
-  ${languages.map((skill) => `• ${skill}`).join("\n  ")}
+  ${languages.map(skill => `• ${skill}`).join('\n  ')}
 
 Libraries:
-  ${libraries.map((skill) => `• ${skill}`).join("\n  ")}
+  ${libraries.map(skill => `• ${skill}`).join('\n  ')}
 
 Data Tools:
-  ${datatools.map((skill) => `• ${skill}`).join("\n  ")}
+  ${datatools.map(skill => `• ${skill}`).join('\n  ')}
 
 Databases:
-  ${databases.map((skill) => `• ${skill}`).join("\n  ")}
+  ${databases.map(skill => `• ${skill}`).join('\n  ')}
 
 Frameworks:
-  ${frameworks.map((skill) => `• ${skill}`).join("\n  ")}
+  ${frameworks.map(skill => `• ${skill}`).join('\n  ')}
 
 APIs:
-  ${apis.map((skill) => `• ${skill}`).join("\n  ")}
+  ${apis.map(skill => `• ${skill}`).join('\n  ')}
 
 Concepts:
-  ${concepts.map((skill) => `• ${skill}`).join("\n  ")}
+  ${concepts.map(skill => `• ${skill}`).join('\n  ')}
 
 Version Control:
-  ${tools.map((skill) => `• ${skill}`).join("\n  ")}
+  ${tools.map(skill => `• ${skill}`).join('\n  ')}
 
 Ask me about any of these technologies!
 Try: "ask tell me about your Python experience"`;
-    },
+    }
   },
   {
     name: "projects",
     description: "Explore my featured projects",
     aliases: ["work", "portfolio"],
     handler: () => {
-      const projectList = portfolioData.projects
-        .map((project, index) => {
-          const techStack = project.tech.join(", ");
-          const separator =
-            index > 0
-              ? "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-              : "";
-          const projectNumber = index + 1;
-          return `${separator}
+      const projectList = portfolioData.projects.map((project, index) => {
+        const techStack = project.tech.join(', ');
+        const separator = index > 0 ? '\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n' : '';
+        const projectNumber = index + 1;
+        return `${separator}
 ${projectNumber}. 📦 ${project.name} ${project.status}
    ${project.description}
    🔧 Tech Stack: ${techStack}
-   📝 Details: ${project.details || "More details available on request"}`;
-        })
-        .join("\n");
+   📝 Details: ${project.details || 'More details available on request'}`;
+      }).join('\n');
 
       return `Featured Projects
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -355,7 +333,7 @@ ${projectList}
 
 Want to know more about any project?
 Try: "ask tell me more about the US Logistics Tech Strategy Research"`;
-    },
+    }
   },
   {
     name: "resume",
@@ -388,7 +366,7 @@ The resume includes:
 • Featured projects and case studies
 
 If download doesn't start automatically, try refreshing the page.`;
-    },
+    }
   },
   {
     name: "experience",
@@ -399,20 +377,16 @@ If download doesn't start automatically, try refreshing the page.`;
 
       return `Work Experience
 
-${experience
-  .map(
-    (exp) =>
-      `${exp.company}
+${experience.map(exp =>
+`${exp.company}
 ${exp.position} | ${exp.duration}
 
 Key Responsibilities:
 ${exp.description}
-`,
-  )
-  .join("\n")}
+`).join('\n')}
 
 For more details, try: "ask about my work experience"`;
-    },
+    }
   },
   {
     name: "education",
@@ -423,18 +397,14 @@ For more details, try: "ask about my work experience"`;
 
       return `Education
 
-${education
-  .map(
-    (edu) =>
-      `${edu.institution}
+${education.map(edu =>
+`${edu.institution}
 ${edu.degree} | ${edu.year}
-Status: ${edu.status || "Completed"}
-`,
-  )
-  .join("\n")}
+Status: ${edu.status || 'Completed'}
+`).join('\n')}
 
 For more academic details, try: "ask about my education"`;
-    },
+    }
   },
   {
     name: "certifications",
@@ -445,28 +415,27 @@ For more academic details, try: "ask about my education"`;
 
       return `Certifications
 
-${certs.map((cert) => `• ${cert}`).join("\n")}
+${certs.map(cert => `• ${cert}`).join('\n')}
 
 These certifications validate my expertise in data analytics and cloud technologies.
 Try: "ask about my certification journey"`;
-    },
+    }
   },
   {
     name: "contact",
     description: "Get my contact information",
     aliases: ["reach", "connect"],
     handler: () => {
-      const { email, phone, github, linkedin, instagram, location } =
-        portfolioData.contact;
+      const { email, phone, github, linkedin, instagram, location } = portfolioData.contact;
 
       return `Contact Information
 
 📧 Email:     CLICKABLE_LINK:mailto:${email}:${email}
 📞 Phone:     CLICKABLE_LINK:tel:${phone}:${phone}
 📍 Location:  ${location}
-🐙 GitHub:    CLICKABLE_LINK:${github}:${github}
-💼 LinkedIn:  CLICKABLE_LINK:${linkedin}:${linkedin}
-📸 Instagram: CLICKABLE_LINK:${instagram}:${instagram}
+🐙 GitHub:    CLICKABLE_LINK:${github}:GitHub Profile
+💼 LinkedIn:  CLICKABLE_LINK:${linkedin}:LinkedIn Profile
+📸 Instagram: CLICKABLE_LINK:${instagram}:Instagram Profile
 
 Feel free to reach out! I'm always interested in
 discussing new opportunities, projects, or just
@@ -475,13 +444,13 @@ chatting about data analysis and technology.
 Social Media Quick Access:
 Type: "contact linkedin" or "contact github" or "contact insta"
 Try: "ask what's the best way to contact you?"`;
-    },
+    }
   },
   {
     name: "clear",
     description: "Clear the terminal screen",
     aliases: ["cls"],
-    handler: () => "CLEAR_SCREEN",
+    handler: () => "CLEAR_SCREEN"
   },
   {
     name: "theme",
@@ -495,7 +464,7 @@ Try: "ask what's the best way to contact you?"`;
 
 The terminal aesthetic works best in dark mode,
 but I'm working on a light theme option.`;
-    },
+    }
   },
   {
     name: "exit",
@@ -505,7 +474,7 @@ but I'm working on a light theme option.`;
       setTimeout(() => {
         window.location.reload();
       }, 2000);
-
+      
       return `Goodbye! 👋
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -513,7 +482,7 @@ Thanks for exploring my terminal portfolio!
 
 🔄 Refreshing session in 2 seconds...
 💡 Bookmark this page to return anytime!`;
-    },
+    }
   },
   {
     name: "chat",
@@ -541,7 +510,7 @@ Example:
   ask what's your experience with React?
 
 💡 The AI has context about my portfolio and experience!`;
-    },
+    }
   },
   {
     name: "snake",
@@ -549,7 +518,7 @@ Example:
     aliases: ["game"],
     handler: () => {
       return `SNAKE_GAME_START`;
-    },
+    }
   },
   {
     name: "python",
@@ -557,7 +526,7 @@ Example:
     aliases: ["py", "code"],
     handler: () => {
       return `PYTHON_COMPILER_START`;
-    },
+    }
   },
   {
     name: "scrape",
@@ -581,7 +550,7 @@ Features:
 
 Try: "scrape https://jsonplaceholder.typicode.com/posts"
 For AI data processing: "ask clean this scraped data"`;
-    },
+    }
   },
   {
     name: "ask",
@@ -598,14 +567,14 @@ Examples:
   ask how did you get into data analysis?
 
 I'll use AI to give you personalized responses!`;
-    },
-  },
+    }
+  }
 ];
 
 export const handleCommand = async (
   input: string,
   commands: Command[],
-  onAIChat?: (message: string) => Promise<string>,
+  onAIChat?: (message: string) => Promise<string>
 ): Promise<string> => {
   const trimmedInput = input.trim();
 
@@ -614,27 +583,27 @@ export const handleCommand = async (
   }
 
   // Parse command and arguments
-  const parts = trimmedInput.split(" ");
+  const parts = trimmedInput.split(' ');
   const commandName = parts[0].toLowerCase();
-  const args = parts.slice(1).join(" ");
+  const args = parts.slice(1).join(' ');
 
   // Handle special contact redirects
-  if (commandName === "contact" && args) {
+  if (commandName === 'contact' && args) {
     const social = args.toLowerCase();
     const { github, linkedin, instagram } = portfolioData.contact;
 
-    switch (social) {
-      case "linkedin":
-      case "li":
-        window.open(linkedin, "_blank");
+    switch(social) {
+      case 'linkedin':
+      case 'li':
+        window.open(linkedin, '_blank');
         return `Opening LinkedIn profile: ${linkedin}`;
-      case "github":
-      case "git":
-        window.open(github, "_blank");
+      case 'github':
+      case 'git':
+        window.open(github, '_blank');
         return `Opening GitHub profile: ${github}`;
-      case "instagram":
-      case "insta":
-        window.open(instagram, "_blank");
+      case 'instagram':
+      case 'insta':
+        window.open(instagram, '_blank');
         return `Opening Instagram profile: ${instagram}`;
       default:
         return `Social platform "${social}" not found. Available: linkedin, github, insta`;
@@ -642,10 +611,10 @@ export const handleCommand = async (
   }
 
   // Handle scraping command with URL
-  if (commandName === "scrape" && args) {
+  if (commandName === 'scrape' && args) {
     try {
       const url = args.trim();
-      if (!url.startsWith("http://") && !url.startsWith("https://")) {
+      if (!url.startsWith('http://') && !url.startsWith('https://')) {
         return `Invalid URL format. Please provide a complete URL starting with http:// or https://
 
 Example: scrape https://jsonplaceholder.typicode.com/posts`;
@@ -661,12 +630,12 @@ Processing: Please wait while I extract the data
 
 This may take a few moments depending on the website size.`;
     } catch (error) {
-      return `Scraping Error: ${error instanceof Error ? error.message : "Unknown error"}`;
+      return `Scraping Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
     }
   }
 
   // Handle ask command specially
-  if (commandName === "ask" && args) {
+  if (commandName === 'ask' && args) {
     if (onAIChat) {
       try {
         return await onAIChat(args);
@@ -685,21 +654,20 @@ In the meantime, try these commands:
   }
 
   // Find matching command
-  const command = commands.find(
-    (cmd) =>
-      cmd.name === commandName ||
-      (cmd.aliases && cmd.aliases.includes(commandName)),
+  const command = commands.find(cmd =>
+    cmd.name === commandName ||
+    (cmd.aliases && cmd.aliases.includes(commandName))
   );
 
   if (command) {
     const result = command.handler();
 
     // Handle special command results
-    if (result === "SNAKE_GAME_START") {
-      return "SNAKE_GAME_START";
+    if (result === 'SNAKE_GAME_START') {
+      return 'SNAKE_GAME_START';
     }
-    if (result === "PYTHON_COMPILER_START") {
-      return "PYTHON_COMPILER_START";
+    if (result === 'PYTHON_COMPILER_START') {
+      return 'PYTHON_COMPILER_START';
     }
 
     return result;
