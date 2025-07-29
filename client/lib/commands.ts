@@ -10,10 +10,12 @@ const generateResumeContent = (): string => {
 
   return `
 SURAJ YADAV
-Data Analyst & AI Enthusiast
-${contact.email} | ${contact.linkedin} | ${contact.github}
+${about.role}
+${about.location}
+${contact.phone} | ${contact.email}
+${contact.linkedin} | ${contact.github}
 
-ABOUT
+PROFESSIONAL SUMMARY
 ${about.bio}
 
 EXPERIENCE
@@ -27,14 +29,18 @@ EDUCATION
 ${education.map(edu => `
 ${edu.institution}
 ${edu.degree} | ${edu.year}
-GPA: ${edu.gpa}
+Status: ${edu.status || 'Completed'}
 `).join('\n')}
 
 TECHNICAL SKILLS
-Data Analytics: ${skills.analytics.join(', ')}
-Data Science: ${skills.datascience.join(', ')}
-AI & ML: ${skills.ai.join(', ')}
-Tools: ${skills.tools.join(', ')}
+Languages: ${skills.languages.join(', ')}
+Libraries: ${skills.libraries.join(', ')}
+Data Tools: ${skills.datatools.join(', ')}
+Databases: ${skills.databases.join(', ')}
+Frameworks: ${skills.frameworks.join(', ')}
+APIs: ${skills.apis.join(', ')}
+Concepts: ${skills.concepts.join(', ')}
+Version Control: ${skills.tools.join(', ')}
 
 CERTIFICATIONS
 ${certifications.map(cert => `• ${cert}`).join('\n')}
@@ -44,13 +50,16 @@ ${projects.map(project => `
 ${project.name} (${project.status})
 ${project.description}
 Technologies: ${project.tech.join(', ')}
+Details: ${project.details}
 `).join('\n')}
 
-CONTACT
+CONTACT INFORMATION
 Email: ${contact.email}
+Phone: ${contact.phone}
 LinkedIn: ${contact.linkedin}
 GitHub: ${contact.github}
-Website: ${contact.website}
+Instagram: ${contact.instagram}
+Location: ${contact.location}
 `;
 };
 
@@ -354,7 +363,7 @@ Try: "ask tell me more about the US Logistics Tech Strategy Research"`;
 Resume Highlights:
 • Data Analyst with 4+ years experience
 • Expert in Python, SQL, and Machine Learning
-��� Proven track record in business intelligence
+• Proven track record in business intelligence
 • Strong background in data visualization
 
 Current Status:
@@ -502,7 +511,7 @@ You can now ask me anything about:
 • Technical questions
 • Project details
 • Career advice
-�� Or just have a casual chat!
+• Or just have a casual chat!
 
 Usage:
   ask <your question>
@@ -649,7 +658,7 @@ This may take a few moments depending on the website size.`;
       return `AI Chat not available. The AI integration is currently being set up.
 
 In the meantime, try these commands:
-�� about - Learn about my background
+• about - Learn about my background
 • skills - View my technical skills
 • projects - Explore my work
 • contact - Get in touch directly`;
