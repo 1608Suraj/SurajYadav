@@ -33,29 +33,32 @@ export const PythonCompiler: React.FC<PythonCompilerProps> = ({ onClose, classNa
   const simulatePythonExecution = (code: string): string => {
     const lines = code.split('\n');
     let output = '';
-    
+    let variables: { [key: string]: any } = {};
+
     for (const line of lines) {
       const trimmedLine = line.trim();
-      
+
       // Skip comments and empty lines
       if (trimmedLine.startsWith('#') || !trimmedLine) continue;
-      
-      // Handle print statements
+
+      // Handle print statements with variables
       const printMatch = trimmedLine.match(/print\s*\(\s*["'](.*?)["']\s*\)/);
       if (printMatch) {
         output += printMatch[1] + '\n';
         continue;
       }
-      
-      // Handle simple arithmetic
-      const mathMatch = trimmedLine.match(/print\s*\(\s*(.+)\s*\)/);
-      if (mathMatch) {
+
+      // Handle print with variables
+      const printVarMatch = trimmedLine.match(/print\s*\(\s*([^"']+)\s*\)/);
+      if (printVarMatch) {
         try {
-          const expression = mathMatch[1];
-          // Basic arithmetic evaluation (unsafe in real app - just for demo)
+          const expression = printVarMatch[1].trim();
+          // Basic arithmetic evaluation
           if (/^[\d\s+\-*/().]+$/.test(expression)) {
             const result = eval(expression);
             output += result + '\n';
+          } else if (variables[expression]) {
+            output += variables[expression] + '\n';
           } else {
             output += expression + '\n';
           }
@@ -64,25 +67,54 @@ export const PythonCompiler: React.FC<PythonCompilerProps> = ({ onClose, classNa
         }
         continue;
       }
-      
-      // Handle variable assignments and other statements
-      if (trimmedLine.includes('=') && !trimmedLine.includes('==')) {
-        output += `Executed: ${trimmedLine}\n`;
+
+      // Handle variable assignments
+      const assignMatch = trimmedLine.match(/^(\w+)\s*=\s*(.+)$/);
+      if (assignMatch && !trimmedLine.includes('==')) {
+        const varName = assignMatch[1];
+        const value = assignMatch[2];
+
+        // Handle string assignments
+        if (value.match(/^["'].*["']$/)) {
+          variables[varName] = value.slice(1, -1);
+        } else if (!isNaN(Number(value))) {
+          variables[varName] = Number(value);
+        } else {
+          variables[varName] = value;
+        }
+        output += `Variable ${varName} assigned\n`;
         continue;
       }
-      
+
       // Handle for loops (basic simulation)
       if (trimmedLine.startsWith('for ')) {
-        output += `Loop executed: ${trimmedLine}\n`;
+        const rangeMatch = trimmedLine.match(/for\s+\w+\s+in\s+range\s*\(\s*(\d+)\s*\)/);
+        if (rangeMatch) {
+          const count = parseInt(rangeMatch[1]);
+          output += `Loop will execute ${count} times\n`;
+        } else {
+          output += `Loop detected: ${trimmedLine}\n`;
+        }
         continue;
       }
-      
+
+      // Handle data structures
+      if (trimmedLine.includes('[') && trimmedLine.includes(']')) {
+        output += `List/Array created: ${trimmedLine}\n`;
+        continue;
+      }
+
+      if (trimmedLine.includes('{') && trimmedLine.includes('}')) {
+        output += `Dictionary created: ${trimmedLine}\n`;
+        continue;
+      }
+
       // Default case
       if (trimmedLine) {
         output += `Executed: ${trimmedLine}\n`;
       }
     }
-    
+
     return output || 'Code executed successfully (no output)';
   };
 
