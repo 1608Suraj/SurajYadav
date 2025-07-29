@@ -200,20 +200,52 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         return;
       }
 
-      // Simulate typing effect for response
+      // Enhanced typewriter effect - character by character
       setIsTyping(true);
       setShowInput(false);
       const lines = response.split('\n');
+      let currentLineIndex = 0;
+      let currentCharIndex = 0;
 
-      for (let i = 0; i < lines.length; i++) {
-        setTimeout(() => {
-          addLine(lines[i], 'output');
-          if (i === lines.length - 1) {
-            setIsTyping(false);
-            setShowInput(true);
-          }
-        }, i * 75); // 1.5x speed
-      }
+      const typewriterEffect = () => {
+        if (currentLineIndex >= lines.length) {
+          setIsTyping(false);
+          setShowInput(true);
+          return;
+        }
+
+        const currentLine = lines[currentLineIndex];
+
+        if (currentCharIndex === 0) {
+          // Add empty line first
+          addLine('', 'output');
+        }
+
+        if (currentCharIndex <= currentLine.length) {
+          const partialText = currentLine.substring(0, currentCharIndex);
+          // Update the last line with partial text
+          setLines(prev => {
+            const newLines = [...prev];
+            if (newLines.length > 0) {
+              newLines[newLines.length - 1] = {
+                ...newLines[newLines.length - 1],
+                content: partialText
+              };
+            }
+            return newLines;
+          });
+
+          currentCharIndex++;
+          setTimeout(typewriterEffect, currentLine.length > 50 ? 15 : 25); // Faster for longer lines
+        } else {
+          // Move to next line
+          currentLineIndex++;
+          currentCharIndex = 0;
+          setTimeout(typewriterEffect, 100); // Pause between lines
+        }
+      };
+
+      typewriterEffect();
     } catch (error) {
       addLine('Error: Failed to process command', 'output');
       setIsTyping(false);
