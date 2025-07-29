@@ -420,7 +420,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
               <div className="flex items-center font-mono text-sm sm:text-base">
                 <span className={cn(
               "mr-2",
-              theme === 'light' ? "text-blue-700" : "text-lime-500 terminal-text-glow"
+              theme === 'light' ? "text-black" : "text-lime-500 terminal-text-glow"
             )}>
               surajyadav@portfolio:~$
             </span>
@@ -434,7 +434,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
               className={cn(
                 "flex-1 bg-transparent border-none outline-none font-semibold",
                 theme === 'light'
-                  ? "text-blue-700 caret-blue-700 placeholder:text-blue-700/50"
+                  ? "text-red-600 caret-red-600 placeholder:text-red-600/50"
                   : "text-lime-500 caret-lime-500 terminal-text-glow placeholder:text-lime-500/50"
               )}
               placeholder={isProcessing ? "Processing..." : "type here"}
