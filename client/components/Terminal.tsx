@@ -320,7 +320,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
           <div key={line.id} className={cn(
             baseClasses,
             "mr-2",
-            theme === 'light' ? "text-black" : "text-lime-500 terminal-text-glow"
+            theme === 'light' ? "text-black" : "text-blue-500 terminal-text-glow"
           )}>
             {renderContent(line.content)}
           </div>
@@ -358,13 +358,13 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
             "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold",
             theme === 'light'
               ? "bg-black text-white"
-              : "bg-lime-500 text-black"
+              : "bg-black text-white"
           )}>
             SY
           </div>
           <span className={cn(
             "font-semibold",
-            theme === 'light' ? "text-black" : "text-lime-500"
+            theme === 'light' ? "text-black" : "text-white"
           )}>
             Suraj Yadav
           </span>
@@ -373,7 +373,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         <div className="flex-1 text-center flex flex-row items-center justify-center">
           <span className={cn(
             "text-xs sm:text-sm",
-            theme === 'light' ? "text-black" : "text-blue-400 terminal-text-glow"
+            theme === 'light' ? "text-black" : "text-blue-500 terminal-text-glow"
           )}>
             surajyadav@portfolio:~$
           </span>
@@ -420,7 +420,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
               <div className="flex items-center font-mono text-sm sm:text-base">
                 <span className={cn(
               "mr-2",
-              theme === 'light' ? "text-black" : "text-blue-400 terminal-text-glow"
+              theme === 'light' ? "text-black" : "text-blue-500 terminal-text-glow"
             )}>
               surajyadav@portfolio:~$
             </span>
