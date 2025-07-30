@@ -536,12 +536,20 @@ export const createCommands = (
   help         - Show this help message
   exit         - Refresh the session
 
+🚀 New AI-Enhanced Features:
+  - Universal web scraper with AI insights
+  - Smart content pattern detection (6 types)
+  - Automatic keyword and entity extraction
+  - Real-time content analysis and scoring
+  - Export to analysis-ready CSV format
+
 💡 Tips:
   - Use ↑/↓ arrow keys to navigate command history
   - Click commands in the header for quick access
   - All contact links are clickable!
-  - Try "ask me about my data analysis experience"
-  - Use "contact linkedin" for direct social media access`;
+  - Try "scrape https://any-website.com" for AI analysis
+  - Use "eda summary" after scraping for insights
+  - Ask "tell me about your AI scraping capabilities"`;
     },
   },
   {
@@ -621,7 +629,7 @@ Try: "ask tell me about your Python experience"`;
           const techStack = project.tech.join(", ");
           const separator =
             index > 0
-              ? "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+              ? "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━��━━━━━\n"
               : "";
           const projectNumber = index + 1;
           return `${separator}
