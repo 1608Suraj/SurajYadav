@@ -325,8 +325,8 @@ export const handleScrape: RequestHandler = async (req, res) => {
         };
 
         // If we found structured data, create separate entries for each item
-        if (structuredData.length > 0) {
-          scrapedData = structuredData.map((item, index) => ({
+        if (extractedCards.length > 0) {
+          scrapedData = extractedCards.map((item, index) => ({
             ...baseData,
             id: index + 1,
             itemTitle: item.title,
