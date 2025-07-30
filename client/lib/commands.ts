@@ -16,70 +16,119 @@ const generateResumeContent = (): string => {
     projects,
   } = portfolioData;
 
-  return `
-SURAJ YADAV
-${about.role}
-${about.location}
-${contact.phone} | ${contact.email}
-${contact.linkedin} | ${contact.github}
+  const separator = "=".repeat(80);
+  const subseparator = "-".repeat(50);
+
+  return `${separator}
+                          SURAJ YADAV
+                         ${about.role}
+${separator}
+
+PERSONAL INFORMATION
+${subseparator}
+Name:         ${about.name}
+Role:         ${about.role}
+Location:     ${about.location.replace("📍 ", "")}
+Phone:        ${contact.phone.replace("📞 ", "")}
+Email:        ${contact.email.replace("✉️ ", "")}
+LinkedIn:     ${contact.linkedin}
+GitHub:       ${contact.github}
+Instagram:    ${contact.instagram}
 
 PROFESSIONAL SUMMARY
-${about.bio}
+${subseparator}
+${about.bio.replace(/\n\n/g, "\n").trim()}
 
-EXPERIENCE
+WORK EXPERIENCE
+${subseparator}
 ${experience
   .map(
-    (exp) => `
-${exp.company} - ${exp.position}
-${exp.duration}
-${exp.description}
-`,
+    (exp, index) => `${index + 1}. ${exp.company.toUpperCase()}
+   Position: ${exp.position}
+   Duration: ${exp.duration}
+
+   Key Responsibilities:
+   ${exp.description.split(". ").map(task => `   • ${task.trim()}`).join("\n")}
+`
   )
   .join("\n")}
 
 EDUCATION
+${subseparator}
 ${education
   .map(
-    (edu) => `
-${edu.institution}
-${edu.degree} | ${edu.year}
-Status: ${edu.status || "Completed"}
-`,
+    (edu, index) => `${index + 1}. ${edu.institution.toUpperCase()}
+   Degree:   ${edu.degree}
+   Year:     ${edu.year}
+   Status:   ${edu.status || "Completed"}
+`
   )
   .join("\n")}
 
-TECHNICAL SKILLS
-Languages: ${skills.languages.join(", ")}
-Libraries: ${skills.libraries.join(", ")}
-Data Tools: ${skills.datatools.join(", ")}
-Databases: ${skills.databases.join(", ")}
-Frameworks: ${skills.frameworks.join(", ")}
-APIs: ${skills.apis.join(", ")}
-Concepts: ${skills.concepts.join(", ")}
-Version Control: ${skills.tools.join(", ")}
+TECHNICAL SKILLS & EXPERTISE
+${subseparator}
+Programming Languages:
+  ${skills.languages.map(lang => `• ${lang}`).join("\n  ")}
 
-CERTIFICATIONS
-${certifications.map((cert) => `• ${cert}`).join("\n")}
+Libraries & Frameworks:
+  ${skills.libraries.map(lib => `• ${lib}`).join("\n  ")}
+  ${skills.frameworks.map(fw => `• ${fw}`).join("\n  ")}
+
+Data Analysis Tools:
+  ${skills.datatools.map(tool => `• ${tool}`).join("\n  ")}
+
+Databases:
+  ${skills.databases.map(db => `• ${db}`).join("\n  ")}
+
+APIs & Integration:
+  ${skills.apis.map(api => `• ${api}`).join("\n  ")}
+
+Core Concepts:
+  ${skills.concepts.map(concept => `• ${concept}`).join("\n  ")}
+
+Version Control & Tools:
+  ${skills.tools.map(tool => `• ${tool}`).join("\n  ")}
+
+PROFESSIONAL CERTIFICATIONS
+${subseparator}
+${certifications.map((cert, index) => `${index + 1}. ${cert}`).join("\n")}
 
 FEATURED PROJECTS
+${subseparator}
 ${projects
   .map(
-    (project) => `
-${project.name} (${project.status})
-${project.description}
-Technologies: ${project.tech.join(", ")}
-Details: ${project.details}
-`,
+    (project, index) => `${index + 1}. ${project.name.toUpperCase()} ${project.status}
+
+   Project Overview:
+   ${project.description}
+
+   Technologies Used:
+   ${project.tech.map(tech => `   • ${tech}`).join("\n")}
+
+   Key Details:
+   ${project.details}
+`
   )
   .join("\n")}
 
 CONTACT INFORMATION
-Email: ${contact.email}
-Phone: ${contact.phone}
-LinkedIn: ${contact.linkedin}
-GitHub: ${contact.github}
-Instagram: ${contact.instagram}
-Location: ${contact.location}
+${subseparator}
+Email:        ${contact.email.replace("✉️ ", "")}
+Phone:        ${contact.phone.replace("📞 ", "")}
+LinkedIn:     ${contact.linkedin}
+GitHub:       ${contact.github}
+Instagram:    ${contact.instagram}
+Location:     ${contact.location.replace("📍 ", "")}
+
+${separator}
+Generated on: ${new Date().toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit'
+})}
+${separator}
 `;
 };
 
