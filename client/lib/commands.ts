@@ -664,7 +664,7 @@ Download Package Includes:
 
 Resume Highlights:
 • Data Analyst Trainee at Debugshala (Feb 2025 - Present)
-��� Expert in Python, SQL, and Data Analytics
+• Expert in Python, SQL, and Data Analytics
 • Experience with data scraping and preprocessing
 • Strong background in data visualization with Power BI
 
@@ -1134,33 +1134,42 @@ Note: Data now includes AI-generated insights,
 keywords, summaries, and universal content patterns.`;
 
       case "clean":
-        return `🧹 Data Cleaning & Preprocessing
+        return `🧹 AI-Enhanced Data Cleaning & Preprocessing
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 ✅ Automatic Cleaning Applied:
 • Removed HTML tags and entities
 • Standardized text encoding
-• Filtered out empty/irrelevant content
-• Normalized company names
-• Extracted structured data from objects
-• Flattened arrays with | separators
+• Universal content pattern extraction
+• AI-powered content categorization
+• Intelligent keyword extraction
+• Smart data structure flattening
+
+🤖 AI Processing Features:
+• Content type detection (API, E-commerce, Blog, etc.)
+• Relevance scoring (0-100 scale)
+• Automatic summary generation
+• Keyword frequency analysis
+• Readability assessment
+• Pattern-based entity extraction
 
 🔧 Advanced Cleaning Features:
-• Object serialization: Handled properly
-• Array processing: Joined with delimiters
-• Text normalization: UTF-8 compliant
-• Content filtering: Meaningful data only
-• Type conversion: Optimized for CSV
+• Object serialization: Properly handled
+• Array processing: Intelligent joining
+• Universal card extraction: 6 pattern types
+• Price and location detection
+• Image and URL extraction
+• Tag and category normalization
 
-📊 Cleaning Results:
-• "[object Object]" errors: Fixed ✅
-• Null values: Handled automatically
-• Duplicates: Filtered during extraction
-• Data types: Optimized for analysis
-• Text quality: Enhanced readability
+📊 Enhanced Results:
+• "[object Object]" errors: Eliminated ✅
+• AI insights: Generated for each item
+• Content patterns: Universally detected
+• Data quality: Scored and analyzed
+• Export format: Optimized for EDA
 
-Status: ✅ Data cleaning completed successfully!
-Your CSV file contains clean, analysis-ready data.`;
+Status: ✅ AI-enhanced cleaning completed!
+Your CSV contains structured, analyzed, insights-rich data.`;
 
       case "missing":
         return `❓ Missing Data Analysis
