@@ -142,6 +142,43 @@ export const handleScrape: RequestHandler = async (req, res) => {
           );
         }
 
+        // Extract company cards/items (common pattern for YC and similar sites)
+        const companyData = [];
+        const companyPatterns = [
+          /<div[^>]*class[^>]*company[^>]*>[\s\S]*?<\/div>/gi,
+          /<div[^>]*class[^>]*startup[^>]*>[\s\S]*?<\/div>/gi,
+          /<article[^>]*>[\s\S]*?<\/article>/gi,
+          /<div[^>]*data-[^>]*company[^>]*>[\s\S]*?<\/div>/gi
+        ];
+
+        companyPatterns.forEach(pattern => {
+          const matches = html.match(pattern);
+          if (matches) {
+            matches.slice(0, 10).forEach(match => {
+              // Extract company name
+              const nameMatch = match.match(/<h[1-6][^>]*>([^<]+)<\/h[1-6]>/i) ||
+                               match.match(/class[^>]*name[^>]*>([^<]+)</i) ||
+                               match.match(/class[^>]*title[^>]*>([^<]+)</i);
+
+              // Extract description
+              const descMatch = match.match(/<p[^>]*>([^<]+)<\/p>/i) ||
+                               match.match(/class[^>]*description[^>]*>([^<]+)</i);
+
+              // Extract tags/categories
+              const tagMatches = match.match(/class[^>]*tag[^>]*>([^<]+)</gi);
+
+              if (nameMatch) {
+                companyData.push({
+                  name: nameMatch[1].trim(),
+                  description: descMatch ? descMatch[1].trim() : "",
+                  tags: tagMatches ? tagMatches.map(tag => tag.replace(/<[^>]*>/g, "").trim()) : [],
+                  rawHTML: match.substring(0, 200) + "..."
+                });
+              }
+            });
+          }
+        });
+
         // Extract article content
         const articles = [];
         const articleMatches = html.match(/<article[^>]*>[\s\S]*?<\/article>/gi);
