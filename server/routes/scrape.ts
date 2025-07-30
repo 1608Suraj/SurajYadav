@@ -301,10 +301,9 @@ export const handleScrape: RequestHandler = async (req, res) => {
           listItems: listItems.slice(0, 15),
           contentDivs: contentDivs,
           mainContent: mainContent,
-          structuredData: structuredData,
           links: links.slice(0, 20),
           images: images.slice(0, 10),
-          companyData: companyData,
+          aiInsights: aiInsights,
           scrapedAt: new Date().toISOString(),
           contentLength: html.length,
           totalHeadings: headings.length,
@@ -313,25 +312,30 @@ export const handleScrape: RequestHandler = async (req, res) => {
           totalImages: images.length,
           totalArticles: articles.length,
           totalListItems: listItems.length,
-          totalCompanies: companyData.length,
+          totalStructuredItems: structuredData.length,
           contentQuality: {
             hasStructuredData: structuredData.length > 0,
             hasMainContent: mainContent.length > 0,
             hasArticles: articles.length > 0,
-            hasCompanyData: companyData.length > 0,
-            contentRichness: (headings.length + paragraphs.length + articles.length + listItems.length + companyData.length)
+            hasAIInsights: aiInsights.keywords.length > 0,
+            contentRichness: (headings.length + paragraphs.length + articles.length + listItems.length + structuredData.length),
+            relevanceScore: aiInsights.relevanceScore,
+            contentType: aiInsights.contentType
           }
         };
 
-        // If we found company data, create separate entries for each company
-        if (companyData.length > 0) {
-          scrapedData = companyData.map((company, index) => ({
+        // If we found structured data, create separate entries for each item
+        if (structuredData.length > 0) {
+          scrapedData = structuredData.map((item, index) => ({
             ...baseData,
             id: index + 1,
-            companyName: company.name,
-            companyDescription: company.description,
-            companyTags: company.tags.join(", "),
-            type: "company_entry"
+            itemTitle: item.title,
+            itemDescription: item.description,
+            itemTags: item.tags.join(", "),
+            itemPrice: item.price || "",
+            itemLocation: item.location || "",
+            extractionMethod: item.extractionMethod,
+            type: "structured_item"
           }));
         } else {
           scrapedData = [{ ...baseData, type: "website_summary" }];
