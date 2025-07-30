@@ -787,7 +787,7 @@ Try: "ask what's the best way to contact you?"`;
     description: "Toggle light/dark theme",
     handler: () => {
       return `Theme Toggle
-���━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━��
+���━━━━━━━━━━━━━━━━━━━━━���━━━━━━━━━━━━━━���━━━━━━━��
 
 🌙 Currently in Dark Mode (Terminal Style)
 ☀️  Light mode coming soon!
@@ -863,28 +863,45 @@ Example:
     description: "Web scraper tool",
     aliases: ["webscrape"],
     handler: () => {
-      return `Web Scraping Tool
+      return `🚀 Enhanced Web Scraping Tool
 
 Usage: scrape <url>
 
 Examples:
   scrape https://jsonplaceholder.typicode.com/posts
   scrape https://api.github.com/users/octocat
+  scrape https://www.ycombinator.com/companies
+  scrape https://news.ycombinator.com
 
-Features:
-• Extract data from websites and APIs
+🔧 Enhanced Features:
+• Extract comprehensive data from websites and APIs
 • Parse JSON responses automatically
-• Export to CSV format with instant download
-• AI-powered data cleaning and preprocessing
-• Handle both HTML and JSON data sources
+• Company/startup data extraction (YC, directories)
+• Advanced HTML content extraction
+• Object and array handling (no more "[object Object]")
+• Structured data extraction (JSON-LD)
+• Export to clean CSV format with instant download
 
-Download Options:
-• Automatically downloads CSV file after scraping
-• File named with current date: scraped_data_YYYY-MM-DD.csv
-• Up to 100 records per scrape (performance optimized)
+📊 Content Extraction:
+• Website titles, descriptions, and meta data
+• Company names, descriptions, and tags
+• Article content and main text
+• Headings, paragraphs, and list items
+• Links and image information
 
-Try: "scrape https://jsonplaceholder.typicode.com/posts"
-For AI data processing: "ask clean this scraped data"`;
+💾 Download & Analysis:
+• Clean CSV file with proper data serialization
+• File named: scraped_data_YYYY-MM-DD.csv
+• Optimized for EDA and data analysis
+• Quality metrics included
+
+🔬 Post-Scraping Analysis:
+  Use 'eda summary' to analyze your data
+  Use 'eda clean' to see preprocessing results
+  Use 'dataviz' commands for visualizations
+
+Try: "scrape https://www.ycombinator.com/companies"
+Then: "eda summary" for analysis`;
     },
   },
   {
@@ -958,7 +975,7 @@ Run 'scrape <url>' first to collect data for analysis.`;
     aliases: ["viz", "chart"],
     handler: () => {
       return `Data Visualization Tools
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━━━━━━━━━━━
 
 📈 Available Visualizations:
   dataviz histogram <column>  - Distribution of values
@@ -1078,7 +1095,7 @@ Next Steps After Download:
     switch (edaCommand) {
       case "summary":
         return `📊 Dataset Summary & Overview
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━��━━━━━━━━━━━━━━━━
 
 🔍 Last Scraped Data Analysis:
 • Data Shape: Ready for analysis
@@ -1154,7 +1171,7 @@ Your CSV file contains clean, analysis-ready data.`;
 
 🛠️ Missing Data Handling:
 • Empty strings for missing text
-• Default values for metrics
+��� Default values for metrics
 • Null indicators preserved
 • Alternative extraction methods used
 
