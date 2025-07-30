@@ -195,8 +195,6 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
     setShowInput(true);
   }, []);
 
-
-
   const handleCommand = async (command: string) => {
     if (!command.trim()) return;
 
@@ -309,7 +307,10 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
           });
 
           charIndex++;
-          typingTimeoutRef.current = setTimeout(typeResponse, currentLine.length > 50 ? 8 : 15);
+          typingTimeoutRef.current = setTimeout(
+            typeResponse,
+            currentLine.length > 50 ? 8 : 15,
+          );
         } else {
           // Move to next line
           lineIndex++;
@@ -328,11 +329,14 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
     }
   };
 
-  const handleHeaderCommand = useCallback(async (command: string) => {
-    // Force clear any ongoing animations immediately
-    clearTypingAnimation();
-    await handleCommand(command);
-  }, [clearTypingAnimation]);
+  const handleHeaderCommand = useCallback(
+    async (command: string) => {
+      // Force clear any ongoing animations immediately
+      clearTypingAnimation();
+      await handleCommand(command);
+    },
+    [clearTypingAnimation],
+  );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !isProcessing && !isTyping) {
@@ -573,7 +577,13 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
                       ? "text-red-600 caret-red-600 placeholder:text-red-600/50"
                       : "text-lime-500 caret-lime-500 terminal-text-glow placeholder:text-lime-500/50",
                   )}
-                  placeholder={isProcessing ? "Processing..." : isTyping ? "Typing..." : "type here"}
+                  placeholder={
+                    isProcessing
+                      ? "Processing..."
+                      : isTyping
+                        ? "Typing..."
+                        : "type here"
+                  }
                   autoFocus
                 />
                 <span
@@ -592,17 +602,21 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
             {/* Status indicator when typing or processing */}
             {(isTyping || isProcessing) && (
               <div className="flex items-center font-mono text-sm opacity-60">
-                <span className={cn(
-                  "mr-2",
-                  theme === "light" ? "text-gray-500" : "text-gray-400"
-                )}>
+                <span
+                  className={cn(
+                    "mr-2",
+                    theme === "light" ? "text-gray-500" : "text-gray-400",
+                  )}
+                >
                   {isProcessing ? "⏳ Processing..." : "⌨️ Typing..."}
                 </span>
                 {isTyping && (
-                  <span className={cn(
-                    "text-xs",
-                    theme === "light" ? "text-gray-400" : "text-gray-500"
-                  )}>
+                  <span
+                    className={cn(
+                      "text-xs",
+                      theme === "light" ? "text-gray-400" : "text-gray-500",
+                    )}
+                  >
                     (Press ESC to skip)
                   </span>
                 )}

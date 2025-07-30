@@ -134,10 +134,20 @@ export const handleScrape: RequestHandler = async (req, res) => {
               .map((p) => {
                 // Remove HTML tags and decode entities
                 let text = p.replace(/<[^>]*>/g, "").trim();
-                text = text.replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"');
+                text = text
+                  .replace(/&nbsp;/g, " ")
+                  .replace(/&amp;/g, "&")
+                  .replace(/&lt;/g, "<")
+                  .replace(/&gt;/g, ">")
+                  .replace(/&quot;/g, '"');
                 return text;
               })
-              .filter((p) => p.length > 20 && !p.includes("Click here") && !p.includes("Read more"))
+              .filter(
+                (p) =>
+                  p.length > 20 &&
+                  !p.includes("Click here") &&
+                  !p.includes("Read more"),
+              )
               .slice(0, 15),
           );
         }
@@ -158,7 +168,7 @@ export const handleScrape: RequestHandler = async (req, res) => {
           // Profile/person cards
           /<div[^>]*class[^>]*(?:profile|person|member|user)[^>]*>[\s\S]*?<\/div>/gi,
           // General content cards
-          /<div[^>]*class[^>]*(?:card|panel|box|container)[^>]*>[\s\S]*?<\/div>/gi
+          /<div[^>]*class[^>]*(?:card|panel|box|container)[^>]*>[\s\S]*?<\/div>/gi,
         ];
 
         cardPatterns.forEach((pattern, patternIndex) => {
@@ -170,7 +180,7 @@ export const handleScrape: RequestHandler = async (req, res) => {
                 extractedCards.push({
                   ...cardData,
                   id: `${patternIndex}_${matchIndex}`,
-                  extractionMethod: getExtractionMethodName(patternIndex)
+                  extractionMethod: getExtractionMethodName(patternIndex),
                 });
               }
             });
@@ -178,17 +188,24 @@ export const handleScrape: RequestHandler = async (req, res) => {
         });
 
         // AI-powered content analysis for additional insights
-        const fullTextContent = html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+        const fullTextContent = html
+          .replace(/<[^>]*>/g, " ")
+          .replace(/\s+/g, " ")
+          .trim();
         const aiInsights = await generateContentInsights(fullTextContent, url);
 
         // Extract article content
         const articles = [];
-        const articleMatches = html.match(/<article[^>]*>[\s\S]*?<\/article>/gi);
+        const articleMatches = html.match(
+          /<article[^>]*>[\s\S]*?<\/article>/gi,
+        );
         if (articleMatches) {
           articleMatches.slice(0, 5).forEach((article) => {
             const text = article.replace(/<[^>]*>/g, "").trim();
             if (text.length > 50) {
-              articles.push(text.substring(0, 500) + (text.length > 500 ? "..." : ""));
+              articles.push(
+                text.substring(0, 500) + (text.length > 500 ? "..." : ""),
+              );
             }
           });
         }
@@ -201,21 +218,34 @@ export const handleScrape: RequestHandler = async (req, res) => {
             ...liMatches
               .map((li) => li.replace(/<[^>]*>/g, "").trim())
               .filter((li) => li.length > 10 && li.length < 200)
-              .slice(0, 20)
+              .slice(0, 20),
           );
         }
 
         // Extract div content with meaningful classes
         const contentDivs = [];
-        const meaningfulClasses = ["content", "article", "post", "description", "summary", "text", "body"];
-        meaningfulClasses.forEach(className => {
-          const regex = new RegExp(`<div[^>]*class=["'][^"']*${className}[^"']*["'][^>]*>([\\s\\S]*?)<\/div>`, 'gi');
+        const meaningfulClasses = [
+          "content",
+          "article",
+          "post",
+          "description",
+          "summary",
+          "text",
+          "body",
+        ];
+        meaningfulClasses.forEach((className) => {
+          const regex = new RegExp(
+            `<div[^>]*class=["'][^"']*${className}[^"']*["'][^>]*>([\\s\\S]*?)<\/div>`,
+            "gi",
+          );
           const matches = html.match(regex);
           if (matches) {
-            matches.slice(0, 3).forEach(match => {
+            matches.slice(0, 3).forEach((match) => {
               const text = match.replace(/<[^>]*>/g, "").trim();
               if (text.length > 50) {
-                contentDivs.push(text.substring(0, 300) + (text.length > 300 ? "..." : ""));
+                contentDivs.push(
+                  text.substring(0, 300) + (text.length > 300 ? "..." : ""),
+                );
               }
             });
           }
@@ -259,29 +289,35 @@ export const handleScrape: RequestHandler = async (req, res) => {
         const mainContent = [];
 
         // Strategy 1: Extract from main, section, article tags
-        const mainTags = html.match(/<(main|section|article)[^>]*>[\s\S]*?<\/(main|section|article)>/gi);
+        const mainTags = html.match(
+          /<(main|section|article)[^>]*>[\s\S]*?<\/(main|section|article)>/gi,
+        );
         if (mainTags) {
-          mainTags.slice(0, 3).forEach(tag => {
+          mainTags.slice(0, 3).forEach((tag) => {
             const text = tag.replace(/<[^>]*>/g, "").trim();
             if (text.length > 100) {
-              mainContent.push(text.substring(0, 500) + (text.length > 500 ? "..." : ""));
+              mainContent.push(
+                text.substring(0, 500) + (text.length > 500 ? "..." : ""),
+              );
             }
           });
         }
 
         // Extract structured data (JSON-LD)
         const structuredData = [];
-        const jsonLdMatches = html.match(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi);
+        const jsonLdMatches = html.match(
+          /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi,
+        );
         if (jsonLdMatches) {
-          jsonLdMatches.slice(0, 3).forEach(match => {
+          jsonLdMatches.slice(0, 3).forEach((match) => {
             try {
               const jsonContent = match.replace(/<[^>]*>/g, "").trim();
               const parsed = JSON.parse(jsonContent);
               if (parsed.name || parsed.headline || parsed.description) {
                 structuredData.push({
-                  type: parsed['@type'] || 'Unknown',
+                  type: parsed["@type"] || "Unknown",
                   name: parsed.name || parsed.headline,
-                  description: parsed.description
+                  description: parsed.description,
                 });
               }
             } catch (e) {
@@ -318,10 +354,15 @@ export const handleScrape: RequestHandler = async (req, res) => {
             hasMainContent: mainContent.length > 0,
             hasArticles: articles.length > 0,
             hasAIInsights: aiInsights.keywords.length > 0,
-            contentRichness: (headings.length + paragraphs.length + articles.length + listItems.length + extractedCards.length),
+            contentRichness:
+              headings.length +
+              paragraphs.length +
+              articles.length +
+              listItems.length +
+              extractedCards.length,
             relevanceScore: aiInsights.relevanceScore,
-            contentType: aiInsights.contentType
-          }
+            contentType: aiInsights.contentType,
+          },
         };
 
         // If we found structured data, create separate entries for each item
@@ -335,7 +376,7 @@ export const handleScrape: RequestHandler = async (req, res) => {
             itemPrice: item.price || "",
             itemLocation: item.location || "",
             extractionMethod: item.extractionMethod,
-            type: "structured_item"
+            type: "structured_item",
           }));
         } else {
           scrapedData = [{ ...baseData, type: "website_summary" }];
@@ -379,25 +420,32 @@ function convertToCSV(data: any[]): string {
   if (data.length === 0) return "";
 
   // Flatten and process the data for better CSV output
-  const processedData = data.map(item => {
+  const processedData = data.map((item) => {
     const processed: any = {};
 
-    Object.keys(item).forEach(key => {
+    Object.keys(item).forEach((key) => {
       const value = item[key];
 
       if (Array.isArray(value)) {
         // Handle arrays - join with | separator
         if (value.length === 0) {
           processed[key] = "";
-        } else if (typeof value[0] === 'object') {
+        } else if (typeof value[0] === "object") {
           // For object arrays, extract key information
-          processed[key] = value.map(obj =>
-            obj.name || obj.text || obj.title || obj.type || JSON.stringify(obj)
-          ).join(" | ");
+          processed[key] = value
+            .map(
+              (obj) =>
+                obj.name ||
+                obj.text ||
+                obj.title ||
+                obj.type ||
+                JSON.stringify(obj),
+            )
+            .join(" | ");
         } else {
           processed[key] = value.join(" | ");
         }
-      } else if (typeof value === 'object' && value !== null) {
+      } else if (typeof value === "object" && value !== null) {
         // Handle objects - convert to readable string
         if (value.hasStructuredData !== undefined) {
           // Handle contentQuality object specifically
@@ -434,17 +482,19 @@ function convertToCSV(data: any[]): string {
         const value = item?.[header] ?? "";
         // Handle different data types
         let stringValue = "";
-        if (typeof value === 'boolean') {
+        if (typeof value === "boolean") {
           stringValue = value.toString();
-        } else if (typeof value === 'number') {
+        } else if (typeof value === "number") {
           stringValue = value.toString();
         } else {
           stringValue = String(value);
         }
 
         // Escape quotes and wrap in quotes, limit length for readability
-        const truncatedValue = stringValue.length > 500 ?
-          stringValue.substring(0, 500) + "..." : stringValue;
+        const truncatedValue =
+          stringValue.length > 500
+            ? stringValue.substring(0, 500) + "..."
+            : stringValue;
         const escapedValue = truncatedValue.replace(/"/g, '""');
         return `"${escapedValue}"`;
       })
@@ -463,7 +513,7 @@ function extractCardData(html: string, patternIndex: number): any {
     price: "",
     location: "",
     url: "",
-    image: ""
+    image: "",
   };
 
   // Extract title/heading
@@ -471,7 +521,7 @@ function extractCardData(html: string, patternIndex: number): any {
     /<h[1-6][^>]*>([^<]+)<\/h[1-6]>/i,
     /<div[^>]*class[^>]*(?:title|name|heading)[^>]*>([^<]+)<\/div>/i,
     /<span[^>]*class[^>]*(?:title|name|heading)[^>]*>([^<]+)<\/span>/i,
-    /<a[^>]*class[^>]*(?:title|name|link)[^>]*>([^<]+)<\/a>/i
+    /<a[^>]*class[^>]*(?:title|name|link)[^>]*>([^<]+)<\/a>/i,
   ];
 
   for (const pattern of titlePatterns) {
@@ -486,7 +536,7 @@ function extractCardData(html: string, patternIndex: number): any {
   const descPatterns = [
     /<p[^>]*>([^<]+)<\/p>/i,
     /<div[^>]*class[^>]*(?:description|summary|excerpt)[^>]*>([^<]+)<\/div>/i,
-    /<span[^>]*class[^>]*(?:description|summary)[^>]*>([^<]+)<\/span>/i
+    /<span[^>]*class[^>]*(?:description|summary)[^>]*>([^<]+)<\/span>/i,
   ];
 
   for (const pattern of descPatterns) {
@@ -500,13 +550,13 @@ function extractCardData(html: string, patternIndex: number): any {
   // Extract tags/categories
   const tagPatterns = [
     /class[^>]*(?:tag|category|label|badge)[^>]*>([^<]+)</gi,
-    /<span[^>]*class[^>]*(?:tag|category)[^>]*>([^<]+)<\/span>/gi
+    /<span[^>]*class[^>]*(?:tag|category)[^>]*>([^<]+)<\/span>/gi,
   ];
 
-  tagPatterns.forEach(pattern => {
+  tagPatterns.forEach((pattern) => {
     const matches = html.match(pattern);
     if (matches) {
-      matches.forEach(match => {
+      matches.forEach((match) => {
         const tag = match.replace(/<[^>]*>/g, "").trim();
         if (tag && tag.length < 50) {
           cardData.tags.push(tag);
@@ -519,7 +569,7 @@ function extractCardData(html: string, patternIndex: number): any {
   const pricePatterns = [
     /\$[\d,]+\.?\d*/g,
     /[\d,]+\.?\d*\s*(?:USD|EUR|GBP|₹|¥)/g,
-    /class[^>]*price[^>]*>([^<]*[\d]+[^<]*)<\/[^>]*>/i
+    /class[^>]*price[^>]*>([^<]*[\d]+[^<]*)<\/[^>]*>/i,
   ];
 
   for (const pattern of pricePatterns) {
@@ -533,7 +583,7 @@ function extractCardData(html: string, patternIndex: number): any {
   // Extract location
   const locationPatterns = [
     /class[^>]*(?:location|address|city)[^>]*>([^<]+)</i,
-    /\b(?:San Francisco|New York|London|Tokyo|Berlin|Sydney|Toronto|Mumbai|Bangalore)\b/i
+    /\b(?:San Francisco|New York|London|Tokyo|Berlin|Sydney|Toronto|Mumbai|Bangalore)\b/i,
   ];
 
   for (const pattern of locationPatterns) {
@@ -567,7 +617,7 @@ function getExtractionMethodName(patternIndex: number): string {
     "Article/Blog Post",
     "News Item",
     "Profile/Person",
-    "General Content Card"
+    "General Content Card",
   ];
   return methods[patternIndex] || "Unknown";
 }
@@ -581,10 +631,25 @@ async function generateContentInsights(content: string, url: string) {
 
     // Extract keywords using frequency analysis
     const wordFreq = new Map<string, number>();
-    const stopWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by']);
+    const stopWords = new Set([
+      "the",
+      "a",
+      "an",
+      "and",
+      "or",
+      "but",
+      "in",
+      "on",
+      "at",
+      "to",
+      "for",
+      "of",
+      "with",
+      "by",
+    ]);
 
-    words.forEach(word => {
-      const cleanWord = word.replace(/[^\w]/g, '').toLowerCase();
+    words.forEach((word) => {
+      const cleanWord = word.replace(/[^\w]/g, "").toLowerCase();
       if (cleanWord.length > 2 && !stopWords.has(cleanWord)) {
         wordFreq.set(cleanWord, (wordFreq.get(cleanWord) || 0) + 1);
       }
@@ -596,24 +661,28 @@ async function generateContentInsights(content: string, url: string) {
       .map(([word]) => word);
 
     // Generate summary
-    const sentences = content.split(/[.!?]+/).filter(s => s.trim().length > 30);
-    const summary = sentences.slice(0, 2).join('. ') + '.';
+    const sentences = content
+      .split(/[.!?]+/)
+      .filter((s) => s.trim().length > 30);
+    const summary = sentences.slice(0, 2).join(". ") + ".";
 
     // Calculate relevance score
     const relevanceScore = Math.min(
-      Math.round((wordCount / 100) + (keywords.length * 2) + (sentences.length * 0.5)),
-      100
+      Math.round(
+        wordCount / 100 + keywords.length * 2 + sentences.length * 0.5,
+      ),
+      100,
     );
 
     // Determine content type
     let contentType = "General Content";
-    if (url.includes('api') || content.includes('{"')) {
+    if (url.includes("api") || content.includes('{"')) {
       contentType = "API/JSON Data";
-    } else if (content.includes('company') || content.includes('startup')) {
+    } else if (content.includes("company") || content.includes("startup")) {
       contentType = "Business/Company";
-    } else if (content.includes('product') || content.includes('buy')) {
+    } else if (content.includes("product") || content.includes("buy")) {
       contentType = "E-commerce/Product";
-    } else if (content.includes('blog') || content.includes('article')) {
+    } else if (content.includes("blog") || content.includes("article")) {
       contentType = "Blog/Article";
     }
 
@@ -623,17 +692,20 @@ async function generateContentInsights(content: string, url: string) {
       relevanceScore,
       contentType,
       wordCount,
-      readabilityScore: Math.min(Math.round(sentences.length / wordCount * 1000), 100)
+      readabilityScore: Math.min(
+        Math.round((sentences.length / wordCount) * 1000),
+        100,
+      ),
     };
   } catch (error) {
-    console.error('AI Insights Error:', error);
+    console.error("AI Insights Error:", error);
     return {
       summary: "Content analysis completed",
       keywords: [],
       relevanceScore: 50,
       contentType: "Unknown",
       wordCount: 0,
-      readabilityScore: 50
+      readabilityScore: 50,
     };
   }
 }

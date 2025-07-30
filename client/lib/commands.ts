@@ -48,8 +48,11 @@ ${experience
    Duration: ${exp.duration}
 
    Key Responsibilities:
-   ${exp.description.split(". ").map(task => `   • ${task.trim()}`).join("\n")}
-`
+   ${exp.description
+     .split(". ")
+     .map((task) => `   • ${task.trim()}`)
+     .join("\n")}
+`,
   )
   .join("\n")}
 
@@ -61,33 +64,33 @@ ${education
    Degree:   ${edu.degree}
    Year:     ${edu.year}
    Status:   ${edu.status || "Completed"}
-`
+`,
   )
   .join("\n")}
 
 TECHNICAL SKILLS & EXPERTISE
 ${subseparator}
 Programming Languages:
-  ${skills.languages.map(lang => `• ${lang}`).join("\n  ")}
+  ${skills.languages.map((lang) => `• ${lang}`).join("\n  ")}
 
 Libraries & Frameworks:
-  ${skills.libraries.map(lib => `• ${lib}`).join("\n  ")}
-  ${skills.frameworks.map(fw => `• ${fw}`).join("\n  ")}
+  ${skills.libraries.map((lib) => `• ${lib}`).join("\n  ")}
+  ${skills.frameworks.map((fw) => `• ${fw}`).join("\n  ")}
 
 Data Analysis Tools:
-  ${skills.datatools.map(tool => `• ${tool}`).join("\n  ")}
+  ${skills.datatools.map((tool) => `• ${tool}`).join("\n  ")}
 
 Databases:
-  ${skills.databases.map(db => `• ${db}`).join("\n  ")}
+  ${skills.databases.map((db) => `• ${db}`).join("\n  ")}
 
 APIs & Integration:
-  ${skills.apis.map(api => `• ${api}`).join("\n  ")}
+  ${skills.apis.map((api) => `• ${api}`).join("\n  ")}
 
 Core Concepts:
-  ${skills.concepts.map(concept => `• ${concept}`).join("\n  ")}
+  ${skills.concepts.map((concept) => `• ${concept}`).join("\n  ")}
 
 Version Control & Tools:
-  ${skills.tools.map(tool => `• ${tool}`).join("\n  ")}
+  ${skills.tools.map((tool) => `• ${tool}`).join("\n  ")}
 
 PROFESSIONAL CERTIFICATIONS
 ${subseparator}
@@ -97,17 +100,20 @@ FEATURED PROJECTS
 ${subseparator}
 ${projects
   .map(
-    (project, index) => `${index + 1}. ${project.name.toUpperCase()} ${project.status}
+    (
+      project,
+      index,
+    ) => `${index + 1}. ${project.name.toUpperCase()} ${project.status}
 
    Project Overview:
    ${project.description}
 
    Technologies Used:
-   ${project.tech.map(tech => `   • ${tech}`).join("\n")}
+   ${project.tech.map((tech) => `   • ${tech}`).join("\n")}
 
    Key Details:
    ${project.details}
-`
+`,
   )
   .join("\n")}
 
@@ -121,28 +127,31 @@ Instagram:    ${contact.instagram}
 Location:     ${contact.location.replace("📍 ", "")}
 
 ${separator}
-Generated on: ${new Date().toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit'
-})}
+Generated on: ${new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  })}
 ${separator}
 `;
 };
 
-const downloadResume = (content: string, format: 'txt' | 'pdf' = 'txt'): void => {
-  const timestamp = new Date().toISOString().split('T')[0];
+const downloadResume = (
+  content: string,
+  format: "txt" | "pdf" = "txt",
+): void => {
+  const timestamp = new Date().toISOString().split("T")[0];
 
-  if (format === 'txt') {
+  if (format === "txt") {
     // Create a formatted text version for download
     const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
     link.download = `Suraj_Yadav_Resume_${timestamp}.txt`;
-    link.style.display = 'none';
+    link.style.display = "none";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -269,61 +278,76 @@ const generateHTMLResume = (): string => {
         <p>${about.bio.replace(/\n\n/g, "</p><p>").replace(/\n/g, " ")}</p>
 
         <h2>Work Experience</h2>
-        ${experience.map(exp => `
+        ${experience
+          .map(
+            (exp) => `
             <h3>${exp.company} - ${exp.position}</h3>
             <p><em>${exp.duration}</em></p>
             <p>${exp.description}</p>
-        `).join("")}
+        `,
+          )
+          .join("")}
 
         <h2>Education</h2>
-        ${education.map(edu => `
+        ${education
+          .map(
+            (edu) => `
             <h3>${edu.institution}</h3>
             <p><strong>${edu.degree}</strong> | ${edu.year}</p>
             <p>Status: ${edu.status || "Completed"}</p>
-        `).join("")}
+        `,
+          )
+          .join("")}
 
         <h2>Technical Skills</h2>
         <div class="skills-grid">
             <div class="skill-category">
                 <h4>Programming Languages</h4>
-                <ul>${skills.languages.map(lang => `<li>${lang}</li>`).join("")}</ul>
+                <ul>${skills.languages.map((lang) => `<li>${lang}</li>`).join("")}</ul>
             </div>
             <div class="skill-category">
                 <h4>Libraries & Frameworks</h4>
-                <ul>${skills.libraries.concat(skills.frameworks).map(item => `<li>${item}</li>`).join("")}</ul>
+                <ul>${skills.libraries
+                  .concat(skills.frameworks)
+                  .map((item) => `<li>${item}</li>`)
+                  .join("")}</ul>
             </div>
             <div class="skill-category">
                 <h4>Data Tools</h4>
-                <ul>${skills.datatools.map(tool => `<li>${tool}</li>`).join("")}</ul>
+                <ul>${skills.datatools.map((tool) => `<li>${tool}</li>`).join("")}</ul>
             </div>
             <div class="skill-category">
                 <h4>Databases</h4>
-                <ul>${skills.databases.map(db => `<li>${db}</li>`).join("")}</ul>
+                <ul>${skills.databases.map((db) => `<li>${db}</li>`).join("")}</ul>
             </div>
         </div>
 
         <h2>Certifications</h2>
         <ul>
-            ${certifications.map(cert => `<li>${cert}</li>`).join("")}
+            ${certifications.map((cert) => `<li>${cert}</li>`).join("")}
         </ul>
 
         <h2>Featured Projects</h2>
-        ${projects.map(project => `
+        ${projects
+          .map(
+            (project) => `
             <div class="project">
-                <h3>${project.name} <span class="status ${project.status.includes('✅') ? 'completed' : 'live'}">${project.status}</span></h3>
+                <h3>${project.name} <span class="status ${project.status.includes("✅") ? "completed" : "live"}">${project.status}</span></h3>
                 <p>${project.description}</p>
                 <div class="tech-stack">
                     <strong>Technologies:</strong> ${project.tech.join(", ")}
                 </div>
                 <p><strong>Details:</strong> ${project.details}</p>
             </div>
-        `).join("")}
+        `,
+          )
+          .join("")}
 
         <p style="text-align: center; margin-top: 40px; color: #7f8c8d; font-size: 0.9em;">
-            Generated on ${new Date().toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
+            Generated on ${new Date().toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
             })}
         </p>
     </div>
@@ -333,14 +357,14 @@ const generateHTMLResume = (): string => {
 
 const downloadHTMLResume = (): void => {
   const htmlContent = generateHTMLResume();
-  const timestamp = new Date().toISOString().split('T')[0];
+  const timestamp = new Date().toISOString().split("T")[0];
 
   const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
   const url = window.URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
   link.download = `Suraj_Yadav_Resume_${timestamp}.html`;
-  link.style.display = 'none';
+  link.style.display = "none";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -655,7 +679,7 @@ Try: "ask tell me more about the US Logistics Tech Strategy Research"`;
     handler: () => {
       // Trigger both text and HTML resume downloads
       const resumeContent = generateResumeContent();
-      downloadResume(resumeContent, 'txt');
+      downloadResume(resumeContent, "txt");
 
       // Also generate HTML version
       setTimeout(() => {
