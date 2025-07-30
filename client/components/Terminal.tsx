@@ -329,8 +329,10 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
   };
 
   const handleHeaderCommand = useCallback(async (command: string) => {
+    // Force clear any ongoing animations immediately
+    clearTypingAnimation();
     await handleCommand(command);
-  }, []);
+  }, [clearTypingAnimation]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !isProcessing && !isTyping) {
