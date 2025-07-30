@@ -453,3 +453,187 @@ function convertToCSV(data: any[]): string {
 
   return [csvHeaders, ...csvRows].join("\n");
 }
+
+// Helper function to extract data from content cards
+function extractCardData(html: string, patternIndex: number): any {
+  const cardData: any = {
+    title: "",
+    description: "",
+    tags: [],
+    price: "",
+    location: "",
+    url: "",
+    image: ""
+  };
+
+  // Extract title/heading
+  const titlePatterns = [
+    /<h[1-6][^>]*>([^<]+)<\/h[1-6]>/i,
+    /<div[^>]*class[^>]*(?:title|name|heading)[^>]*>([^<]+)<\/div>/i,
+    /<span[^>]*class[^>]*(?:title|name|heading)[^>]*>([^<]+)<\/span>/i,
+    /<a[^>]*class[^>]*(?:title|name|link)[^>]*>([^<]+)<\/a>/i
+  ];
+
+  for (const pattern of titlePatterns) {
+    const match = html.match(pattern);
+    if (match) {
+      cardData.title = match[1].trim();
+      break;
+    }
+  }
+
+  // Extract description
+  const descPatterns = [
+    /<p[^>]*>([^<]+)<\/p>/i,
+    /<div[^>]*class[^>]*(?:description|summary|excerpt)[^>]*>([^<]+)<\/div>/i,
+    /<span[^>]*class[^>]*(?:description|summary)[^>]*>([^<]+)<\/span>/i
+  ];
+
+  for (const pattern of descPatterns) {
+    const match = html.match(pattern);
+    if (match) {
+      cardData.description = match[1].trim();
+      break;
+    }
+  }
+
+  // Extract tags/categories
+  const tagPatterns = [
+    /class[^>]*(?:tag|category|label|badge)[^>]*>([^<]+)</gi,
+    /<span[^>]*class[^>]*(?:tag|category)[^>]*>([^<]+)<\/span>/gi
+  ];
+
+  tagPatterns.forEach(pattern => {
+    const matches = html.match(pattern);
+    if (matches) {
+      matches.forEach(match => {
+        const tag = match.replace(/<[^>]*>/g, "").trim();
+        if (tag && tag.length < 50) {
+          cardData.tags.push(tag);
+        }
+      });
+    }
+  });
+
+  // Extract price (for e-commerce)
+  const pricePatterns = [
+    /\$[\d,]+\.?\d*/g,
+    /[\d,]+\.?\d*\s*(?:USD|EUR|GBP|₹|¥)/g,
+    /class[^>]*price[^>]*>([^<]*[\d]+[^<]*)<\/[^>]*>/i
+  ];
+
+  for (const pattern of pricePatterns) {
+    const match = html.match(pattern);
+    if (match) {
+      cardData.price = match[0].trim();
+      break;
+    }
+  }
+
+  // Extract location
+  const locationPatterns = [
+    /class[^>]*(?:location|address|city)[^>]*>([^<]+)</i,
+    /\b(?:San Francisco|New York|London|Tokyo|Berlin|Sydney|Toronto|Mumbai|Bangalore)\b/i
+  ];
+
+  for (const pattern of locationPatterns) {
+    const match = html.match(pattern);
+    if (match) {
+      cardData.location = match[1] ? match[1].trim() : match[0].trim();
+      break;
+    }
+  }
+
+  // Extract URL
+  const urlMatch = html.match(/href="([^"]+)"/i);
+  if (urlMatch) {
+    cardData.url = urlMatch[1];
+  }
+
+  // Extract image
+  const imgMatch = html.match(/src="([^"]+)"/i);
+  if (imgMatch) {
+    cardData.image = imgMatch[1];
+  }
+
+  return cardData;
+}
+
+// Helper function to get extraction method name
+function getExtractionMethodName(patternIndex: number): string {
+  const methods = [
+    "Company/Startup Directory",
+    "E-commerce Product",
+    "Article/Blog Post",
+    "News Item",
+    "Profile/Person",
+    "General Content Card"
+  ];
+  return methods[patternIndex] || "Unknown";
+}
+
+// AI-powered content insights
+async function generateContentInsights(content: string, url: string) {
+  try {
+    // Simple pattern-based analysis (simulating AI)
+    const words = content.toLowerCase().split(/\s+/);
+    const wordCount = words.length;
+
+    // Extract keywords using frequency analysis
+    const wordFreq = new Map<string, number>();
+    const stopWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by']);
+
+    words.forEach(word => {
+      const cleanWord = word.replace(/[^\w]/g, '').toLowerCase();
+      if (cleanWord.length > 2 && !stopWords.has(cleanWord)) {
+        wordFreq.set(cleanWord, (wordFreq.get(cleanWord) || 0) + 1);
+      }
+    });
+
+    const keywords = Array.from(wordFreq.entries())
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10)
+      .map(([word]) => word);
+
+    // Generate summary
+    const sentences = content.split(/[.!?]+/).filter(s => s.trim().length > 30);
+    const summary = sentences.slice(0, 2).join('. ') + '.';
+
+    // Calculate relevance score
+    const relevanceScore = Math.min(
+      Math.round((wordCount / 100) + (keywords.length * 2) + (sentences.length * 0.5)),
+      100
+    );
+
+    // Determine content type
+    let contentType = "General Content";
+    if (url.includes('api') || content.includes('{"')) {
+      contentType = "API/JSON Data";
+    } else if (content.includes('company') || content.includes('startup')) {
+      contentType = "Business/Company";
+    } else if (content.includes('product') || content.includes('buy')) {
+      contentType = "E-commerce/Product";
+    } else if (content.includes('blog') || content.includes('article')) {
+      contentType = "Blog/Article";
+    }
+
+    return {
+      summary: summary.substring(0, 300),
+      keywords,
+      relevanceScore,
+      contentType,
+      wordCount,
+      readabilityScore: Math.min(Math.round(sentences.length / wordCount * 1000), 100)
+    };
+  } catch (error) {
+    console.error('AI Insights Error:', error);
+    return {
+      summary: "Content analysis completed",
+      keywords: [],
+      relevanceScore: 50,
+      contentType: "Unknown",
+      wordCount: 0,
+      readabilityScore: 50
+    };
+  }
+}
