@@ -522,7 +522,14 @@ export const createCommands = (
   ask <msg>    - Ask me anything via AI
   snake        - Play snake game
   python       - Python code compiler
-  scrape <url> - Web scraper tool
+  scrape <url> - Enhanced web scraper tool
+
+📊 Data Analysis Commands:
+  eda          - Exploratory Data Analysis tools
+  eda summary  - Dataset overview and statistics
+  eda clean    - Data cleaning and preprocessing
+  eda missing  - Missing value analysis
+  dataviz      - Data visualization tools
 
 🛠️ System Commands:
   clear        - Clear the terminal screen
@@ -614,7 +621,7 @@ Try: "ask tell me about your Python experience"`;
           const techStack = project.tech.join(", ");
           const separator =
             index > 0
-              ? "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━\n"
+              ? "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
               : "";
           const projectNumber = index + 1;
           return `${separator}
@@ -668,7 +675,7 @@ Current Status:
 
 Format Benefits:
 • .txt - Perfect for ATS systems and applicant tracking
-• .html - Beautiful formatting for direct viewing
+�� .html - Beautiful formatting for direct viewing
 • Both include complete professional profile
 • Timestamped filenames for organization
 
@@ -1071,7 +1078,7 @@ Next Steps After Download:
     switch (edaCommand) {
       case "summary":
         return `📊 Dataset Summary & Overview
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 🔍 Last Scraped Data Analysis:
 • Data Shape: Ready for analysis
