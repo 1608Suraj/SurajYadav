@@ -188,75 +188,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
     setShowInput(true);
   }, []);
 
-  // Enhanced typewriter effect with proper cleanup
-  const startTypewriterEffect = useCallback((response: string) => {
-    // Clear any existing animation first
-    clearTypingAnimation();
 
-    setIsTyping(true);
-    setShowInput(false);
-    const lines = response.split("\n");
-    let currentLineIndex = 0;
-    let currentCharIndex = 0;
-    let isAnimationRunning = true;
-
-    const typewriterEffect = () => {
-      // Check if animation was cancelled
-      if (!isAnimationRunning || typingTimeoutRef.current === null) {
-        return;
-      }
-
-      if (currentLineIndex >= lines.length) {
-        setIsTyping(false);
-        setShowInput(true);
-        typingTimeoutRef.current = null;
-        isAnimationRunning = false;
-        return;
-      }
-
-      const currentLine = lines[currentLineIndex];
-
-      if (currentCharIndex === 0) {
-        // Add empty line first
-        addLine("", "output");
-      }
-
-      if (currentCharIndex <= currentLine.length) {
-        const partialText = currentLine.substring(0, currentCharIndex);
-        // Update the last line with partial text
-        setLines((prev) => {
-          const newLines = [...prev];
-          if (newLines.length > 0) {
-            newLines[newLines.length - 1] = {
-              ...newLines[newLines.length - 1],
-              content: partialText,
-            };
-          }
-          return newLines;
-        });
-
-        currentCharIndex++;
-        typingTimeoutRef.current = setTimeout(typewriterEffect, currentLine.length > 50 ? 15 : 25);
-      } else {
-        // Move to next line
-        currentLineIndex++;
-        currentCharIndex = 0;
-        typingTimeoutRef.current = setTimeout(typewriterEffect, 100);
-      }
-    };
-
-    // Start the animation
-    typewriterEffect();
-
-    // Return cleanup function
-    return () => {
-      isAnimationRunning = false;
-      if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current);
-        typingTimeoutRef.current = null;
-      }
-    };
-  }, [addLine, clearTypingAnimation]);
 
   const handleCommand = async (command: string) => {
     if (!command.trim()) return;
