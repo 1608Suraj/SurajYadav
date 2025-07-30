@@ -39,6 +39,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
   const [showInput, setShowInput] = useState(false);
   const [typingQueue, setTypingQueue] = useState<string[]>([]);
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const typingAnimationRef = useRef<boolean>(false);
   const [activeComponent, setActiveComponent] = useState<
     "terminal" | "snake" | "python"
   >("terminal");
