@@ -478,15 +478,12 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         )}
       >
         <div className="flex items-center gap-3">
-          {/* SY Logo */}
-          <div
-            className={cn(
-              "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold",
-              theme === "light" ? "bg-black text-white" : "bg-black text-white",
-            )}
-          >
-            SY
-          </div>
+          {/* Profile Image */}
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets%2Fc9a9ee6425be49b69edc46c3b97cbcf6%2F7c2b1f98b2a748b6a01381bfad6f1d55?format=webp&width=64"
+            alt="Suraj Yadav"
+            className="w-8 h-8 rounded-full object-cover border-2 border-lime-500"
+          />
           <span
             className={cn(
               "font-semibold",
