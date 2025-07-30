@@ -181,10 +181,16 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
 
   // Clear any ongoing typing animation
   const clearTypingAnimation = useCallback(() => {
+    // Stop the animation flag
+    typingAnimationRef.current = false;
+
+    // Clear any pending timeouts
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
       typingTimeoutRef.current = null;
     }
+
+    // Reset states
     setIsTyping(false);
     setShowInput(true);
   }, []);
