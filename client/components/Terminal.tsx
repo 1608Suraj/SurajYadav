@@ -198,10 +198,11 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
     const lines = response.split("\n");
     let currentLineIndex = 0;
     let currentCharIndex = 0;
+    let isAnimationRunning = true;
 
     const typewriterEffect = () => {
       // Check if animation was cancelled
-      if (!isTyping && typingTimeoutRef.current === null) {
+      if (!isAnimationRunning || typingTimeoutRef.current === null) {
         return;
       }
 
@@ -209,6 +210,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         setIsTyping(false);
         setShowInput(true);
         typingTimeoutRef.current = null;
+        isAnimationRunning = false;
         return;
       }
 
@@ -243,8 +245,18 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       }
     };
 
+    // Start the animation
     typewriterEffect();
-  }, [addLine, clearTypingAnimation, isTyping]);
+
+    // Return cleanup function
+    return () => {
+      isAnimationRunning = false;
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+        typingTimeoutRef.current = null;
+      }
+    };
+  }, [addLine, clearTypingAnimation]);
 
   const handleCommand = async (command: string) => {
     if (!command.trim()) return;
