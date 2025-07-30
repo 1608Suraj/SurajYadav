@@ -780,7 +780,7 @@ Try: "ask what's the best way to contact you?"`;
     description: "Toggle light/dark theme",
     handler: () => {
       return `Theme Toggle
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━��
+���━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━��
 
 🌙 Currently in Dark Mode (Terminal Style)
 ☀️  Light mode coming soon!
@@ -902,6 +902,86 @@ Examples:
   ask how did you get into data analysis?
 
 I'll use AI to give you personalized responses!`;
+    },
+  },
+  {
+    name: "eda",
+    description: "Exploratory Data Analysis tools",
+    aliases: ["analyze", "clean"],
+    handler: () => {
+      return `EDA & Data Cleaning Tools
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔍 Data Analysis Commands:
+  eda summary     - Get dataset overview and statistics
+  eda clean       - Clean and preprocess scraped data
+  eda missing     - Analyze missing values
+  eda duplicates  - Find and handle duplicate entries
+  eda outliers    - Detect statistical outliers
+  eda correlate   - Show data correlations
+  eda visualize   - Generate data visualizations
+
+📊 Data Cleaning Options:
+  • Remove empty/null values
+  • Standardize text formatting
+  • Extract structured information
+  • Remove duplicates
+  • Handle data type conversions
+  • Normalize company names and descriptions
+
+🎯 Analysis Features:
+  • Dataset shape and structure
+  • Data quality assessment
+  • Content richness metrics
+  • Missing data patterns
+  • Text analysis and insights
+
+Usage Examples:
+  eda summary     - Overview of last scraped data
+  eda clean --remove-nulls --normalize-text
+  eda missing --threshold 50
+
+Note: EDA commands work with your most recent scrape data.
+Run 'scrape <url>' first to collect data for analysis.`;
+    },
+  },
+  {
+    name: "dataviz",
+    description: "Data visualization and charts",
+    aliases: ["viz", "chart"],
+    handler: () => {
+      return `Data Visualization Tools
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📈 Available Visualizations:
+  dataviz histogram <column>  - Distribution of values
+  dataviz scatter <x> <y>     - Scatter plot correlation
+  dataviz bar <column>        - Bar chart of categories
+  dataviz wordcloud <text>    - Word cloud from text data
+  dataviz timeline <date>     - Timeline visualization
+  dataviz heatmap             - Correlation heatmap
+
+🎨 Chart Types:
+  • Distribution plots (histogram, box plot)
+  • Relationship plots (scatter, line charts)
+  • Categorical plots (bar, pie charts)
+  • Text analysis (word clouds, frequency)
+  • Geographic plots (if location data available)
+
+📊 Interactive Features:
+  • Hover tooltips with details
+  • Zoom and pan capabilities
+  • Export as PNG/SVG
+  • Real-time data updates
+
+Example Usage:
+  dataviz histogram contentLength
+  dataviz bar companyTags
+  dataviz wordcloud companyDescription
+  dataviz scatter totalLinks totalImages
+
+Note: Visualizations are generated from your scraped data.
+Clean your data first using 'eda clean' for better results.`;
     },
   },
 ];
