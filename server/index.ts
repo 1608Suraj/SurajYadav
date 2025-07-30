@@ -4,6 +4,7 @@ import cors from "cors";
 import { handleDemo } from "./routes/demo";
 import { handleAIChat } from "./routes/ai-chat";
 import { handleScrape } from "./routes/scrape";
+import { handleAIAnalyze } from "./routes/ai-analyze";
 
 export function createServer() {
   const app = express();
@@ -22,6 +23,7 @@ export function createServer() {
   app.get("/api/demo", handleDemo);
   app.post("/api/ai-chat", handleAIChat);
   app.post("/api/scrape", handleScrape);
+  app.post("/api/ai-analyze", handleAIAnalyze);
 
   return app;
 }
