@@ -312,13 +312,13 @@ export const handleScrape: RequestHandler = async (req, res) => {
           totalImages: images.length,
           totalArticles: articles.length,
           totalListItems: listItems.length,
-          totalStructuredItems: structuredData.length,
+          totalStructuredItems: extractedCards.length,
           contentQuality: {
-            hasStructuredData: structuredData.length > 0,
+            hasStructuredData: extractedCards.length > 0,
             hasMainContent: mainContent.length > 0,
             hasArticles: articles.length > 0,
             hasAIInsights: aiInsights.keywords.length > 0,
-            contentRichness: (headings.length + paragraphs.length + articles.length + listItems.length + structuredData.length),
+            contentRichness: (headings.length + paragraphs.length + articles.length + listItems.length + extractedCards.length),
             relevanceScore: aiInsights.relevanceScore,
             contentType: aiInsights.contentType
           }
