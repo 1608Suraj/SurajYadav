@@ -167,7 +167,7 @@ export const handleScrape: RequestHandler = async (req, res) => {
             matches.slice(0, 8).forEach((match, matchIndex) => {
               const cardData = extractCardData(match, patternIndex);
               if (cardData.title || cardData.description) {
-                structuredData.push({
+                extractedCards.push({
                   ...cardData,
                   id: `${patternIndex}_${matchIndex}`,
                   extractionMethod: getExtractionMethodName(patternIndex)
