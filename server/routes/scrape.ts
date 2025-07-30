@@ -143,7 +143,7 @@ export const handleScrape: RequestHandler = async (req, res) => {
         }
 
         // Universal content extraction patterns
-        const structuredData = [];
+        const extractedCards = [];
 
         // Extract company/product cards (universal patterns)
         const cardPatterns = [
