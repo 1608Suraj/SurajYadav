@@ -37,6 +37,8 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
   const [cursorVisible, setCursorVisible] = useState(true);
   const [isTyping, setIsTyping] = useState(false);
   const [showInput, setShowInput] = useState(false);
+  const [typingQueue, setTypingQueue] = useState<string[]>([]);
+  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [activeComponent, setActiveComponent] = useState<
     "terminal" | "snake" | "python"
   >("terminal");
@@ -176,8 +178,84 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
     setShowInput(true);
   }, [addLine]);
 
+  // Clear any ongoing typing animation
+  const clearTypingAnimation = useCallback(() => {
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+      typingTimeoutRef.current = null;
+    }
+    setIsTyping(false);
+    setShowInput(true);
+  }, []);
+
+  // Enhanced typewriter effect with proper cleanup
+  const startTypewriterEffect = useCallback((response: string) => {
+    // Clear any existing animation first
+    clearTypingAnimation();
+
+    setIsTyping(true);
+    setShowInput(false);
+    const lines = response.split("\n");
+    let currentLineIndex = 0;
+    let currentCharIndex = 0;
+
+    const typewriterEffect = () => {
+      // Check if animation was cancelled
+      if (!isTyping && typingTimeoutRef.current === null) {
+        return;
+      }
+
+      if (currentLineIndex >= lines.length) {
+        setIsTyping(false);
+        setShowInput(true);
+        typingTimeoutRef.current = null;
+        return;
+      }
+
+      const currentLine = lines[currentLineIndex];
+
+      if (currentCharIndex === 0) {
+        // Add empty line first
+        addLine("", "output");
+      }
+
+      if (currentCharIndex <= currentLine.length) {
+        const partialText = currentLine.substring(0, currentCharIndex);
+        // Update the last line with partial text
+        setLines((prev) => {
+          const newLines = [...prev];
+          if (newLines.length > 0) {
+            newLines[newLines.length - 1] = {
+              ...newLines[newLines.length - 1],
+              content: partialText,
+            };
+          }
+          return newLines;
+        });
+
+        currentCharIndex++;
+        typingTimeoutRef.current = setTimeout(typewriterEffect, currentLine.length > 50 ? 15 : 25);
+      } else {
+        // Move to next line
+        currentLineIndex++;
+        currentCharIndex = 0;
+        typingTimeoutRef.current = setTimeout(typewriterEffect, 100);
+      }
+    };
+
+    typewriterEffect();
+  }, [addLine, clearTypingAnimation, isTyping]);
+
   const handleCommand = async (command: string) => {
     if (!command.trim()) return;
+
+    // Prevent multiple concurrent commands
+    if (isProcessing || isTyping) {
+      return;
+    }
+
+    // Clear any ongoing animations
+    clearTypingAnimation();
 
     // Add command to history
     setCommandHistory((prev) => [...prev, command]);
@@ -200,6 +278,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         setLines([]);
         setIsTyping(false);
         setIsProcessing(false);
+        setShowInput(true);
         return;
       }
 
@@ -208,6 +287,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         setActiveComponent("snake");
         setIsTyping(false);
         setIsProcessing(false);
+        setShowInput(false);
         return;
       }
 
@@ -215,6 +295,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
         setActiveComponent("python");
         setIsTyping(false);
         setIsProcessing(false);
+        setShowInput(false);
         return;
       }
 
@@ -226,55 +307,12 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
           `Theme switched to ${theme === "light" ? "dark" : "light"} mode`,
           "output",
         );
+        setShowInput(true);
         return;
       }
 
-      // Enhanced typewriter effect - character by character
-      setIsTyping(true);
-      setShowInput(false);
-      const lines = response.split("\n");
-      let currentLineIndex = 0;
-      let currentCharIndex = 0;
-
-      const typewriterEffect = () => {
-        if (currentLineIndex >= lines.length) {
-          setIsTyping(false);
-          setShowInput(true);
-          return;
-        }
-
-        const currentLine = lines[currentLineIndex];
-
-        if (currentCharIndex === 0) {
-          // Add empty line first
-          addLine("", "output");
-        }
-
-        if (currentCharIndex <= currentLine.length) {
-          const partialText = currentLine.substring(0, currentCharIndex);
-          // Update the last line with partial text
-          setLines((prev) => {
-            const newLines = [...prev];
-            if (newLines.length > 0) {
-              newLines[newLines.length - 1] = {
-                ...newLines[newLines.length - 1],
-                content: partialText,
-              };
-            }
-            return newLines;
-          });
-
-          currentCharIndex++;
-          setTimeout(typewriterEffect, currentLine.length > 50 ? 15 : 25); // Faster for longer lines
-        } else {
-          // Move to next line
-          currentLineIndex++;
-          currentCharIndex = 0;
-          setTimeout(typewriterEffect, 100); // Pause between lines
-        }
-      };
-
-      typewriterEffect();
+      // Start typewriter effect for the response
+      startTypewriterEffect(response);
     } catch (error) {
       addLine("Error: Failed to process command", "output");
       setIsTyping(false);
@@ -291,6 +329,9 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && !isProcessing && !isTyping) {
       handleCommand(currentInput);
+    } else if (e.key === "Escape" && isTyping) {
+      // Allow canceling typing animation with Escape key
+      clearTypingAnimation();
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       if (commandHistory.length > 0) {
@@ -502,7 +543,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
             {lines.map(renderLine)}
 
             {/* Current Input Line */}
-            {showInput && !isTyping && (
+            {showInput && !isTyping && !isProcessing && (
               <div className="flex items-center font-mono text-sm sm:text-base">
                 <span
                   className={cn(
@@ -520,14 +561,14 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
                   value={currentInput}
                   onChange={(e) => setCurrentInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  disabled={isProcessing}
+                  disabled={isProcessing || isTyping}
                   className={cn(
                     "flex-1 bg-transparent border-none outline-none font-semibold",
                     theme === "light"
                       ? "text-red-600 caret-red-600 placeholder:text-red-600/50"
                       : "text-lime-500 caret-lime-500 terminal-text-glow placeholder:text-lime-500/50",
                   )}
-                  placeholder={isProcessing ? "Processing..." : "type here"}
+                  placeholder={isProcessing ? "Processing..." : isTyping ? "Typing..." : "type here"}
                   autoFocus
                 />
                 <span
@@ -540,6 +581,26 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
                     "transition-opacity duration-100",
                   )}
                 ></span>
+              </div>
+            )}
+
+            {/* Status indicator when typing or processing */}
+            {(isTyping || isProcessing) && (
+              <div className="flex items-center font-mono text-sm opacity-60">
+                <span className={cn(
+                  "mr-2",
+                  theme === "light" ? "text-gray-500" : "text-gray-400"
+                )}>
+                  {isProcessing ? "⏳ Processing..." : "⌨️ Typing..."}
+                </span>
+                {isTyping && (
+                  <span className={cn(
+                    "text-xs",
+                    theme === "light" ? "text-gray-400" : "text-gray-500"
+                  )}>
+                    (Press ESC to skip)
+                  </span>
+                )}
               </div>
             )}
 
