@@ -200,13 +200,13 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
   const handleCommand = async (command: string) => {
     if (!command.trim()) return;
 
-    // Prevent multiple concurrent commands
-    if (isProcessing || isTyping) {
-      return;
-    }
-
-    // Clear any ongoing animations
+    // Always clear any ongoing animations first
     clearTypingAnimation();
+
+    // Prevent multiple concurrent commands (but allow override)
+    if (isProcessing) {
+      setIsProcessing(false);
+    }
 
     // Add command to history
     setCommandHistory((prev) => [...prev, command]);
