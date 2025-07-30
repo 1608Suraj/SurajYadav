@@ -621,7 +621,7 @@ Try: "ask tell me about your Python experience"`;
 ${projectNumber}. 📦 ${project.name} ${project.status}
    ${project.description}
    🔧 Tech Stack: ${techStack}
-   ���� Details: ${project.details || "More details available on request"}`;
+   📝 Details: ${project.details || "More details available on request"}`;
         })
         .join("\n");
 
@@ -638,13 +638,22 @@ Try: "ask tell me more about the US Logistics Tech Strategy Research"`;
     description: "View/download my resume",
     aliases: ["cv"],
     handler: () => {
-      // Trigger resume download
+      // Trigger both text and HTML resume downloads
       const resumeContent = generateResumeContent();
-      downloadResume(resumeContent);
+      downloadResume(resumeContent, 'txt');
 
-      return `Resume Download
+      // Also generate HTML version
+      setTimeout(() => {
+        downloadHTMLResume();
+      }, 500);
 
-📄 Your resume download has started!
+      return `Resume Download Package
+
+📄 Your resume downloads have started!
+
+Download Package Includes:
+• Professional Text Resume (.txt) - ATS friendly
+• Formatted HTML Resume (.html) - Web optimized
 
 Resume Highlights:
 • Data Analyst Trainee at Debugshala (Feb 2025 - Present)
@@ -653,17 +662,24 @@ Resume Highlights:
 • Strong background in data visualization with Power BI
 
 Current Status:
-✅ Download initiated
-📊 Format: PDF
-📈 Updated: December 2024
+✅ Text version downloaded
+✅ HTML version downloaded
+🗓️ Updated: ${new Date().toLocaleDateString()}
+
+Format Benefits:
+• .txt - Perfect for ATS systems and applicant tracking
+• .html - Beautiful formatting for direct viewing
+• Both include complete professional profile
+• Timestamped filenames for organization
 
 The resume includes:
 • Professional experience and achievements
 • Technical skills and certifications
 • Educational background
 • Featured projects and case studies
+• Contact information with clickable links (HTML version)
 
-If download doesn't start automatically, try refreshing the page.`;
+Print-ready and web-optimized for all application needs!`;
     },
   },
   {
