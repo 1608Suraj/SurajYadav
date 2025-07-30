@@ -125,17 +125,62 @@ export const handleScrape: RequestHandler = async (req, res) => {
             ...h3Matches.map((h) => h.replace(/<[^>]*>/g, "").trim()),
           );
 
-        // Extract paragraph content
+        // Extract paragraph content with improved parsing
         const paragraphs = [];
-        const pMatches = html.match(/<p[^>]*>([^<]+)<\/p>/gi);
+        const pMatches = html.match(/<p[^>]*>[\s\S]*?<\/p>/gi);
         if (pMatches) {
           paragraphs.push(
             ...pMatches
-              .map((p) => p.replace(/<[^>]*>/g, "").trim())
-              .filter((p) => p.length > 20)
-              .slice(0, 10),
+              .map((p) => {
+                // Remove HTML tags and decode entities
+                let text = p.replace(/<[^>]*>/g, "").trim();
+                text = text.replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"');
+                return text;
+              })
+              .filter((p) => p.length > 20 && !p.includes("Click here") && !p.includes("Read more"))
+              .slice(0, 15),
           );
         }
+
+        // Extract article content
+        const articles = [];
+        const articleMatches = html.match(/<article[^>]*>[\s\S]*?<\/article>/gi);
+        if (articleMatches) {
+          articleMatches.slice(0, 5).forEach((article) => {
+            const text = article.replace(/<[^>]*>/g, "").trim();
+            if (text.length > 50) {
+              articles.push(text.substring(0, 500) + (text.length > 500 ? "..." : ""));
+            }
+          });
+        }
+
+        // Extract list items
+        const listItems = [];
+        const liMatches = html.match(/<li[^>]*>[\s\S]*?<\/li>/gi);
+        if (liMatches) {
+          listItems.push(
+            ...liMatches
+              .map((li) => li.replace(/<[^>]*>/g, "").trim())
+              .filter((li) => li.length > 10 && li.length < 200)
+              .slice(0, 20)
+          );
+        }
+
+        // Extract div content with meaningful classes
+        const contentDivs = [];
+        const meaningfulClasses = ["content", "article", "post", "description", "summary", "text", "body"];
+        meaningfulClasses.forEach(className => {
+          const regex = new RegExp(`<div[^>]*class=["'][^"']*${className}[^"']*["'][^>]*>([\\s\\S]*?)<\/div>`, 'gi');
+          const matches = html.match(regex);
+          if (matches) {
+            matches.slice(0, 3).forEach(match => {
+              const text = match.replace(/<[^>]*>/g, "").trim();
+              if (text.length > 50) {
+                contentDivs.push(text.substring(0, 300) + (text.length > 300 ? "..." : ""));
+              }
+            });
+          }
+        });
 
         // Extract links
         const links = [];
@@ -171,22 +216,70 @@ export const handleScrape: RequestHandler = async (req, res) => {
           });
         }
 
-        // Create detailed scraped data
+        // Extract main text content using multiple strategies
+        const mainContent = [];
+
+        // Strategy 1: Extract from main, section, article tags
+        const mainTags = html.match(/<(main|section|article)[^>]*>[\s\S]*?<\/(main|section|article)>/gi);
+        if (mainTags) {
+          mainTags.slice(0, 3).forEach(tag => {
+            const text = tag.replace(/<[^>]*>/g, "").trim();
+            if (text.length > 100) {
+              mainContent.push(text.substring(0, 500) + (text.length > 500 ? "..." : ""));
+            }
+          });
+        }
+
+        // Extract structured data (JSON-LD)
+        const structuredData = [];
+        const jsonLdMatches = html.match(/<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi);
+        if (jsonLdMatches) {
+          jsonLdMatches.slice(0, 3).forEach(match => {
+            try {
+              const jsonContent = match.replace(/<[^>]*>/g, "").trim();
+              const parsed = JSON.parse(jsonContent);
+              if (parsed.name || parsed.headline || parsed.description) {
+                structuredData.push({
+                  type: parsed['@type'] || 'Unknown',
+                  name: parsed.name || parsed.headline,
+                  description: parsed.description
+                });
+              }
+            } catch (e) {
+              // Skip invalid JSON
+            }
+          });
+        }
+
+        // Create detailed scraped data with enhanced content
         scrapedData = [
           {
             url: url,
             title: title,
             description: description,
-            headings: headings.slice(0, 10),
-            paragraphs: paragraphs.slice(0, 5),
-            links: links.slice(0, 15),
-            images: images.slice(0, 8),
+            headings: headings.slice(0, 15),
+            paragraphs: paragraphs.slice(0, 10),
+            articles: articles,
+            listItems: listItems.slice(0, 15),
+            contentDivs: contentDivs,
+            mainContent: mainContent,
+            structuredData: structuredData,
+            links: links.slice(0, 20),
+            images: images.slice(0, 10),
             scrapedAt: new Date().toISOString(),
             contentLength: html.length,
             totalHeadings: headings.length,
             totalParagraphs: paragraphs.length,
             totalLinks: links.length,
             totalImages: images.length,
+            totalArticles: articles.length,
+            totalListItems: listItems.length,
+            contentQuality: {
+              hasStructuredData: structuredData.length > 0,
+              hasMainContent: mainContent.length > 0,
+              hasArticles: articles.length > 0,
+              contentRichness: (headings.length + paragraphs.length + articles.length + listItems.length)
+            }
           },
         ];
       } catch (error) {
