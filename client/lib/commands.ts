@@ -132,13 +132,215 @@ ${separator}
 `;
 };
 
-const downloadResume = (content: string): void => {
-  // Create a simple text version for download
-  const blob = new Blob([content], { type: "text/plain" });
+const downloadResume = (content: string, format: 'txt' | 'pdf' = 'txt'): void => {
+  const timestamp = new Date().toISOString().split('T')[0];
+
+  if (format === 'txt') {
+    // Create a formatted text version for download
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `Suraj_Yadav_Resume_${timestamp}.txt`;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  }
+};
+
+const generateHTMLResume = (): string => {
+  const {
+    about,
+    skills,
+    experience,
+    education,
+    certifications,
+    contact,
+    projects,
+  } = portfolioData;
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suraj Yadav - Resume</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        .resume-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        h2 {
+            color: #2980b9;
+            margin: 25px 0 15px 0;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        h3 { color: #34495e; margin: 15px 0 10px 0; }
+        .contact-info {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .contact-info p { margin: 5px 0; }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .skill-category {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        .skill-category h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        ul { margin-left: 20px; }
+        li { margin: 5px 0; }
+        .project {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border-left: 4px solid #e74c3c;
+        }
+        .project h3 { color: #c0392b; margin-bottom: 10px; }
+        .tech-stack {
+            background: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        .status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        .status.completed { background: #d4edda; color: #155724; }
+        .status.live { background: #cce5ff; color: #004085; }
+        @media print {
+            body { background: white; }
+            .resume-container { box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <h1>${about.name}</h1>
+        <div class="contact-info">
+            <p><strong>Role:</strong> ${about.role}</p>
+            <p><strong>Location:</strong> ${about.location.replace("📍 ", "")}</p>
+            <p><strong>Email:</strong> <a href="mailto:${contact.email.replace("✉️ ", "")}">${contact.email.replace("✉️ ", "")}</a></p>
+            <p><strong>Phone:</strong> ${contact.phone.replace("📞 ", "")}</p>
+            <p><strong>LinkedIn:</strong> <a href="${contact.linkedin}">${contact.linkedin}</a></p>
+            <p><strong>GitHub:</strong> <a href="${contact.github}">${contact.github}</a></p>
+        </div>
+
+        <h2>Professional Summary</h2>
+        <p>${about.bio.replace(/\n\n/g, "</p><p>").replace(/\n/g, " ")}</p>
+
+        <h2>Work Experience</h2>
+        ${experience.map(exp => `
+            <h3>${exp.company} - ${exp.position}</h3>
+            <p><em>${exp.duration}</em></p>
+            <p>${exp.description}</p>
+        `).join("")}
+
+        <h2>Education</h2>
+        ${education.map(edu => `
+            <h3>${edu.institution}</h3>
+            <p><strong>${edu.degree}</strong> | ${edu.year}</p>
+            <p>Status: ${edu.status || "Completed"}</p>
+        `).join("")}
+
+        <h2>Technical Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h4>Programming Languages</h4>
+                <ul>${skills.languages.map(lang => `<li>${lang}</li>`).join("")}</ul>
+            </div>
+            <div class="skill-category">
+                <h4>Libraries & Frameworks</h4>
+                <ul>${skills.libraries.concat(skills.frameworks).map(item => `<li>${item}</li>`).join("")}</ul>
+            </div>
+            <div class="skill-category">
+                <h4>Data Tools</h4>
+                <ul>${skills.datatools.map(tool => `<li>${tool}</li>`).join("")}</ul>
+            </div>
+            <div class="skill-category">
+                <h4>Databases</h4>
+                <ul>${skills.databases.map(db => `<li>${db}</li>`).join("")}</ul>
+            </div>
+        </div>
+
+        <h2>Certifications</h2>
+        <ul>
+            ${certifications.map(cert => `<li>${cert}</li>`).join("")}
+        </ul>
+
+        <h2>Featured Projects</h2>
+        ${projects.map(project => `
+            <div class="project">
+                <h3>${project.name} <span class="status ${project.status.includes('✅') ? 'completed' : 'live'}">${project.status}</span></h3>
+                <p>${project.description}</p>
+                <div class="tech-stack">
+                    <strong>Technologies:</strong> ${project.tech.join(", ")}
+                </div>
+                <p><strong>Details:</strong> ${project.details}</p>
+            </div>
+        `).join("")}
+
+        <p style="text-align: center; margin-top: 40px; color: #7f8c8d; font-size: 0.9em;">
+            Generated on ${new Date().toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            })}
+        </p>
+    </div>
+</body>
+</html>`;
+};
+
+const downloadHTMLResume = (): void => {
+  const htmlContent = generateHTMLResume();
+  const timestamp = new Date().toISOString().split('T')[0];
+
+  const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
   const url = window.URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = "Suraj_Yadav_Resume.txt";
+  link.download = `Suraj_Yadav_Resume_${timestamp}.html`;
+  link.style.display = 'none';
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -419,7 +621,7 @@ Try: "ask tell me about your Python experience"`;
 ${projectNumber}. 📦 ${project.name} ${project.status}
    ${project.description}
    🔧 Tech Stack: ${techStack}
-   📝 Details: ${project.details || "More details available on request"}`;
+   ���� Details: ${project.details || "More details available on request"}`;
         })
         .join("\n");
 
