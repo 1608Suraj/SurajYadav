@@ -626,7 +626,7 @@ ${projectNumber}. 📦 ${project.name} ${project.status}
         .join("\n");
 
       return `Featured Projects
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━���━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${projectList}
 
 Want to know more about any project?
@@ -1036,15 +1036,29 @@ Example: scrape https://jsonplaceholder.typicode.com/posts`;
 
       // Trigger scraping process
       executeScraping(url);
-      return `🔄 Starting web scraping process...
+      return `🔄 Enhanced Web Scraping Process Started...
 
 Target URL: ${url}
-Status: Fetching data...
-Processing: Extracting and converting to CSV format
+Status: Fetching and analyzing content...
+Processing: Advanced content extraction and CSV conversion
+
+Extraction Features:
+• Website metadata and descriptions
+• Article content and paragraphs
+• Headings and structured content
+• Company/product data (if applicable)
+• Links and media information
+• Content quality analysis
 
 📥 Download will start automatically when complete
-⏱️ This may take a few moments depending on the data size
-📊 Results will be limited to first 100 records for performance`;
+⏱️ Processing time varies based on content complexity
+📄 Results optimized with quality metrics
+📊 Enhanced data structure for EDA analysis
+
+Next Steps After Download:
+  Use 'eda summary' to analyze the scraped data
+  Use 'eda clean' to preprocess the data
+  Use 'dataviz' commands to visualize insights`;
     } catch (error) {
       return `Scraping Error: ${error instanceof Error ? error.message : "Unknown error"}`;
     }
