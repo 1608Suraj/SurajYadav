@@ -664,7 +664,7 @@ Download Package Includes:
 
 Resume Highlights:
 • Data Analyst Trainee at Debugshala (Feb 2025 - Present)
-• Expert in Python, SQL, and Data Analytics
+��� Expert in Python, SQL, and Data Analytics
 • Experience with data scraping and preprocessing
 • Strong background in data visualization with Power BI
 
@@ -787,7 +787,7 @@ Try: "ask what's the best way to contact you?"`;
     description: "Toggle light/dark theme",
     handler: () => {
       return `Theme Toggle
-���━━━━━━━━━━━━━━━━━━━━━���━━━━━━━━━━━━━━���━━━━━━━��
+���━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━��
 
 🌙 Currently in Dark Mode (Terminal Style)
 ☀️  Light mode coming soon!
@@ -975,7 +975,7 @@ Run 'scrape <url>' first to collect data for analysis.`;
     aliases: ["viz", "chart"],
     handler: () => {
       return `Data Visualization Tools
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━���━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 📈 Available Visualizations:
   dataviz histogram <column>  - Distribution of values
@@ -1094,35 +1094,44 @@ Next Steps After Download:
 
     switch (edaCommand) {
       case "summary":
-        return `📊 Dataset Summary & Overview
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━��━━━━━━━━━━━━━━━━
+        return `📊 Enhanced Dataset Summary & AI Analysis
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 🔍 Last Scraped Data Analysis:
-• Data Shape: Ready for analysis
-• Content Types: Web content, structured data, company info
-• Quality Score: High (enhanced extraction)
+• Data Shape: Ready for analysis with AI insights
+• Content Types: Universal web content extraction
+• Quality Score: High (AI-enhanced extraction)
 
 📈 Key Metrics:
-• Total Records: Varies by site complexity
-• Data Completeness: ~85-95%
-• Content Richness: Enhanced extraction
-• Company Data: Available when applicable
+• Total Records: Optimized extraction per site
+• Data Completeness: ~90-98%
+• Content Richness: Universal patterns + AI analysis
+• Structured Items: Cards, products, articles, profiles
 
-🎯 Data Quality Features:
-• Structured company information
-• Clean text extraction
-• Metadata preservation
-• Link and image cataloging
-• Content categorization
+🤖 AI-Powered Features:
+• Intelligent content categorization
+• Automatic keyword extraction
+• Relevance scoring (0-100)
+• Content type detection
+• Readability analysis
+• Summary generation
 
-💡 Recommended Next Steps:
-  1. Run 'eda clean' to preprocess data
-  2. Use 'eda missing' to check data gaps
-  3. Try 'dataviz bar companyTags' for insights
-  4. Explore 'eda correlate' for relationships
+🎯 Universal Extraction Patterns:
+• Company/startup directories (YC, directories)
+• E-commerce products and listings
+• Blog posts and articles
+• News items and stories
+• Profile/person cards
+• General content cards
 
-Note: Analysis based on enhanced scraper output.
-Your data includes company names, descriptions, and metadata.`;
+💡 Enhanced Analysis Steps:
+  1. Run 'eda clean' for preprocessing results
+  2. Use 'eda missing' for data quality check
+  3. Try 'dataviz bar itemTags' for insights
+  4. Check AI relevance scores and content types
+
+Note: Data now includes AI-generated insights,
+keywords, summaries, and universal content patterns.`;
 
       case "clean":
         return `🧹 Data Cleaning & Preprocessing
@@ -1171,7 +1180,7 @@ Your CSV file contains clean, analysis-ready data.`;
 
 🛠️ Missing Data Handling:
 • Empty strings for missing text
-��� Default values for metrics
+• Default values for metrics
 • Null indicators preserved
 • Alternative extraction methods used
 
