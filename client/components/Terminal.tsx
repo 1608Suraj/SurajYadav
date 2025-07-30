@@ -265,15 +265,24 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       // Start typewriter effect for the response
       setIsTyping(true);
       setShowInput(false);
+      typingAnimationRef.current = true;
       const responseLines = response.split("\n");
       let lineIndex = 0;
       let charIndex = 0;
 
       const typeResponse = () => {
+        // Check if animation was cancelled
+        if (!typingAnimationRef.current) {
+          return;
+        }
+
         if (lineIndex >= responseLines.length) {
-          setIsTyping(false);
-          setShowInput(true);
-          setIsProcessing(false);
+          if (typingAnimationRef.current) {
+            setIsTyping(false);
+            setShowInput(true);
+            setIsProcessing(false);
+            typingAnimationRef.current = false;
+          }
           return;
         }
 
@@ -288,6 +297,7 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
           const partialText = currentLine.substring(0, charIndex);
           // Update the last line with partial text
           setLines((prev) => {
+            if (!typingAnimationRef.current) return prev; // Don't update if cancelled
             const newLines = [...prev];
             if (newLines.length > 0) {
               newLines[newLines.length - 1] = {
@@ -299,12 +309,12 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
           });
 
           charIndex++;
-          setTimeout(typeResponse, currentLine.length > 50 ? 10 : 20);
+          typingTimeoutRef.current = setTimeout(typeResponse, currentLine.length > 50 ? 8 : 15);
         } else {
           // Move to next line
           lineIndex++;
           charIndex = 0;
-          setTimeout(typeResponse, 50);
+          typingTimeoutRef.current = setTimeout(typeResponse, 30);
         }
       };
 
