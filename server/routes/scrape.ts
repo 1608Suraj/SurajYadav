@@ -320,12 +320,48 @@ export const handleScrape: RequestHandler = async (req, res) => {
 function convertToCSV(data: any[]): string {
   if (data.length === 0) return "";
 
-  // Get all unique keys from all objects
+  // Flatten and process the data for better CSV output
+  const processedData = data.map(item => {
+    const processed: any = {};
+
+    Object.keys(item).forEach(key => {
+      const value = item[key];
+
+      if (Array.isArray(value)) {
+        // Handle arrays - join with | separator
+        if (value.length === 0) {
+          processed[key] = "";
+        } else if (typeof value[0] === 'object') {
+          // For object arrays, extract key information
+          processed[key] = value.map(obj =>
+            obj.name || obj.text || obj.title || obj.type || JSON.stringify(obj)
+          ).join(" | ");
+        } else {
+          processed[key] = value.join(" | ");
+        }
+      } else if (typeof value === 'object' && value !== null) {
+        // Handle objects - convert to readable string
+        if (value.hasStructuredData !== undefined) {
+          // Handle contentQuality object specifically
+          processed[`${key}_hasStructuredData`] = value.hasStructuredData;
+          processed[`${key}_hasMainContent`] = value.hasMainContent;
+          processed[`${key}_hasArticles`] = value.hasArticles;
+          processed[`${key}_contentRichness`] = value.contentRichness;
+        } else {
+          processed[key] = JSON.stringify(value);
+        }
+      } else {
+        processed[key] = value;
+      }
+    });
+
+    return processed;
+  });
+
+  // Get all unique keys from processed data
   const allKeys = new Set<string>();
-  data.forEach((item) => {
-    if (typeof item === "object" && item !== null) {
-      Object.keys(item).forEach((key) => allKeys.add(key));
-    }
+  processedData.forEach((item) => {
+    Object.keys(item).forEach((key) => allKeys.add(key));
   });
 
   const headers = Array.from(allKeys);
@@ -334,12 +370,24 @@ function convertToCSV(data: any[]): string {
   const csvHeaders = headers.map((header) => `"${header}"`).join(",");
 
   // Create CSV rows
-  const csvRows = data.map((item) => {
+  const csvRows = processedData.map((item) => {
     return headers
       .map((header) => {
         const value = item?.[header] ?? "";
-        // Escape quotes and wrap in quotes
-        const escapedValue = String(value).replace(/"/g, '""');
+        // Handle different data types
+        let stringValue = "";
+        if (typeof value === 'boolean') {
+          stringValue = value.toString();
+        } else if (typeof value === 'number') {
+          stringValue = value.toString();
+        } else {
+          stringValue = String(value);
+        }
+
+        // Escape quotes and wrap in quotes, limit length for readability
+        const truncatedValue = stringValue.length > 500 ?
+          stringValue.substring(0, 500) + "..." : stringValue;
+        const escapedValue = truncatedValue.replace(/"/g, '""');
         return `"${escapedValue}"`;
       })
       .join(",");
