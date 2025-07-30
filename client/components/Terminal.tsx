@@ -324,7 +324,52 @@ export const Terminal: React.FC<TerminalProps> = ({ className, onCommand }) => {
       }
 
       // Start typewriter effect for the response
-      startTypewriterEffect(response);
+      setIsTyping(true);
+      setShowInput(false);
+      const responseLines = response.split("\n");
+      let lineIndex = 0;
+      let charIndex = 0;
+
+      const typeResponse = () => {
+        if (lineIndex >= responseLines.length) {
+          setIsTyping(false);
+          setShowInput(true);
+          setIsProcessing(false);
+          return;
+        }
+
+        const currentLine = responseLines[lineIndex];
+
+        if (charIndex === 0) {
+          // Add empty line first
+          addLine("", "output");
+        }
+
+        if (charIndex <= currentLine.length) {
+          const partialText = currentLine.substring(0, charIndex);
+          // Update the last line with partial text
+          setLines((prev) => {
+            const newLines = [...prev];
+            if (newLines.length > 0) {
+              newLines[newLines.length - 1] = {
+                ...newLines[newLines.length - 1],
+                content: partialText,
+              };
+            }
+            return newLines;
+          });
+
+          charIndex++;
+          setTimeout(typeResponse, currentLine.length > 50 ? 10 : 20);
+        } else {
+          // Move to next line
+          lineIndex++;
+          charIndex = 0;
+          setTimeout(typeResponse, 50);
+        }
+      };
+
+      typeResponse();
     } catch (error) {
       addLine("Error: Failed to process command", "output");
       setIsTyping(false);
