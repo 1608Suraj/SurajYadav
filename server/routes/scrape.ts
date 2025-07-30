@@ -289,36 +289,51 @@ export const handleScrape: RequestHandler = async (req, res) => {
         }
 
         // Create detailed scraped data with enhanced content
-        scrapedData = [
-          {
-            url: url,
-            title: title,
-            description: description,
-            headings: headings.slice(0, 15),
-            paragraphs: paragraphs.slice(0, 10),
-            articles: articles,
-            listItems: listItems.slice(0, 15),
-            contentDivs: contentDivs,
-            mainContent: mainContent,
-            structuredData: structuredData,
-            links: links.slice(0, 20),
-            images: images.slice(0, 10),
-            scrapedAt: new Date().toISOString(),
-            contentLength: html.length,
-            totalHeadings: headings.length,
-            totalParagraphs: paragraphs.length,
-            totalLinks: links.length,
-            totalImages: images.length,
-            totalArticles: articles.length,
-            totalListItems: listItems.length,
-            contentQuality: {
-              hasStructuredData: structuredData.length > 0,
-              hasMainContent: mainContent.length > 0,
-              hasArticles: articles.length > 0,
-              contentRichness: (headings.length + paragraphs.length + articles.length + listItems.length)
-            }
-          },
-        ];
+        const baseData = {
+          url: url,
+          title: title,
+          description: description,
+          headings: headings.slice(0, 15),
+          paragraphs: paragraphs.slice(0, 10),
+          articles: articles,
+          listItems: listItems.slice(0, 15),
+          contentDivs: contentDivs,
+          mainContent: mainContent,
+          structuredData: structuredData,
+          links: links.slice(0, 20),
+          images: images.slice(0, 10),
+          companyData: companyData,
+          scrapedAt: new Date().toISOString(),
+          contentLength: html.length,
+          totalHeadings: headings.length,
+          totalParagraphs: paragraphs.length,
+          totalLinks: links.length,
+          totalImages: images.length,
+          totalArticles: articles.length,
+          totalListItems: listItems.length,
+          totalCompanies: companyData.length,
+          contentQuality: {
+            hasStructuredData: structuredData.length > 0,
+            hasMainContent: mainContent.length > 0,
+            hasArticles: articles.length > 0,
+            hasCompanyData: companyData.length > 0,
+            contentRichness: (headings.length + paragraphs.length + articles.length + listItems.length + companyData.length)
+          }
+        };
+
+        // If we found company data, create separate entries for each company
+        if (companyData.length > 0) {
+          scrapedData = companyData.map((company, index) => ({
+            ...baseData,
+            id: index + 1,
+            companyName: company.name,
+            companyDescription: company.description,
+            companyTags: company.tags.join(", "),
+            type: "company_entry"
+          }));
+        } else {
+          scrapedData = [{ ...baseData, type: "website_summary" }];
+        }
       } catch (error) {
         return res.json({
           success: false,
